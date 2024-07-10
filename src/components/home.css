@@ -7,6 +7,7 @@
 }
 .head11 {
   grid-column: 1 / 13;
+  height: fit-content;
 }
 .illust1 {
   grid-column: 9 / 11;
@@ -51,7 +52,6 @@
   font-family: "Saira Condensed";
   color: #222222;
   font-size: 26px;
-  font-weight: bold;
   height: 64px;
   width: 290px;
   background-color: transparent;
@@ -68,7 +68,6 @@
   text-align: end;
   height: 64px;
   width: 290px;
-  font-weight: bold;
 
   background-color: transparent;
   border: 1px solid;

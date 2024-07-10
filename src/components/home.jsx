@@ -2,8 +2,10 @@ import React from "react";
 import Head1 from "./head1";
 import "./home.css";
 import Footer from "./footer";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
   return (
     <div className="home-body">
       <div className="head11">
@@ -19,8 +21,12 @@ export default function Home() {
         </p>
       </div>
       <div className="buttons1">
-        <button className="give">donner des médicaments</button>
-        <button className="take">demander des médicaments </button>
+        <button onClick={() => navigate("/choose")} className="give">
+          donner des médicaments
+        </button>
+        <button className="take" onClick={() => navigate("/demandePage")}>
+          demander des médicaments{" "}
+        </button>
       </div>
       <div className="illust1"></div>
 

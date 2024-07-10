@@ -1,0 +1,70 @@
+@import url("https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Alef:wght@400;700&display=swap");
+
+.choose-body {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+}
+.a1 {
+  grid-column: 4 / 10;
+  text-align: center;
+  font-family: "Saira Condensed";
+  font-size: 64px;
+  color: #222222;
+  font-weight: bold;
+}
+.a2 {
+  grid-column: 4 / 9;
+  margin-top: 4rem;
+  font-family: "Saira Condensed";
+  font-size: 26px;
+  color: #222222;
+}
+.a3 {
+  grid-column: 6;
+  justify-self: center;
+  align-self: center;
+  font-family: "alef";
+  font-size: 51px;
+  color: #222222;
+  font-weight: light;
+}
+
+.a4 {
+  grid-column: 4 / 11;
+  display: grid;
+  grid-template-columns: repeat(6, auto);
+  grid-template-rows: repeat(6, auto);
+
+  font-family: "alef";
+  font-size: 22px;
+  color: #222222;
+}
+.a4-1 {
+  grid-column: 1 / 7;
+}
+.a5 {
+  grid-column: 3 / 4;
+}
+.a5-1 {
+  font-family: "Saira Condensed";
+  color: #222222;
+  font-size: 26px;
+  height: 64px;
+  width: 170px;
+  color: #222222;
+  background-color: transparent;
+  border: 1px solid;
+  border-radius: 21px;
+  border-color: #01c38d;
+  margin-right: 2rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+
+  margin-top: 3rem;
+}
+.a5-1:hover {
+  background-color: white;
+  color: #01c38d;
+}

@@ -1,0 +1,137 @@
+@import url("https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Alef:wght@400;700&display=swap");
+
+.donation-D {
+  grid-row: 3;
+  grid-column: 2 / 10;
+  margin-bottom: 3rem;
+  display: flex;
+}
+.form2-D {
+  padding-left: 2rem;
+  padding-top: 2rem;
+  font-family: "alef";
+  display: grid;
+  grid-template-columns: repeat(6, auto);
+  grid-template-rows: repeat(6, auto);
+  border: solid 1px #222222;
+  border-radius: 3px;
+}
+.s1-D,
+.s2-D,
+.s3-D,
+.s4-D,
+.s5-D,
+.s6-D,
+.s7-D {
+  display: flex;
+  flex-direction: column;
+}
+.form2-D select {
+  font-family: "Alef";
+  font-size: 16px;
+  padding: 0.5rem;
+  color: #222222;
+  border: 1px solid #222222;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  width: 394px;
+  height: 55px;
+}
+.b2-D {
+  height: 20px;
+  width: 20px;
+  justify-self: center;
+  grid-column: 6;
+}
+.row1-D,
+.row2-D {
+  margin-right: 1rem;
+}
+
+.donation-body-D {
+  display: grid;
+  grid-template-columns: repeat(12, auto);
+  grid-template-rows: repeat(12, auto);
+}
+
+.head11-D {
+  grid-column: 1 / 13;
+}
+
+.form1-D {
+  margin-left: 6rem;
+  margin-top: 5rem;
+  grid-column: 1 / 11;
+  grid-row: 2 / 3;
+  display: grid;
+  grid-template-columns: repeat(2, 1FR);
+  grid-template-rows: repeat(3, auto);
+  /* gap: 1rem; */
+  /* padding: 2rem; */
+  border-radius: 10px;
+}
+
+.form1-D div {
+  display: flex;
+  flex-direction: column;
+}
+
+label-D {
+  font-family: "Saira Condensed";
+  font-size: 18px;
+  color: #222222;
+  margin-bottom: 0.5rem;
+}
+
+input-D,
+select-D {
+  font-family: "Alef";
+  font-size: 16px;
+  padding: 0.5rem;
+  color: #222222;
+  font-family: "alef";
+  border: 1px solid #222222;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  width: 394px;
+  height: 30px;
+}
+.o5-D select {
+  width: 412px;
+  height: 48px;
+}
+input-D::placeholder,
+select-D::placeholder {
+  color: #999999;
+}
+
+input-D:focus,
+select-D:focus {
+  outline: none;
+  border-color: #222222;
+  box-shadow: 0 0 5px 2rgba (1, 195, 141, 0.5);
+}
+.o4-D {
+  grid-column: 1 / 2;
+}
+.donations-list-D {
+  margin-left: 6rem;
+  margin-top: 5rem;
+  grid-column: 1 / 11;
+  margin-top: 3rem;
+}
+.o3-D {
+  grid-column: 1;
+}
+.li-D {
+  grid-column: 1;
+  grid-row: 3;
+  margin-left: 6rem;
+}
+.b5-1-D {
+  font-family: "Saira Condensed";
+  color: #222222;
+  font-size: 26px;
+  height: 64px;
+}

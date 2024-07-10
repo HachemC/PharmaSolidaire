@@ -1,0 +1,99 @@
+.login-body {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(12, auto);
+  height: 105vh;
+}
+.icon {
+  grid-column: 1/13;
+}
+.icon img {
+  height: 14.25rem;
+  width: 16.25rem;
+}
+.forma {
+  grid-template-columns: repeat(12, auto);
+  grid-template-rows: repeat(12, auto);
+  display: grid;
+  grid-column: 5 / 9;
+  grid-row: 3;
+  /* display: flex; */
+  flex-direction: column;
+  height: 600px;
+  width: 500px;
+
+  border: solid #01c38d 1px;
+  border-radius: 5px;
+}
+.login-inputs {
+  grid-column: 1 / 8;
+  grid-row: 6 / 7;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.login-inputs input {
+  width: 422px;
+}
+.t-2 {
+  grid-column: 7/8;
+  display: flex;
+  flex-direction: column;
+  /* height: 100px; */
+
+  font-family: "Saira Condensed";
+  font-size: 20px;
+  color: #222222;
+  text-align: center;
+}
+.forma input {
+  margin-left: 2rem;
+}
+.icon-2 img {
+  height: 200px;
+  width: 200px;
+}
+.icon-2 {
+  justify-self: center;
+  grid-column: 4 / 7;
+  grid-row: 2 / 8;
+}
+.t-2 span {
+  color: #01c38d;
+  cursor: pointer;
+}
+.t-1 {
+  grid-column: 1 / 4;
+  font-family: "Saira Condensed";
+  font-size: 20px;
+  color: #01c38d;
+  text-align: center;
+  margin-top: 1.5rem;
+}
+.button-login {
+  grid-column: 4/7;
+  grid-row: 8;
+  margin: 0;
+  font-family: "Saira Condensed";
+  color: #222222;
+  font-size: 26px;
+  height: 64px;
+  width: 170px;
+  color: #222222;
+  background-color: transparent;
+  border: 1px solid;
+  border-radius: 21px;
+  border-color: #01c38d;
+  margin-right: 2rem;
+  cursor: pointer;
+}
+.t-3 {
+  grid-column: 4 / 9;
+  grid-row: 2;
+  font-family: "Saira Condensed";
+  font-size: 29px;
+  color: #222222;
+  text-align: center;
+  margin-top: 1.5rem;
+  margin-left: 1rem;
+}

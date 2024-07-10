@@ -1,0 +1,110 @@
+@import url("https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Alef:wght@400;700&display=swap");
+
+.donation-body {
+  display: grid;
+  grid-template-columns: repeat(12, auto);
+  grid-template-rows: repeat(12, auto);
+}
+
+.head11 {
+  grid-column: 1 / 13;
+}
+
+.form1 {
+  margin-left: 6rem;
+  margin-top: 5rem;
+  grid-column: 1 / 11;
+  grid-row: 2 / 3;
+  display: grid;
+  grid-template-columns: repeat(2, 1FR);
+  grid-template-rows: repeat(3, auto);
+  /* gap: 1rem; */
+  /* padding: 2rem; */
+  border-radius: 10px;
+}
+
+.form1 div {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-family: "Saira Condensed";
+  font-size: 18px;
+  color: #222222;
+  margin-bottom: 0.5rem;
+}
+
+input,
+select {
+  font-family: "Alef";
+  font-size: 16px;
+  padding: 0.5rem;
+  color: #222222;
+  font-family: "alef";
+  border: 1px solid #222222;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  width: 394px;
+  height: 30px;
+}
+.o5 select {
+  width: 412px;
+  height: 48px;
+}
+input::placeholder,
+select::placeholder {
+  color: #999999;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #222222;
+  box-shadow: 0 0 5px 2rgba (1, 195, 141, 0.5);
+}
+.o4 {
+  grid-column: 1 / 2;
+}
+.donations-list {
+  margin-left: 6rem;
+  margin-top: 5rem;
+  grid-column: 1 / 11;
+  margin-top: 3rem;
+}
+.o3 {
+  grid-column: 1;
+}
+.li {
+  grid-column: 1;
+  grid-row: 3;
+  margin-left: 6rem;
+}
+.b5-1 {
+  font-family: "Saira Condensed";
+  color: #222222;
+  font-size: 26px;
+  height: 64px;
+  width: 170px;
+  color: #222222;
+  background-color: transparent;
+  border: 1px solid;
+  border-radius: 21px;
+  border-color: #01c38d;
+  margin-right: 2rem;
+  cursor: pointer;
+  margin-left: 1.5rem;
+  align-self: center;
+}
+.b1 {
+  display: flex;
+  align-content: center;
+  grid-column: 1/11;
+  grid-row: 5;
+  height: fit-content;
+  width: fit-content;
+  justify-self: center;
+  align-self: center;
+  margin-bottom: 1rem;
+}

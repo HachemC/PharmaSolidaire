@@ -31,6 +31,7 @@
   display: flex;
   margin: 0;
   padding: 0;
+  cursor: pointer;
 }
 
 .ul-1 li,

@@ -1,11 +1,9 @@
 import React from "react";
 import "./head1.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Head1() {
-  <style>
-    @import
-    url('https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap');
-  </style>;
+  const nav = useNavigate();
   return (
     <div className="header-1">
       <div className="logo">
@@ -17,8 +15,10 @@ export default function Head1() {
           <li>demander des médicaments</li>
         </ul>
         <div className="ul-2">
-          <li>Se connecter</li>
-          <li className="sign">S'inscrire</li>
+          <li onClick={() => nav("/login")}>Se connecter</li>
+          <li className="sign" onClick={() => nav("/register")}>
+            S'inscrire
+          </li>
         </div>
       </div>
     </div>
