@@ -1,0 +1,78 @@
+.step-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 4rem;
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.step-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  background-color: #eaeaf0;
+  color: white;
+}
+
+.step-icon.active {
+  color: white;
+  background-color: #005c4b;
+}
+
+.step-icon.completed {
+  color: white;
+  background-color: #005c4b;
+}
+
+.stepper-container {
+  width: 100%;
+}
+
+.nextbutton,
+.precbutton {
+  font-family: "Calibri";
+  color: #005c4b;
+  font-size: 18px;
+  height: 40px;
+  text-align: center;
+  width: 110px;
+  background-color: transparent;
+  border: 1px solid;
+  border-radius: 43px;
+  border-color: #005c4b;
+  cursor: pointer;
+}
+.add-donation-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.homebutton,
+.newdonbutton {
+  font-family: "Calibri";
+  color: #005c4b;
+  font-size: 18px;
+  height: 40px;
+  text-align: center;
+  width: 120px;
+  background-color: transparent;
+  border: 1px solid;
+  border-radius: 43px;
+  border-color: #005c4b;
+  cursor: pointer;
+}
+.merci-span {
+  color: #ff7f50;
+}
+.merci {
+  font-family: "Calibri";
+  font-size: 24px;
+}

@@ -10,7 +10,7 @@
 .form2-D {
   padding-left: 2rem;
   padding-top: 2rem;
-  font-family: "alef";
+  font-family: "Calibri";
   display: grid;
   grid-template-columns: repeat(6, auto);
   grid-template-rows: repeat(6, auto);
@@ -28,7 +28,7 @@
   flex-direction: column;
 }
 .form2-D select {
-  font-family: "Alef";
+  font-family: "Calibri";
   font-size: 16px;
   padding: 0.5rem;
   color: #222222;
@@ -86,7 +86,7 @@ label-D {
 
 input-D,
 select-D {
-  font-family: "Alef";
+  font-family: "Calibri";
   font-size: 16px;
   padding: 0.5rem;
   color: #222222;
@@ -130,7 +130,7 @@ select-D:focus {
   margin-left: 6rem;
 }
 .b5-1-D {
-  font-family: "Saira Condensed";
+  font-family: "Calibri";
   color: #222222;
   font-size: 26px;
   height: 64px;

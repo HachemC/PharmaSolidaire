@@ -3,7 +3,7 @@
 
 .donation-body {
   display: grid;
-  grid-template-columns: repeat(12, auto);
+  grid-template-columns: repeat(12, 1fr);
   grid-template-rows: repeat(12, auto);
 }
 
@@ -12,47 +12,60 @@
 }
 
 .form1 {
+  align-items: center;
+  height: 400px;
+  width: 480px;
+  background-color: #f7f7f7;
   margin-left: 6rem;
   margin-top: 5rem;
   grid-column: 1 / 11;
   grid-row: 2 / 3;
   display: grid;
-  grid-template-columns: repeat(2, 1FR);
-  grid-template-rows: repeat(3, auto);
+  font-family: "Calibri";
   /* gap: 1rem; */
-  /* padding: 2rem; */
+  padding: 2rem;
   border-radius: 10px;
 }
 
 .form1 div {
   display: flex;
-  flex-direction: column;
 }
 
 label {
-  font-family: "Saira Condensed";
-  font-size: 18px;
+  font-size: 20px;
   color: #222222;
   margin-bottom: 0.5rem;
 }
+.o2 {
+  display: flex;
+  flex-direction: row;
+}
+.o2 input {
+  width: 262px;
+  align-self: center;
+}
+.o2 label {
+  margin-right: 2rem;
+  margin-top: 1rem;
 
-input,
-select {
-  font-family: "Alef";
+  font-size: 18px;
+  color: #222222;
+}
+.form1 input {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  border-bottom: solid 2px #999999;
   font-size: 16px;
   padding: 0.5rem;
   color: #222222;
-  font-family: "alef";
-  border: 1px solid #222222;
-  border-radius: 5px;
+  font-family: "Calibri";
+
   margin-bottom: 1rem;
-  width: 394px;
+
   height: 30px;
 }
-.o5 select {
-  width: 412px;
-  height: 48px;
-}
+
 input::placeholder,
 select::placeholder {
   color: #999999;
@@ -61,8 +74,7 @@ select::placeholder {
 input:focus,
 select:focus {
   outline: none;
-  border-color: #222222;
-  box-shadow: 0 0 5px 2rgba (1, 195, 141, 0.5);
+  border-color: #333333;
 }
 .o4 {
   grid-column: 1 / 2;
@@ -81,22 +93,23 @@ select:focus {
   grid-row: 3;
   margin-left: 6rem;
 }
+
 .b5-1 {
-  font-family: "Saira Condensed";
-  color: #222222;
-  font-size: 26px;
-  height: 64px;
-  width: 170px;
-  color: #222222;
-  background-color: transparent;
-  border: 1px solid;
-  border-radius: 21px;
-  border-color: #01c38d;
-  margin-right: 2rem;
+  font-family: "Calibri";
+  color: white;
+  font-size: 18px;
+  height: 40px;
+  width: 40px; /* Adjust size as needed */
+  background-color: #005c4b;
+
+  border-radius: 50%; /* Ensures the button is circular */
+  border: none;
   cursor: pointer;
-  margin-left: 1.5rem;
-  align-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 .b1 {
   display: flex;
   align-content: center;
@@ -107,4 +120,25 @@ select:focus {
   justify-self: center;
   align-self: center;
   margin-bottom: 1rem;
+}
+.stepper1 {
+  grid-column: 1/12;
+  grid-row: 2 / 5;
+  margin-top: 6rem;
+}
+.foot3 {
+  grid-column: 1 / 13;
+  grid-row: 5;
+}
+.o1 input {
+  width: 371px;
+}
+.o3 input {
+  width: 371px;
+}
+.o4 input {
+  width: 371px;
+}
+.o5 input {
+  width: 371px;
 }

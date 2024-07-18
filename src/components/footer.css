@@ -1,39 +1,31 @@
 @import url("https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 .footer {
-  background-color: #01c38d;
-  height: 120px;
+  background-color: #005c4b;
+  height: 370px;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(2, 1fr);
   align-items: center;
   padding: 10px;
-  text-align: center;
 }
-
-.footer p {
-  font-family: "Saira Condensed";
-  font-size: 25px;
-  color: #222222;
-}
-
-.footer span {
-  color: #ffffff;
+.all-foot {
+  position: absolute;
 }
 
 .icon1 {
-  background-image: url("../images/icon white.png");
+  background-image: url("../images/icon\ white.svg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 80px;
-  width: 200px;
+  height: 106px;
+  width: 161px;
   justify-self: center;
   align-self: center;
 }
 .S {
-  grid-column: 4 / 5;
-  grid-row: 1/3;
+  grid-column: 1;
+  grid-row: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,8 +42,69 @@
 }
 
 .welcome {
+  grid-column: 4;
   justify-self: start;
   margin-left: 25px;
-  font-size: medium;
-  color: #222222;
+  font-size: 48px;
+  color: #ffffff;
+  font-family: "Helvetica Compressed";
+  width: 859px;
+}
+.LEFT {
+  display: flex;
+  top: 16rem;
+
+  position: relative;
+}
+.left1 {
+  height: fit-content;
+  width: fit-content;
+  position: relative;
+  bottom: 1rem;
+  z-index: -1;
+}
+.left2 {
+  height: fit-content;
+  width: fit-content;
+}
+.left3 {
+  height: fit-content;
+  width: fit-content;
+}
+.left4 {
+  height: fit-content;
+  width: fit-content;
+  position: relative;
+  bottom: 2rem;
+}
+.contacts {
+  flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
+  border: solid 1px white;
+  justify-content: center;
+  align-content: center;
+  border-radius: 24.5px;
+  height: 136px;
+  width: 40px;
+  grid-column: 4;
+  margin-bottom: 4rem;
+}
+.contacts2 {
+  width: fit-content;
+  grid-column: 4;
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+  bottom: 10rem;
+  left: 4rem;
+}
+.contacts2 span {
+  color: #ffffff;
+  font-size: 16px;
+}
+.svg1span {
+  position: absolute;
+  top: -1px;
 }

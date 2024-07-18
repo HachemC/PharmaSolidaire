@@ -74,7 +74,6 @@ export default function Fabricant() {
           />
         ))}
       </div>
-
       <div className="b1">
         <button className="b5-1" onClick={handleAddDonation}>
           ajouter

@@ -3,7 +3,7 @@
 .home-body {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(12, 1fr);
+  grid-template-rows: repeat(17, 1fr);
 }
 .head11 {
   grid-column: 1 / 13;
@@ -12,190 +12,279 @@
 .illust1 {
   grid-column: 9 / 11;
   grid-row: 2 / 11;
-  background-image: url("../images/Pharmacist-bro (2).png");
+  background-image: url("../images/pharmacist.svg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 500px;
-  width: 500px;
+  height: 420.04px;
+  width: 558px;
   margin-top: 1.313rem;
 }
 .t1 {
-  grid-column: 4 / 9;
+  grid-column: 2 / 9;
   grid-row: 2 / 4;
 }
 .text1 {
-  text-align: center;
-  font-family: "Saira Condensed";
+  text-align: left;
+  font-family: "Calibri";
   font-size: 64px;
   height: 181px;
-  width: 628px;
-  color: #222222;
+  width: 926px;
+  color: #333333;
+  font-weight: bold;
 }
 .text1 span {
-  color: #01c38d;
+  color: #005c4b;
 }
 .text2 {
   margin-top: 4rem;
   width: 587px;
-  font-family: "Saira Condensed";
+  font-family: "Calibri";
   font-size: 26px;
-  color: #222222;
+  height: 94;
+
+  color: #333333;
 }
 .buttons1 {
-  grid-column: 4 / 9;
+  grid-column: 2 / 9;
+  grid-row: 4;
   display: flex;
   display: flex;
   height: 60px;
 }
 .give {
-  font-family: "Saira Condensed";
-  color: #222222;
-  font-size: 26px;
-  height: 64px;
-  width: 290px;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: auto auto auto;
+  font-family: "Calibri";
+  color: #005c4b;
+  text-align: center;
+  font-size: 18px;
+  height: 40px;
+  width: 282px;
   background-color: transparent;
   border: 1px solid;
-  border-radius: 21px;
-  border-color: #01c38d;
+  border-radius: 43px;
+  border-color: #005c4b;
   margin-right: 2rem;
   cursor: pointer;
 }
+.give img {
+  grid-column: 1/2;
+  justify-self: center;
+  align-self: center;
+}
+.take img {
+  grid-column: 1/2;
+  justify-self: center;
+  align-self: center;
+}
 .take {
-  font-family: "Saira Condensed";
-  color: #222222;
-  font-size: 26px;
-  text-align: end;
-  height: 64px;
-  width: 290px;
-
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: auto auto auto;
+  font-family: "Calibri";
+  color: #005c4b;
+  font-size: 18px;
+  height: 40px;
+  text-align: left;
+  width: 282px;
   background-color: transparent;
   border: 1px solid;
-  border-radius: 21px;
-  border-color: #01c38d;
+  border-radius: 43px;
+  border-color: #005c4b;
+  margin-right: 2rem;
   cursor: pointer;
 }
-.take:hover,
-.give:hover {
-  background-color: white;
-  color: #01c38d;
+.illust-flesh {
+  height: 40px;
+  width: 37px;
+
+  grid-column: 8 / 11;
+  grid-row: 4 / 6;
+
+  align-self: center;
+}
+.illust-cure {
+  background-image: url("../images/cure.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 256px;
+  grid-column: 9;
+  z-index: -1;
+  grid-row: 6 / 7;
+  width: 214px;
 }
 .text3 {
   grid-column: 5 / 11;
-  grid-row: 5;
+  grid-row: 6;
   margin: 0;
   font-family: "Saira Condensed";
   font-size: 70px;
   /* text-align: center; */
   padding-top: 2rem;
-  color: #222222;
+  color: #333333;
+  text-shadow: 0.5px 0.5px 2px #333333;
+  font-weight: bold;
 }
 .text3 span {
-  color: #01c38d;
+  color: #005c4b;
 }
 .illus2 {
-  grid-column: 4 / 7;
-  grid-row: 6 / 9;
-  background-image: url("../images/istockphoto-1385424646-612x612.jpg");
+  background-image: url("../images/help.svg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 400px;
-  width: 400px;
+
   margin-top: 1.313rem;
+  grid-column: 6/9;
+  grid-row: 6 / 11;
+  height: 486px;
+  width: 486px;
+  align-self: center;
 }
 .g2 {
-  grid-row: 7;
-  grid-column: 7 / 11;
+  grid-row: 5 / 9;
+  grid-column: 1 / 11;
+  height: fit-content;
+  /* justify-self: center; */
+  align-self: center;
 }
 .text4 {
   margin-bottom: 2rem;
   font-family: "Saira Condensed";
   font-size: 26px;
   /* text-align: center; */
-  color: #222222;
+  color: #333333;
   text-align: center;
+  font-size: 40px;
+  text-shadow: 0.5px 0.5px 2px #333333;
 }
 .text4 span {
-  color: #01c38d;
+  font-size: 128px;
+  color: #005c4b;
+  font-family: "Calibri", sans-serif;
+  font-weight: bold;
 }
+
 .text5 {
-  font-family: "Saira Condensed";
+  font-family: "Calibri", sans-serif;
   font-size: 20px;
   /* text-align: center; */
-  color: #222222;
+  color: #333333;
   text-align: center;
+  text-shadow: 0.5px 0.5px 2px #333333;
+}
+.text5 span {
+  color: #005c4b;
+  font-size: 45px;
+  text-shadow: 0.5px 0.5px 2px #333333;
 }
 .illus3 {
-  grid-column: 8 / 11;
-  grid-row: 8 / 12;
+  grid-column: 5 / 11;
+  grid-row: 11 / 14;
   margin: 0;
 
-  background-image: url("../images/At\ the\ office-pana.png");
+  background-image: url("../images/deal.svg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 500px;
-  width: 500px;
-  margin-top: 4.313rem;
+  height: 400px;
+  width: 700px;
 }
 .g3 {
-  grid-column: 4 / 8;
-  grid-row: 9;
+  margin-top: 4rem;
+  grid-column: 5 / 10;
+  grid-row: 9 / 11;
+  align-self: center;
+  justify-self: center;
 }
 .text6 {
   margin-bottom: 2rem;
   font-family: "Saira Condensed";
   font-size: 26px;
   /* text-align: center; */
-  color: #222222;
+  color: #333333;
   text-align: center;
+  font-size: 40px;
+  text-shadow: 0.5px 0.5px 2px #333333;
 }
 .text6 span {
-  color: #01c38d;
+  font-size: 128px;
+  color: #005c4b;
+  font-family: "Calibri", sans-serif;
+  font-weight: bold;
 }
 .text7 {
-  font-family: "Saira Condensed";
+  font-family: "Calibri", sans-serif;
   font-size: 20px;
   /* text-align: center; */
-  color: #222222;
+  color: #333333;
   text-align: center;
+  text-shadow: 0.5px 0.5px 2px #333333;
+}
+.text7 span {
+  color: #005c4b;
+  font-size: 45px;
+  text-shadow: 0.5px 0.5px 2px #333333;
 }
 
 .g4 {
-  grid-row: 11;
-  grid-column: 7 / 12;
+  grid-row: 13;
+  grid-column: 4 / 11;
+  align-self: center;
+  justify-self: center;
 }
 
 .text8 {
   margin-bottom: 2rem;
-  font-family: "Saira Condensed";
+  font-family: "Calibri";
   font-size: 26px;
-  /* text-align: center; */
-  color: #222222;
   text-align: center;
+  color: #333333;
+
+  font-size: 40px;
+  text-shadow: 0.5px 0.5px 2px #333333;
 }
 .text8 span {
-  color: #01c38d;
+  font-size: 128px;
+  color: #005c4b;
+  font-family: "Calibri", sans-serif;
+  font-weight: bold;
+  text-shadow: 0.5px 0.5px 2px #333333;
 }
 .text9 {
-  font-family: "Saira Condensed";
+  font-family: "Calibri", sans-serif;
   font-size: 20px;
-  /* text-align: center; */
-  color: #222222;
+
+  color: #333333;
   text-align: center;
+  text-shadow: 0.5px 0.5px 2px #333333;
 }
 .illus4 {
-  grid-column: 4 / 8;
-  grid-row: 10 / 12;
-  background-image: url("../images/Solidarity-pana.png");
+  grid-column: 7 / 11;
+  grid-row: 14 / 17;
+  background-image: url("../images/support.svg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 477px;
-  width: 408px;
+  height: 500px;
+  width: 500px;
 }
 .foot1 {
   grid-column: 1 / 13;
-  grid-row: 13;
+  grid-row: 16/19;
+}
+.mark-icon {
+  border-radius: 50%;
+  text-align: center;
+
+  height: 35px;
+  width: 35px;
+  font-size: 24px;
+  z-index: 3;
+  background-color: #ff7f50;
+  color: #ffffff;
+  text-shadow: 0.5px 0.5px 2px #333333;
 }

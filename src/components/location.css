@@ -1,0 +1,86 @@
+.location-loc {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.form-group-loc {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+.form-group-loc input {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  border-bottom: solid 2px #999999;
+  font-size: 16px;
+  padding: 0.5rem;
+  color: #222222;
+
+  margin-bottom: 1rem;
+  width: 371px;
+  height: 30px;
+}
+
+.select-slider-container-loc {
+  display: none;
+  width: calc(100% - 2px);
+  top: calc(100% + 5px);
+  left: 0;
+  z-index: 1000;
+}
+
+.custom-select-wrapper-loc {
+  width: 100%;
+  font-family: "Calibri", sans-serif;
+}
+
+.custom-select-loc {
+  position: relative;
+}
+
+.scrollable-list-loc {
+  max-height: 163px;
+  overflow-y: auto;
+  padding: 5px 10px;
+  direction: rtl;
+  text-align: left;
+  margin-left: 10px;
+}
+
+.list-item-loc {
+  font-size: 18px;
+  font-weight: 400;
+  color: #333333;
+  padding: 5px 0;
+  cursor: pointer;
+}
+
+.list-item-loc:hover {
+  background-color: #f0f0f0;
+}
+
+.scrollable-list-loc::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollable-list-loc::-webkit-scrollbar {
+  width: 13px;
+  border-radius: 6px;
+  border: solid 1px #333333;
+}
+
+.scrollable-list-loc::-webkit-scrollbar-thumb {
+  background: #005c4b;
+  width: 6px;
+  height: 20px;
+  border-radius: 5px;
+}
+
+.select-slider-container-loc.active {
+  display: block;
+}

@@ -7,9 +7,9 @@
   padding: 10px;
   background-color: white;
   border-bottom: solid 1px;
-  border-color: #01c38d;
+  border-color: #005c4b;
   color: #222222;
-  font-family: "Saira Condensed";
+  font-family: "Calibri";
   font-weight: bold;
   height: 70px;
 }
@@ -43,5 +43,5 @@
   margin-right: 76px;
 }
 .sign {
-  color: #01c38d;
+  color: #005c4b;
 }

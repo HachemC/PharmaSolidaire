@@ -1,0 +1,25 @@
+.right {
+  display: flex;
+  top: 7rem;
+  flex-direction: row-reverse;
+  position: relative;
+}
+.right1 {
+  height: fit-content;
+  width: fit-content;
+}
+.right2 {
+  height: fit-content;
+  width: fit-content;
+  z-index: -1;
+}
+.right3 {
+  height: fit-content;
+  width: fit-content;
+}
+.right4 {
+  height: fit-content;
+  width: fit-content;
+  position: relative;
+  bottom: 2rem;
+}
