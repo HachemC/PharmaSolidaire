@@ -279,9 +279,12 @@
 .mark-icon {
   border-radius: 50%;
   text-align: center;
-
-  height: 35px;
-  width: 35px;
+  display: none;
+  position: absolute;
+  height: 25px;
+  left: 148px;
+  bottom: 27px;
+  width: 25px;
   font-size: 24px;
   z-index: 3;
   background-color: #ff7f50;

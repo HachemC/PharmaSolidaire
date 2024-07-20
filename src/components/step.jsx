@@ -16,25 +16,8 @@ import "./stepper.css";
 import AddIcon from "@mui/icons-material/Add";
 import Location from "./location";
 import { useNavigate } from "react-router-dom";
-
-const steps = [
-  {
-    label: "Informations Personnelles",
-    icon: <PersonIcon />,
-  },
-  {
-    label: "Adresse de don",
-    icon: <LocationOnIcon />,
-  },
-  {
-    label: "Médicaments à donner",
-    icon: <MedicalServicesIcon />,
-  },
-  {
-    label: "Tout confirmer",
-    icon: <Check />,
-  },
-];
+import { useLocation } from "react-router-dom";
+import Demande from "./demande";
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -84,6 +67,28 @@ const StepperComponent = () => {
     delegation: "",
     pharmacy: "",
   });
+  const location = useLocation();
+  const clicked = location.state?.donnerClicked;
+
+  const steps = [
+    {
+      label: "Informations Personnelles",
+      icon: <PersonIcon />,
+    },
+    {
+      label: "Adresse de don",
+      icon: <LocationOnIcon />,
+    },
+    {
+      label: clicked ? "Médicaments a donner" : "Médicaments demander",
+      icon: <MedicalServicesIcon />,
+    },
+    {
+      label: "Tout confirmer",
+      icon: <Check />,
+    },
+  ];
+
   const [showMerci, setShowMerci] = useState(false);
 
   const handleNext = () => {
@@ -170,8 +175,7 @@ const StepperComponent = () => {
       },
     ]);
   };
-  console.log(donations);
-  console.log(formData);
+
   return (
     <div className="stepper-container">
       <Stepper
@@ -213,15 +217,25 @@ const StepperComponent = () => {
         )}
         {currentStep === 2 && (
           <div>
-            {donations.map((donation, index) => (
-              <Donation
-                key={index}
-                handleFieldChange={handleDonationFieldChange}
-                index={index}
-                deleteDonation={() => deleteDonation(index)}
-                donations={donations}
-              />
-            ))}
+            {donations.map((donation, index) =>
+              clicked ? (
+                <Donation
+                  key={index}
+                  handleFieldChange={handleDonationFieldChange}
+                  index={index}
+                  deleteDonation={() => deleteDonation(index)}
+                  donations={donations}
+                />
+              ) : (
+                <Demande
+                  key={index}
+                  handleFieldChange={handleDonationFieldChange}
+                  index={index}
+                  deleteDonation={() => deleteDonation(index)}
+                  donations={donations}
+                />
+              )
+            )}
             <div className="add-donation-button">
               <button className="b5-1" onClick={addDonation}>
                 <AddIcon />
@@ -231,12 +245,19 @@ const StepperComponent = () => {
         )}
         {currentStep === 3 && !showMerci && (
           <div>
-            <p className="merci">
-              {formData.nom}, vous êtes en train de donner {donations.length}{" "}
-              médicaments. Êtes-vous d'accord avec les données insérées ?
-            </p>
+            {clicked ? (
+              <p className="merci">
+                {formData.nom}, vous êtes en train de donner {donations.length}{" "}
+                médicaments. Êtes-vous d'accord avec les données insérées ?
+              </p>
+            ) : (
+              <p className="merci">
+                Votre demande de médicaments est en cours de traitement.
+              </p>
+            )}
           </div>
         )}
+
         {showMerci && (
           <div>
             <p className="merci">
@@ -252,29 +273,52 @@ const StepperComponent = () => {
         justifyContent="center"
         className="navigation-buttons"
       >
-        {!showMerci && (
-          <button className="precbutton" onClick={handleBack}>
-            Précédent
-          </button>
-        )}
-        {!showMerci ? (
-          <button
-            className="nextbutton"
-            onClick={
-              currentStep === steps.length - 1 ? handleFinalStep : handleNext
-            }
-          >
-            {currentStep === steps.length - 1 ? "oui" : "Suivant"}
-          </button>
-        ) : (
+        {!showMerci && clicked ? (
+          <>
+            <button className="precbutton" onClick={handleBack}>
+              Précédent
+            </button>{" "}
+            <button
+              className="nextbutton"
+              onClick={
+                currentStep === steps.length - 1 ? handleFinalStep : handleNext
+              }
+            >
+              {currentStep === steps.length - 1 ? "oui" : "Suivant"}
+            </button>
+          </>
+        ) : showMerci && clicked && currentStep === steps.length - 1 ? (
           <>
             <button className="homebutton" onClick={() => nav("/")}>
-              Home
+              acceuil
             </button>
             <button className="newdonbutton" onClick={handleNewDonation}>
               Nouveau Don
             </button>
           </>
+        ) : (
+          ""
+        )}
+        {!showMerci && !clicked && currentStep !== steps.length - 1 && (
+          <button className="precbutton" onClick={handleBack}>
+            Précédent
+          </button>
+        )}
+        {!showMerci && !clicked && currentStep !== steps.length - 1 && (
+          <button className="nextbutton" onClick={handleNext}>
+            suivant
+          </button>
+        )}
+
+        {!showMerci && !clicked && currentStep === steps.length - 1 && (
+          <div className="demandelast">
+            <button className="homebutton" onClick={() => nav("/")}>
+              acceuil
+            </button>
+            <button className="newdemande" onClick={handleNewDonation}>
+              Nouveau Demande
+            </button>{" "}
+          </div>
         )}
       </Stack>
     </div>

@@ -1,6 +1,11 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 
-export default function InfoPersonel({ handleFieldChange, formData }) {
+export default function DemandeInfo({ handleFieldChange, formData }) {
+  const location = useLocation();
+  const location2 = useLocation();
+  const ProClicked = location.state?.proClicked || false;
+  const AssoClicked = location2.state?.AssoClicked || false;
   return (
     <div>
       <form className="form1">
@@ -8,7 +13,13 @@ export default function InfoPersonel({ handleFieldChange, formData }) {
           <input
             type="text"
             name="nom"
-            placeholder="Nom et prénom"
+            placeholder={
+              ProClicked
+                ? "Nom d'entreprise"
+                : AssoClicked
+                ? "Nom d'association"
+                : "Nom et prénom"
+            }
             value={formData.nom}
             onChange={handleFieldChange}
           />

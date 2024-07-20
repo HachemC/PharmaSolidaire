@@ -6,6 +6,15 @@ import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const navigate = useNavigate();
+
+  const handleDonnerClick = () => {
+    navigate("/choose", { state: { donnerClicked: true } });
+  };
+
+  const handleDemanderClick = () => {
+    navigate("/choose", { state: { donnerClicked: false } });
+  };
+
   return (
     <div className="home-body">
       <div className="head11">
@@ -21,13 +30,13 @@ export default function Home() {
         </p>
       </div>
       <div className="buttons1">
-        <button onClick={() => navigate("/choose")} className="give">
+        <button onClick={handleDonnerClick} className="give">
           <img src={require("../images/give.png")} alt="Example" />
           donner des médicaments
         </button>
-        <button className="take" onClick={() => navigate("/demandePage")}>
+        <button className="take" onClick={handleDemanderClick}>
           <img src={require("../images/take.png")} alt="Example" />
-          demander des médicaments{" "}
+          demander des médicaments
         </button>
       </div>
       <div className="illust-flesh">
@@ -43,20 +52,7 @@ export default function Home() {
       <div className="g2">
         <div className="text4">
           <span>+100</span> donateurs mensuels
-        </div>{" "}
-        {/* <div className="mark-icon">
-          <svg
-            height="20"
-            width="20"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 320 512"
-          >
-            <path
-              fill="#ffffff"
-              d="M80 160c0-35.3 28.7-64 64-64h32c35.3 0 64 28.7 64 64v3.6c0 21.8-11.1 42.1-29.4 53.8l-42.2 27.1c-25.2 16.2-40.4 44.1-40.4 74V320c0 17.7 14.3 32 32 32s32-14.3 32-32v-1.4c0-8.2 4.2-15.8 11-20.2l42.2-27.1c36.6-23.6 58.8-64.1 58.8-107.7V160c0-70.7-57.3-128-128-128H144C73.3 32 16 89.3 16 160c0 17.7 14.3 32 32 32s32-14.3 32-32zm80 320a40 40 0 1 0 0-80 40 40 0 1 0 0 80z"
-            />
-          </svg>
-        </div> */}
+        </div>
         <div className="text5">
           <span>+100</span> donateurs mensuels s'engagent régulièrement à
           soutenir notre cause.
@@ -81,7 +77,7 @@ export default function Home() {
         </div>
         <div className="text9">
           Chaque patient servi est un pas de plus vers notre objectif de réduire
-          les inégalités en matière de santé .{" "}
+          les inégalités en matière de santé.
         </div>
       </div>
       <div className="foot1">

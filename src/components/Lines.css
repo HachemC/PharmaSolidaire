@@ -11,9 +11,9 @@
 
 .line {
   position: relative;
-  height: 827px;
+  height: 869px;
   width: 1px;
-  background-color: #333333;
+  background-color: #005c4b;
   margin-bottom: 10px;
 }
 .line-Hor-container {
@@ -30,7 +30,7 @@
   position: relative;
   width: 472px;
   height: 1px;
-  background-color: #333333;
+  background-color: #005c4b;
   margin-right: 10px;
 }
 .test {
