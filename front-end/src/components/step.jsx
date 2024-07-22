@@ -172,7 +172,7 @@ const StepperComponent = () => {
     setShowMerci(true);
 
     try {
-      const url = "http://localhost:3000/api/requests/create";
+      const url = "http://localhost:3000/api/donations/create";
       const response = await axios.post(url, requestData);
       console.log("Request created successfully:", response.data);
     } catch (error) {

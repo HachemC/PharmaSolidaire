@@ -1,12 +1,11 @@
 module.exports = app => {
   const router = require('express').Router();
   const userController = require('../controllers/users.controller');
-  const particulierController = require('../controllers/particuliers.controller'); // Import the Particulier controller
-  const entrepriseController = require('../controllers/entreprises.controller'); // Import the Entreprise controller
-  const requestController = require('../controllers/requests.controller'); // Import the Request controller
-  const demandeController = require('../controllers/demandes.controller'); // Import the Request controller
+  const particulierController = require('../controllers/particuliers.controller');
+  const entrepriseController = require('../controllers/entreprises.controller');
+  const donationController = require('../controllers/donations.controller'); // Import the Donation controller
+  const demandeController = require('../controllers/demandes.controller'); // Import the Demande controller
 
-  
   // User routes
   router.post('/register', userController.registerUser); // Inscription
   router.post('/login', userController.loginUser);  // Connexion
@@ -28,13 +27,14 @@ module.exports = app => {
   router.put('/entreprises/update/:id', entrepriseController.updateEntreprise); // Update a specific entreprise by ID
   router.delete('/entreprises/delete/:id', entrepriseController.deleteEntreprise); // Delete a specific entreprise by ID
 
-  // Request routes
-  router.post('/requests/create', requestController.createRequest); // Create a new Request
-  router.get('/requests', requestController.getAllRequests); // Get all Requests
-  router.get('/requests/:id', requestController.getRequestById); // Get a specific Request by ID
-  router.put('/requests/update/:id', requestController.updateRequest); // Update a specific Request by ID
-  router.delete('/requests/delete/:id', requestController.deleteRequest); // Delete a specific Request by ID
- 
+  // Donation routes
+  router.post('/donations/create', donationController.createDonation); // Create a new Donation
+  router.get('/donations', donationController.getAllDonations); // Get all Donations
+  router.get('/donations/:id', donationController.getDonationById); // Get a specific Donation by ID
+  router.put('/donations/update/:id', donationController.updateDonation); // Update a specific Donation by ID
+  router.delete('/donations/delete/:id', donationController.deleteDonation); // Delete a specific Donation by ID
+
+  // Demande routes
   router.post('/demandes/create', demandeController.createDemande); // Create a new demande
 
   app.use('/api', router);

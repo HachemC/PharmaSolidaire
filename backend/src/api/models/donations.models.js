@@ -1,18 +1,18 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Define schema for medications within a request
+// Define schema for medications within a donation
 const MedicamentSchema = new Schema({
   nom: { type: String, required: true },
   type: { type: String, required: true },
   qte: { type: Number, required: true },
-  condition: {type:String, required: true},
-  expirationDate: {type:String, required: true},
-  source: {type:String, required: true},
+  condition: { type: String, required: true },
+  expirationDate: { type: String, required: true },
+  source: { type: String, required: true },
 });
 
-// Define schema for requests
-const RequestSchema = new Schema({
+// Define schema for donations
+const DonationSchema = new Schema({
   represent: {
     type: String,
     required: true,
@@ -23,8 +23,8 @@ const RequestSchema = new Schema({
   delegation: { type: String, required: true },
   pharmacy: { type: String, required: true },
   adresse: { type: String, required: true },
-  zip: { 
-    type: Number, 
+  zip: {
+    type: Number,
     required: true,
     validate: {
       validator: function(v) {
@@ -39,7 +39,7 @@ const RequestSchema = new Schema({
   confirmed: { type: Boolean, default: false }
 }, { timestamps: true });
 
-// Create mongoose model
-const Request = mongoose.model('Request', RequestSchema);
+// Create mongoose model for donations
+const Donation = mongoose.model('Donation', DonationSchema, 'donations');
 
-module.exports = Request;
+module.exports = Donation;
