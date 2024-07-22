@@ -11,27 +11,22 @@ const toutesLesVilles = [
 const MedicamentSchema = new Schema({
     nom: { type: String, required: true },
     type: { type: String, required: true },
-    expirationDate: { type: String, required: true },
-    condition: { type: String, required: true },
-source: { type: String, required: true },
-    type: { type: String, required: true },
     qte: { type: Number, required: true },
-});
+   
+  });
 
 const DemandeSchema = new Schema({
     represent: {
         type: String,
         required: true,
         enum: ['Association']
-    },
-    nom: { type: String, required: true },
-    ville: {
-        type: String,
-        enum: toutesLesVilles,
-        required: true
-    },
-    adresse: { type: String, required: true },
-    zip: { 
+      },
+      nom: { type: String, required: true },
+      ville: { type: String, required: true },
+      delegation: { type: String, required: true },
+      pharmacy: { type: String, required: true },
+      adresse: { type: String, required: true },
+      zip: { 
         type: Number, 
         required: true,
         validate: {
@@ -40,15 +35,13 @@ const DemandeSchema = new Schema({
           },
           message: props => `${props.value} n'est pas un code postal valide.`
         }
-    },
-    UserID: { type: Schema.Types.ObjectId, ref: 'User' },
-    req: [MedicamentSchema], // Tableau de médicaments
-    traited: { type: Boolean, default: false },
-    confirmed: { type: Boolean, default: false },
-    condition: { type: String }, // Nouvelle propriété
-    expirationDate: { type: Date }, // Nouvelle propriété
-    source: { type: String } // Nouvelle propriété
-}, { timestamps: true });
+      },
+      UserID: { type: Schema.Types.ObjectId, ref: 'User' },
+      req: [MedicamentSchema], // Array of medications
+      traited: { type: Boolean, default: false },
+      confirmed: { type: Boolean, default: false }
+    }, { timestamps: true });
+    
 
 DemandeSchema.path('UserID').validate({
     validator: async function(value) {
@@ -77,5 +70,5 @@ DemandeSchema.method('toJSON', function() {
     object.id = _id;
     return object;
 });
-
-module.exports = mongoose.models.Demande || mongoose.model('Demande', DemandeSchema);
+const Demande=mongoose.model('Demande', DemandeSchema);
+module.exports = Demande;

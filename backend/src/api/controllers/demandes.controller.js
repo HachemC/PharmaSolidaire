@@ -1,39 +1,34 @@
-const Demande = require('../models/demande.model'); // Adjust the path as necessary
+const Demande = require('../models/demandes.models'); // Adjust the path as necessary
 
-// Create a new Demande
-exports.createDemande = async (req, res) => {
+const demandeController={
+createDemande :async (req, res) => {
     try {
-        const demande = new Demande({
-            represent: req.body.represent,
-            nom: req.body.nom,
-            ville: req.body.ville,
-            adresse: req.body.adresse,
-            zip: req.body.zip,
-            UserID: req.body.UserID,
-            req: req.body.req,
-            traited: req.body.traited,
-            confirmed: req.body.confirmed,
-            
-        });
-        const savedDemande = await demande.save();
-        res.status(201).json(savedDemande);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
+  // Create a new request instance using the Request model and request body
+            const demande = new Demande(req.body);
+
+            // Save the request to MongoDB
+            await demande.save();
+
+            // Respond with the created request data
+            res.status(201).json(demande);
+        } catch (error) {
+            // Handle validation errors or server errors
+            res.status(400).json({ message: error.message });
+        }
+},
 
 // Get all Demandes
-exports.getAllDemandes = async (req, res) => {
+getAllDemandes : async (req, res) => {
     try {
         const demandes = await Demande.find();
         res.status(200).json(demandes);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-};
+},
 
 // Get a specific Demande by ID
-exports.getDemandeById = async (req, res) => {
+getDemandeById :async (req, res) => {
     try {
         const demande = await Demande.findById(req.params.id);
         if (!demande) return res.status(404).json({ message: 'Demande not found' });
@@ -41,10 +36,10 @@ exports.getDemandeById = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-};
+},
 
 // Update a specific Demande by ID
-exports.updateDemande = async (req, res) => {
+updateDemande:async (req, res) => {
     try {
         const demande = await Demande.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!demande) return res.status(404).json({ message: 'Demande not found' });
@@ -52,10 +47,10 @@ exports.updateDemande = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-};
+},
 
 // Delete a specific Demande by ID
-exports.deleteDemande = async (req, res) => {
+deleteDemande: async (req, res) => {
     try {
         const demande = await Demande.findByIdAndDelete(req.params.id);
         if (!demande) return res.status(404).json({ message: 'Demande not found' });
@@ -63,4 +58,8 @@ exports.deleteDemande = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-};
+},
+}
+
+
+module.exports = demandeController;

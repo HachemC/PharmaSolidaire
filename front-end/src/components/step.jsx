@@ -102,6 +102,9 @@ const StepperComponent = () => {
     setCurrentStep((prevStep) =>
       prevStep + 1 < steps.length ? prevStep + 1 : prevStep
     );
+    if (currentStep + 1 === steps.length - 1 && !clicked) {
+      handleDemande();
+    }
   };
 
   const handleBack = () => {
@@ -170,6 +173,36 @@ const StepperComponent = () => {
 
     try {
       const url = "http://localhost:3000/api/requests/create";
+      const response = await axios.post(url, requestData);
+      console.log("Request created successfully:", response.data);
+    } catch (error) {
+      console.error("Error creating request:", error);
+      if (error.response) {
+        console.log("Server responded with:", error.response.data);
+      } else {
+        console.log("Error message:", error.message);
+      }
+    }
+  };
+
+  const handleDemande = async () => {
+    const requestData = {
+      represent: "Association",
+      nom: formData.nom,
+      ville: formData.city,
+      delegation: formData.delegation,
+      pharmacy: formData.pharmacy,
+      adresse: formData.adresse,
+      zip: formData.zipCode,
+      req: donations.map((donation) => ({
+        nom: donation.nom,
+        type: donation.type,
+        qte: donation.quantity,
+      })),
+    };
+
+    try {
+      const url = "http://localhost:3000/api/demandes/create";
       const response = await axios.post(url, requestData);
       console.log("Request created successfully:", response.data);
     } catch (error) {

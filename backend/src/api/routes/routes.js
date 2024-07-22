@@ -4,6 +4,7 @@ module.exports = app => {
   const particulierController = require('../controllers/particuliers.controller'); // Import the Particulier controller
   const entrepriseController = require('../controllers/entreprises.controller'); // Import the Entreprise controller
   const requestController = require('../controllers/requests.controller'); // Import the Request controller
+  const demandeController = require('../controllers/demandes.controller'); // Import the Request controller
 
   
   // User routes
@@ -33,7 +34,8 @@ module.exports = app => {
   router.get('/requests/:id', requestController.getRequestById); // Get a specific Request by ID
   router.put('/requests/update/:id', requestController.updateRequest); // Update a specific Request by ID
   router.delete('/requests/delete/:id', requestController.deleteRequest); // Delete a specific Request by ID
-  
+ 
+  router.post('/demandes/create', demandeController.createDemande); // Create a new demande
 
   app.use('/api', router);
 };
