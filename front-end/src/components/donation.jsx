@@ -12,11 +12,15 @@ export default function Donation({
   donations,
 }) {
   const donation = donations[index];
-  const [selectedType, setSelectedType] = useState(donation.type || "");
+  const [selectedDosage, setSelectedDosage] = useState(donation.Dosage || "");
+  const [selectedNom, setSelectedNom] = useState(donation.nom || "");
+  const [selectedRaison, setSelectedRaison] = useState(donation.Raison || "");
+  const [selectedFormepharmaceutique, setSelectedFormepharmaceutique] =
+    useState(donation.Formepharmaceutique || "");
   const [selectedCondition, setSelectedCondition] = useState(
     donation.condition || ""
   );
-  const [activeSection, setActiveSection] = useState(null);
+  const [activeSection, setActiveSection] = useState();
   const [selectedDate, setSelectedDate] = useState(
     donation.expirationDate ? new Date(donation.expirationDate) : null
   );
@@ -29,55 +33,26 @@ export default function Donation({
     "Endommagé",
     "Conservation non correcte",
   ];
-
-  const typeOptions = [
-    "ALLERGIE",
-    "MÉDICAMENT DU CHOC",
-    "ANESTHÉSIQUES GÉNÉRAUX",
-    "ANESTHÉSIQUES LOCAUX",
-    "ANTALGIQUES NON OPIACÉS",
-    "ANTIANGINEUX",
-    "ANTIARYTHMIQUES",
-    "ANTIASTHMATIQUES",
-    "ANTIBIOTIQUES",
-    "ANTICANCÉREUX",
-    "ANTIDIABÉTIQUES",
-    "ANTIDÉPRESSEURS",
-    "ANTIDOTES",
-    "ANTIPARKINSONIENS",
-    "ANTIPSYCHOTIQUES",
-    "ANTIULCÉREUX",
-    "ANTIVIRAUX",
-    "ANTIDIARRHÉIQUES",
-    "ANTIÉMÉTIQUES",
-    "ANTI-ÉPILEPTIQUES",
-    "ANTIFONGIQUES",
-    "ANTIGLAUCOMATEUX",
-    "ANTIGOUTTEUX",
-    "ANTI-HYPERTENSEURS",
-    "ANTIMIGRAINEUX",
-    "ANTIOSTEOPOROSE",
-    "ANTIPALUDEENS",
-    "ANXIOLYTIQUES",
-    "AUTRES",
-    "CORTICOIDES",
-    "CYTOKINES ET ANTI-CYTOKINES",
-    "GYNÉCOLOGIE - OBSTÉTRIQUE",
-    "HÉMOSTASE",
-    "HYPNOTIQUES",
-    "HYPOLIPÉMIANTS",
-    "IMMUNOSUPPRESSEURS",
-    "INSUFFISANCE CARDIAQUE",
-    "MÉDICAMENTS DE LA CONSTIPATION",
-    "MÉDICAMENTS DE LA PLAQUE NEUROMUSCULAIRE",
-    "MÉDICAMENTS DES TROUBLES SEXUELS",
-    "MÉDICAMENTS STIMULANTS DE LA COGNITION",
-    "OPIACÉS",
-    "SUBSTANCES ADDICTIVES",
-    "RÉGULATEURS DE L'HUMEUR",
-    "UROLOGIE",
-    "VACCINS",
+  const FormepharmaceutiqueOptions = [
+    "autre",
+    "500G",
+    "200G",
+    "dose 3",
+    "dose 4",
+    "dose 5 ",
+    "dose 6",
   ];
+
+  const DosageOptions = [
+    "autre",
+    "500G",
+    "200G",
+    "dose 3",
+    "dose 4",
+    "dose 5 ",
+    "dose 6",
+  ];
+  const NomOptions = ["autre", "2", "3", "dose 4", "dose 5 ", "dose 6"];
 
   const [quantity, setQuantity] = useState(donation.quantity || 0);
 
@@ -100,8 +75,11 @@ export default function Donation({
   };
 
   useEffect(() => {
-    setSelectedType(donation.type || "");
+    setSelectedDosage(donation.Dosage || "");
     setSelectedCondition(donation.condition || "");
+    setSelectedRaison(donation.Raison || "");
+    setSelectedNom(donation.nom || "");
+    setSelectedFormepharmaceutique(donation.Formepharmaceutique || "");
     setQuantity(donation.quantity || 0);
     setSelectedDate(
       donation.expirationDate ? new Date(donation.expirationDate) : null
@@ -115,10 +93,16 @@ export default function Donation({
   const handleChange = (e) => {
     const { name, value } = e.target;
     handleFieldChange({ target: { name, value } }, index);
-    if (name === "type") {
-      setSelectedType(value);
+    if (name === "Dosage") {
+      setSelectedDosage(value);
     } else if (name === "condition") {
       setSelectedCondition(value);
+    } else if (name === "nom") {
+      setSelectedNom(value);
+    } else if (name === "Formepharmaceutique") {
+      setSelectedFormepharmaceutique(value);
+    } else if (name === "Raison") {
+      setSelectedRaison(value);
     }
   };
 
@@ -127,10 +111,16 @@ export default function Donation({
   };
 
   const handleItemClick = (field, value) => {
-    if (field === "type") {
-      setSelectedType(value);
+    if (field === "Dosage") {
+      setSelectedDosage(value);
     } else if (field === "condition") {
       setSelectedCondition(value);
+    } else if (field === "nom") {
+      setSelectedNom(value);
+    } else if (field === "Formepharmaceutique") {
+      setSelectedFormepharmaceutique(value);
+    } else if (field === "Raison") {
+      setSelectedRaison(value);
     }
     handleFieldChange({ target: { name: field, value } }, index);
   };
@@ -196,28 +186,37 @@ export default function Donation({
           <input
             readOnly
             type="text"
-            value={donation.nom || ""}
-            onChange={(e) =>
-              handleFieldChange(
-                { target: { name: "nom", value: e.target.value } },
-                index
-              )
-            }
+            title={selectedNom || ""}
+            value={selectedNom || ""}
             onClick={() => toggleSection("nom")}
           />
         </div>
         <div className="form-group">
-          <label>Type</label>
+          <label>Dosage</label>
           <input
             data-toggle="tooltip"
             data-placement="bottom"
-            title={selectedType || ""}
+            title={selectedDosage || ""}
             type="text"
             id="textInput"
-            name="type"
-            value={selectedType || ""}
+            name="Dosage"
+            value={selectedDosage || ""}
             readOnly
-            onClick={() => toggleSection("type")}
+            onClick={() => toggleSection("Dosage")}
+          />
+        </div>
+        <div className="form-group">
+          <label>Forme pharmaceutique</label>
+          <input
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title={selectedFormepharmaceutique || ""}
+            type="text"
+            id="textInput"
+            name="Formepharmaceutique"
+            value={selectedFormepharmaceutique || ""}
+            readOnly
+            onClick={() => toggleSection("Formepharmaceutique")}
           />
         </div>
 
@@ -241,21 +240,6 @@ export default function Donation({
         </div>
 
         <div className="form-group">
-          <label>Condition</label>
-          <input
-            data-toggle="tooltip"
-            data-placement="bottom"
-            title={selectedCondition || ""}
-            type="text"
-            readOnly
-            name="condition"
-            value={selectedCondition || ""}
-            onChange={(e) => handleChange(e)}
-            onClick={() => toggleSection("condition")}
-          />
-        </div>
-
-        <div className="form-group">
           <label>Date d'expiration</label>
 
           <input
@@ -275,24 +259,28 @@ export default function Donation({
             onClick={() => toggleSection("expirationDate")}
           />
         </div>
-
         <div className="form-group">
-          <label>Source de médicament</label>
+          <label>etat</label>
           <input
             data-toggle="tooltip"
             data-placement="bottom"
-            title={donation.source || ""}
+            title={selectedCondition || ""}
+            type="text"
+            readOnly
+            name="condition"
+            value={selectedCondition || ""}
+            onChange={(e) => handleChange(e)}
+            onClick={() => toggleSection("condition")}
+          />
+        </div>
+        <div className="form-group">
+          <label>Raison de don</label>
+          <input
             readOnly
             type="text"
-            name="source"
-            value={donation.source || ""}
-            onChange={(e) =>
-              handleFieldChange(
-                { target: { name: "source", value: e.target.value } },
-                index
-              )
-            }
-            onClick={() => toggleSection("source")}
+            title={selectedRaison || ""}
+            value={selectedRaison || ""}
+            onClick={() => toggleSection("Raison")}
           />
         </div>
       </form>
@@ -300,18 +288,18 @@ export default function Donation({
       <div className="fillers">
         <div
           className={`select-slider-container ${
-            activeSection === "type" ? "active" : ""
+            activeSection === "Dosage" ? "active dosage" : ""
           }`}
         >
-          <label htmlFor="type-select">Type</label>
+          <label htmlFor="Dosage-select">Dosage</label>
           <div className="custom-select-wrapper">
             <div className="custom-select">
               <div className="scrollable-list">
-                {typeOptions.map((option) => (
+                {DosageOptions.map((option) => (
                   <div
                     key={option}
                     className="list-item"
-                    onClick={() => handleItemClick("type", option)}
+                    onClick={() => handleItemClick("Dosage", option)}
                   >
                     {option}
                   </div>
@@ -320,21 +308,53 @@ export default function Donation({
             </div>
           </div>
         </div>
-        <div className={activeSection === "nom" ? "active" : ""}>
-          <input
-            type="text"
-            name="nom"
-            placeholder="Nom"
-            value={donation.nom || ""}
-            onChange={(e) =>
-              handleFieldChange(
-                { target: { name: "nom", value: e.target.value } },
-                index
-              )
-            }
-          />
+        <div
+          className={`select-slider-container ${
+            activeSection === "nom" ? "active Nom1" : ""
+          }`}
+        >
+          <label htmlFor="nom-select">Nom</label>
+          <div className="custom-select-wrapper">
+            <div className="custom-select">
+              <div className="scrollable-list">
+                {NomOptions.map((option) => (
+                  <div
+                    key={option}
+                    className="list-item"
+                    onClick={() => handleItemClick("nom", option)}
+                  >
+                    {option}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-        <div className={activeSection === "quantity" ? "active" : ""}>
+        <div
+          className={`select-slider-container ${
+            activeSection === "Formepharmaceutique" ? "active formph" : ""
+          }`}
+        >
+          <label htmlFor="nom-select">Forme pharmaceutique</label>
+          <div className="custom-select-wrapper">
+            <div className="custom-select">
+              <div className="scrollable-list">
+                {FormepharmaceutiqueOptions.map((option) => (
+                  <div
+                    key={option}
+                    className="list-item"
+                    onClick={() =>
+                      handleItemClick("Formepharmaceutique", option)
+                    }
+                  >
+                    {option}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={activeSection === "quantity" ? "active qte" : ""}>
           <div className="qt">
             <button className="but" type="button" onClick={decrement}>
               -
@@ -357,12 +377,23 @@ export default function Donation({
             </button>
           </div>
         </div>
+        <div className={activeSection === "Raison" ? "active Raison" : ""}>
+          <div className="Raison">
+            <input
+              type="text"
+              name="Raison"
+              placeholder="Pour quelle raison vous faites ce don ?"
+              value={donation.Raison || ""}
+              onChange={(e) => handleItemClick("Raison", e.target.value)}
+            />
+          </div>
+        </div>
         <div
           className={`select-slider-container ${
-            activeSection === "condition" ? "active" : ""
+            activeSection === "condition" ? "active con" : ""
           }`}
         >
-          <label htmlFor="condition-select">Condition</label>
+          <label htmlFor="condition-select">Etat</label>
           <div className="custom-select-wrapper">
             <div className="custom-select">
               <div className="scrollable-list">
@@ -379,20 +410,75 @@ export default function Donation({
             </div>
           </div>
         </div>
-        <div className={activeSection === "expirationDate" ? "active" : ""}>
+        <div className={activeSection === "expirationDate" ? "active exp" : ""}>
           <MyDatePicker value={selectedDate} onChange={handleDateChange} />
         </div>{" "}
-        <div className={activeSection === "source" ? "active" : ""}>
+        <div
+          className={
+            activeSection === "nom" && selectedNom === "autre" ? "active" : ""
+          }
+        >
           <input
             type="text"
-            name="source"
-            placeholder="Source de médicament"
-            value={donation.source || ""}
+            name="nomEd"
+            placeholder="autre nom"
+            value={donation.nom || ""}
             onChange={(e) =>
               handleFieldChange(
-                { target: { name: "source", value: e.target.value } },
+                { target: { name: "nom", value: e.target.value } },
                 index
               )
+            }
+            onBlur={(e) => handleItemClick("nom", e.target.value)}
+          />
+        </div>
+        <div
+          className={
+            activeSection === "Dosage" && selectedDosage === "autre"
+              ? "active"
+              : ""
+          }
+        >
+          <input
+            type="text"
+            name="nomEd"
+            placeholder="autre dosage"
+            value={donation.Dosage || ""}
+            onChange={(e) =>
+              handleFieldChange(
+                { target: { name: "Dosage", value: e.target.value } },
+                index
+              )
+            }
+            onBlur={(e) => handleItemClick("Dosage", e.target.value)}
+          />
+        </div>
+        <div
+          className={
+            activeSection === "Formepharmaceutique" &&
+            selectedFormepharmaceutique === "autre"
+              ? "active"
+              : ""
+          }
+        >
+          <input
+            type="text"
+            name="nomEd"
+            placeholder="autre Forme pharmaceutique"
+            value={donation.Formepharmaceutique || ""}
+            onChange={(e) =>
+              handleFieldChange(
+                {
+                  target: {
+                    name: "Formepharmaceutique",
+                    value: e.target.value,
+                  },
+                },
+                index
+              )
+            }
+            onBlur={(e) =>
+              handleItemClick("Formepharmaceutique", e.target.value)
             }
           />
         </div>

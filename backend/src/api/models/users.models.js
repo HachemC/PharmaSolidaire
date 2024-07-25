@@ -8,28 +8,24 @@ const toutesLesVilles = [
 ];
 
 const userSchema = new mongoose.Schema({
-  nomprenom: { type: String, required: true },
-  registrationnumber: { type: Number, unique: true, required: true },
+  NomEtPrenom: { type: String, required: true },
+  NomPharmacie: { type: String, required: true },
+  numeroEnregistrement: { type: Number, unique: true, required: true },
+  delegations: { type: String }, 
   email: {
     type: String,
     required: true,
     unique: true
   },
-  password: {
+  motDePasse: {
     type: String,
     required: true
   },
-  ville: {
+ ville: {
     type: String,
-    enum: toutesLesVilles,
-    required: true
   },
-  adresse: {
-    type: String,
-    required: true,
-    enum: toutesLesVilles,
-  },
-  zip: { 
+  
+  codePostal: { 
     type: Number, 
     required: true,
     validate: {
@@ -39,7 +35,7 @@ const userSchema = new mongoose.Schema({
       message: props => `${props.value} n'est pas un code postal valide.`
     }
   },
-  phone: {
+  telephonePharmacie: {
     type: Number,
     unique: true,
     required: true,
@@ -50,10 +46,9 @@ const userSchema = new mongoose.Schema({
       message: props => `${props.value} n'est pas un numéro de téléphone valide. Le numéro de téléphone doit être composé de 8 chiffres.`
     }
   },
-  accepted: { type: Boolean, required: false, default: false },
+  accepted: { type: Boolean, default: false },
   role: {
     type: String,
-    required: false,
     enum: ['admin', 'superadmin', 'pharmacien'],
     default: 'pharmacien'
   }

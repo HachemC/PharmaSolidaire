@@ -51,11 +51,12 @@ const StepperComponent = () => {
   const [donations, setDonations] = useState([
     {
       nom: "",
-      type: "",
+      Dosage: "",
+      Formepharmaceutique: "",
       quantity: "",
       condition: "",
       expirationDate: "",
-      source: "",
+      Raison: "",
     },
   ]);
   const [formData, setFormData] = useState({
@@ -77,11 +78,11 @@ const StepperComponent = () => {
       icon: <PersonIcon />,
     },
     {
-      label: "Adresse de don",
+      label: clicked ? "Adresse de don" : "adresse de demande",
       icon: <LocationOnIcon />,
     },
     {
-      label: clicked ? "Médicaments a donner" : "Médicaments demander",
+      label: clicked ? "Produits à donner" : "Produits demander",
       icon: <MedicalServicesIcon />,
     },
     {
@@ -135,11 +136,12 @@ const StepperComponent = () => {
       ...donations,
       {
         nom: "",
-        type: "",
+        Dosage: "",
+        Formepharmaceutique: "",
         quantity: "",
         condition: "",
         expirationDate: "",
-        source: "",
+        Raison: "",
       },
     ]);
   };
@@ -161,11 +163,13 @@ const StepperComponent = () => {
       zip: formData.zipCode,
       req: donations.map((donation) => ({
         nom: donation.nom,
-        type: donation.type,
+        Dosage: donation.Dosage,
+        Formepharmaceutique: donation.Formepharmaceutique,
         qte: donation.quantity,
         condition: donation.condition,
         expirationDate: donation.expirationDate,
         source: donation.source,
+        Raison: donation.Raison,
       })),
     };
 
@@ -196,8 +200,10 @@ const StepperComponent = () => {
       zip: formData.zipCode,
       req: donations.map((donation) => ({
         nom: donation.nom,
-        type: donation.type,
+        Dosage: donation.Dosage,
         qte: donation.quantity,
+        Formepharmaceutique: donation.Formepharmaceutique,
+        Ordonnance: donation.Ordonnance,
       })),
     };
 
@@ -234,11 +240,13 @@ const StepperComponent = () => {
     setDonations([
       {
         nom: "",
-        type: "",
+        Dosage: "",
+        Formepharmaceutique: "",
         quantity: "",
         condition: "",
         expirationDate: "",
-        source: "",
+        Ordonnance: "",
+        Raison: "",
       },
     ]);
   };
@@ -334,6 +342,7 @@ const StepperComponent = () => {
           </div>
         )}
       </div>
+
       <Stack
         direction="row"
         spacing={2}

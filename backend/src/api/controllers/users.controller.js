@@ -11,181 +11,173 @@ const validateEmail = (email) => {
 
 exports.registerUser = async (req, res) => {
   try {
-    const { nomprenom, phone, registrationnumber, ville, zip, email, password, adresse, accepted, role } = req.body;
+    const { NomEtPrenom, NomPharmacie, ville, numeroEnregistrement, codePostal, telephonePharmacie, email, motDePasse, delegations, } = req.body;
 
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ msg: 'You have already registered.' });
+    // Check if the user with the same email already exists
+    const existingUserByEmail = await User.findOne({ email });
+    if (existingUserByEmail) {
+      return res.status(400).json({ msg: 'Vous êtes déjà inscrit avec cet e-mail.' });
     }
 
+    // Check if the user with the same registration number already exists
+    const existingUserByRegistrationNumber = await User.findOne({ numeroEnregistrement });
+    if (existingUserByRegistrationNumber) {
+      return res.status(400).json({ msg: 'Numéro d’enregistrement déjà utilisé.' });
+    }
+
+    // Validate email format
     if (!validateEmail(email)) {
-      return res.status(400).json({ msg: 'Invalid email address format.' });
+      return res.status(400).json({ msg: 'Format d\'adresse e-mail invalide.' });
     }
 
+    // Hash the password before saving the user
+    const hashedPassword = await bcrypt.hash(motDePasse, 10);
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Create a new user object
     const user = new User({
-      nomprenom,
-      phone,
-      registrationnumber,
-      adresse, 
-      ville,
-      zip,      
+      NomEtPrenom,
+      NomPharmacie,
+      delegations,
+      numeroEnregistrement,
+      codePostal,
+      telephonePharmacie,
       email,
-      password: hashedPassword,
-      accepted,
-      role
+      motDePasse: hashedPassword,
+      ville,
+
+      accepted: false,
+      role: 'pharmacien'
     });
 
+    // Save the user to the database
     await user.save();
 
     return res.status(201).json({
       status: 'success',
-      data: {
-        user: user
-      }
+      data: { user }
     });
   } catch (err) {
     console.error(err.message);
+    if (err.code === 11000) {
+      // Identify the specific field causing duplication
+      const duplicatedField = Object.keys(err.keyPattern)[0];
+      return res.status(400).json({
+        status: 'error',
+        message: `Erreur de duplication : ${duplicatedField}`
+      });
+    }
     return res.status(500).json({
       status: 'error',
       message: err.message
     });
   }
 };
-
-
 exports.loginUser = async (req, res) => {
-  const { email, password } = req.body;
-  
+  const { email, motDePasse } = req.body;
+
   try {
-    // Vérifie si l'utilisateur existe dans la base de données
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({
-        status: 'error',
-        message: 'Email invalide'
-      });
+      return res.status(400).json({ status: 'error', message: 'Email invalide' });
     }
-    
-    // Compare les mots de passe avec bcrypt
-    const isMatch = await bcrypt.compare(password, user.password);
+const state=user.accepted
+if (!state) {
+  return res.status(400).json({ status: 'error', message: 'Compte non accepté, veuillez attendre la validation.' });
+}
+    const isMatch = await bcrypt.compare(motDePasse, user.motDePasse);
     if (!isMatch) {
-      return res.status(400).json({
-        status: 'error',
-        message: 'Mot de passe  incorrecte'
-      });
+      return res.status(400).json({ status: 'error', message: 'Mot de passe incorrect' });
     }
-    
-    // Crée un jeton et l'envoie au client
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '24h' });
+
+    // Include additional user information in the token payload
+    const tokenPayload = {
+      id: user._id,
+      NomPharmacie: user.NomPharmacie,
+      delegations: user.delegations,
+      ville: user.ville,
+      role: user.role
+    };
+
+    const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '24h' });
+
     res.json({
-      status: "success",
+      status: 'success',
       result: {
-        token: token,
+        token,
         userId: user._id,
-        role: user.role // Ajouter le rôle dans la réponse
+        role: user.role,
+        NomPharmacie: user.NomPharmacie,
+        delegations: user.delegations,
+        ville: user.ville
       },
-      message: "Logged In Successfully"
+      message: 'Connexion réussie'
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Internal Server Error'
-    });
+    res.status(500).json({ status: 'error', message: 'Erreur serveur interne' });
   }
 };
+exports.logout = (req, res) => {
+  // Handle logout logic
+  res.status(200).json({ status: 'success', message: 'Déconnexion réussie' });
+};
 
-
-// Modifier un utilisateur
 exports.updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nomprenom, phone, password } = req.body;
+    const { NomEtPrenom, adresse, telephonePharmacie, motDePasse } = req.body;
 
     const existingUser = await User.findById(id);
     if (!existingUser) {
-      return res.status(404).json({
-        status: 'error',
-        message: 'User not found'
-      });
+      return res.status(404).json({ status: 'error', message: 'Utilisateur non trouvé' });
     }
 
-    // Hacher le mot de passe si un nouveau mot de passe est fourni
-    let hashedPassword = existingUser.password;
-    if (password) {
-      hashedPassword = await bcrypt.hash(password, 10);
+    let hashedPassword = existingUser.motDePasse;
+    if (motDePasse) {
+      hashedPassword = await bcrypt.hash(motDePasse, 10);
     }
 
     const updatedUser = await User.findByIdAndUpdate(
       id,
-      {
-        nomprenom,
-        phone,
-        password: hashedPassword,
-      },
+      { NomEtPrenom, adresse, telephonePharmacie, motDePasse: hashedPassword },
       { new: true }
     );
 
-    res.status(200).json({
-      status: 'Compte modifié avec succès',
-      data: {
-        user: updatedUser
-      }
-    });
+    res.status(200).json({ status: 'success', data: { user: updatedUser } });
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({
-      status: 'error',
-      message: err.message
-    });
+    res.status(500).json({ status: 'error', message: err.message });
   }
 };
 
-// Supprimer un utilisateur
 exports.deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
 
     const deletedUser = await User.findByIdAndDelete(id);
-
     if (!deletedUser) {
-      return res.status(404).json({
-        status: 'error',
-        message: 'User not found'
-      });
+      return res.status(404).json({ status: 'error', message: 'Utilisateur non trouvé' });
     }
 
-    res.status(204).json({
-      status: 'success',
-      data: null
-    });
+    res.status(204).json({ status: 'success', data: null });
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({
-      status: 'error',
-      message: err.message
-    });
+    res.status(500).json({ status: 'error', message: err.message });
   }
 };
 
-// Afficher tous les utilisateurs
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
-
-    res.status(200).json({
-      status: 'success',
-      data: {
-        users: users
-      }
-    });
+    res.status(200).json({ status: 'success', data: { users } });
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({
-      status: 'error',
-      message: err.message
-    });
+    res.status(500).json({ status: 'error', message: err.message });
   }
+  /////////////////////////////////////////////////
+  
+  
 };
+
+
+

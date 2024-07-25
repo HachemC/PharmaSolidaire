@@ -10,8 +10,10 @@ const toutesLesVilles = [
 
 const MedicamentSchema = new Schema({
     nom: { type: String, required: true },
-    type: { type: String, required: true },
+    Formepharmaceutique: { type: String, required: true },
     qte: { type: Number, required: true },
+    dosage: { type: String, required: true },
+    Ordonnance : { type: String, required: true },
    
   });
 

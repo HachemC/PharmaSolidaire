@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "./location.css"; // Assuming you have a CSS file for styling
+import "./location.css";
+import axios from "axios";
 
 export default function Location({ handleFieldChange, formData }) {
   const [selectedCity, setSelectedCity] = useState(formData.city || "");
@@ -10,378 +11,45 @@ export default function Location({ handleFieldChange, formData }) {
     formData.pharmacy || ""
   );
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [cityOptions, setCityOptions] = useState([]);
+  const [delegationsByCity, setDelegationsByCity] = useState({});
+  const [pharmaciesByDelegation, setPharmaciesByDelegation] = useState({});
 
-  const cityOptions = [
-    "Tunis",
-    "Ariana",
-    "Ben Arous",
-    "Manouba",
-    "Nabeul",
-    "Zaghouan",
-    "Bizerte",
-    "Beja",
-    "Jendouba",
-    "Kef",
-    "Siliana",
-    "Sousse",
-    "Monastir",
-    "Mahdia",
-    "Sfax",
-    "Kairouan",
-    "Kasserine",
-    "Sidi Bouzid",
-    "Gabes",
-    "Mednine",
-    "Tataouine",
-    "Gafsa",
-    "Tozeur",
-    "Kebili",
-  ];
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/api/cities")
+      .then((response) => setCityOptions(response.data.data.cities))
+      .catch((error) => console.error("Error fetching cities:", error));
+  }, []);
 
-  const delegationsByCity = {
-    Ariana: [
-      "Ariana Ville",
-      "Ettadhamen",
-      "Kalaat El Andalous",
-      "La Soukra",
-      "Mnihla",
-      "Raoued",
-      "Sidi Thabet",
-    ],
-    Béja: [
-      "Amdoun",
-      "Béja Nord",
-      "Béja Sud",
-      "Goubellat",
-      "Medjez el-Bab",
-      "Nefza",
-      "Téboursouk",
-      "Testour",
-      "Thibar",
-    ],
-    "Ben Arous": [
-      "Ben Arous",
-      "Bou Mhel el-Bassatine",
-      "El Mourouj",
-      "Ezzahra",
-      "Fouchana",
-      "Hammam Chott",
-      "Hammam Lif",
-      "Megrine",
-      "Mohamedia",
-      "Mornag",
-      "Nouvelle Medina",
-      "Radès",
-    ],
-    Bizerte: [
-      "Bizerte Nord",
-      "Bizerte Sud",
-      "El Alia",
-      "Ghar El Melh",
-      "Ghezala",
-      "Jarzouna",
-      "Joumine",
-      "Mateur",
-      "Menzel Bourguiba",
-      "Menzel Jemil",
-      "Ras Jebel",
-      "Sejnane",
-      "Tinja",
-      "Utique",
-    ],
-    Gabès: [
-      "El Hamma",
-      "Gabès Médina",
-      "Gabès Ouest",
-      "Gabès Sud",
-      "Ghannouch",
-      "Mareth",
-      "Matmata",
-      "Menzel El Habib",
-      "Métouia",
-      "Nouvelle Matmata",
-    ],
-    Gafsa: [
-      "Belkhir",
-      "El Guettar",
-      "El Ksar",
-      "Gafsa Nord",
-      "Gafsa Sud",
-      "Mdhilla",
-      "Metlaoui",
-      "Moulares",
-      "Redeyef",
-      "Sened",
-      "Sidi Aich",
-    ],
-    Jendouba: [
-      "Aïn Draham",
-      "Balta Bou Aouane",
-      "Bou Salem",
-      "Fernana",
-      "Ghardimaou",
-      "Jendouba Nord",
-      "Jendouba Sud",
-      "Oued Mliz",
-      "Tabarka",
-    ],
-    Kairouan: [
-      "Bou Hajla",
-      "Chebika",
-      "Chrarda",
-      "El Alâa",
-      "Haffouz",
-      "Hajeb El Ayoun",
-      "Kairouan Nord",
-      "Kairouan Sud",
-      "Nasrallah",
-      "Oueslatia",
-      "Sbikha",
-    ],
-    Kasserine: [
-      "El Ayoun",
-      "Ezzouhour",
-      "Fériana",
-      "Foussana",
-      "Haïdra",
-      "Hassi El Ferid",
-      "Jedelienne",
-      "Kasserine Nord",
-      "Kasserine Sud",
-      "Majel Bel Abbès",
-      "Sbeitla",
-      "Sbiba",
-      "Thala",
-    ],
-    Kebili: ["Douz", "Faouar", "Kebili Nord", "Kebili Sud", "Souk Lahad"],
-    Kef: [
-      "Dahmani",
-      "Jérissa",
-      "Kalaa El Khasba",
-      "Kalaat Senan",
-      "Kef Est",
-      "Kef Ouest",
-      "Ksour",
-      "Nebeur",
-      "Sakiet Sidi Youssef",
-      "Sers",
-      "Tajerouine",
-      "Touiref",
-    ],
-    Mahdia: [
-      "Bou Merdes",
-      "Chebba",
-      "Chorbane",
-      "El Jem",
-      "Essouassi",
-      "Hbira",
-      "Ksour Essef",
-      "Mahdia",
-      "Melloulèche",
-      "Ouled Chamekh",
-      "Sidi Alouane",
-    ],
-    Manouba: [
-      "Borj El Amri",
-      "Douar Hicher",
-      "El Batan",
-      "Jedaida",
-      "Manouba",
-      "Mornaguia",
-      "Oued Ellil",
-      "Tebourba",
-    ],
-    Médenine: [
-      "Ben Gardane",
-      "Beni Khedache",
-      "Djerba - Ajim",
-      "Djerba - Houmt Souk",
-      "Djerba - Midoun",
-      "Medenine Nord",
-      "Medenine Sud",
-      "Sidi Makhlouf",
-      "Zarzis",
-    ],
-    Monastir: [
-      "Bekalta",
-      "Bembla",
-      "Beni Hassen",
-      "Jemmal",
-      "Ksar Hellal",
-      "Ksibet el-Médiouni",
-      "Moknine",
-      "Monastir",
-      "Ouerdanin",
-      "Sahline",
-      "Sayada-Lamta-Bou Hajar",
-      "Téboulba",
-      "Zéramdine",
-    ],
-    Nabeul: [
-      "Béni Khalled",
-      "Béni Khiar",
-      "Bou Argoub",
-      "Dar Chaabane El Fehri",
-      "El Haouaria",
-      "El Mida",
-      "Grombalia",
-      "Hammam Ghezèze",
-      "Hammamet",
-      "Kélibia",
-      "Korba",
-      "Menzel Bouzelfa",
-      "Menzel Temime",
-      "Nabeul",
-      "Soliman",
-      "Takelsa",
-    ],
-    Sfax: [
-      "Agareb",
-      "Bir Ali Ben Khalifa",
-      "El Amra",
-      "El Hencha",
-      "Ghraïba",
-      "Jebiniana",
-      "Kerkennah",
-      "Mahrès",
-      "Menzel Chaker",
-      "Sakiet Eddaïer",
-      "Sakiet Ezzit",
-      "Sfax Est",
-      "Sfax Sud",
-      "Sfax Ville",
-      "Skhira",
-      "Thyna",
-    ],
-    "Sidi Bouzid": [
-      "Bir El Hafey",
-      "Cebbala Ouled Asker",
-      "Jilma",
-      "Meknassy",
-      "Menzel Bouzaiane",
-      "Mezzouna",
-      "Ouled Haffouz",
-      "Regueb",
-      "Sidi Ali Ben Aoun",
-      "Sidi Bouzid Est",
-      "Sidi Bouzid Ouest",
-      "Souk Jedid",
-    ],
-    Siliana: [
-      "Bargou",
-      "Bou Arada",
-      "El Aroussa",
-      "Gaâfour",
-      "El Krib",
-      "Makthar",
-      "Rouhia",
-      "Sidi Bou Rouis",
-      "Siliana Nord",
-      "Siliana Sud",
-      "Kesra",
-    ],
-    Sousse: [
-      "Akouda",
-      "Bouficha",
-      "Enfidha",
-      "Hammam Sousse",
-      "Hergla",
-      "Kalâa Kebira",
-      "Kalâa Seghira",
-      "Kondar",
-      "Msaken",
-      "Sidi Bou Ali",
-      "Sidi El Hani",
-      "Sousse Jawhara",
-      "Sousse Médina",
-      "Sousse Riadh",
-      "Sousse Sidi Abdelhamid",
-    ],
-    Tataouine: [
-      "Bir Lahmar",
-      "Dehiba",
-      "Ghomrassen",
-      "Remada",
-      "Smâr",
-      "Tataouine Nord",
-      "Tataouine Sud",
-    ],
-    Tozeur: ["Degache", "Hazoua", "Nefta", "Tameghza", "Tozeur"],
-    Tunis: [
-      "Bab El Bhar",
-      "Bab Souika",
-      "Carthage",
-      "Cité El Khadra",
-      "Djebel Jelloud",
-      "El Kabaria",
-      "El Menzah",
-      "El Omrane",
-      "El Omrane Supérieur",
-      "El Ouardia",
-      "Ettahrir",
-      "Ezzouhour",
-      "Hraïria",
-      "La Goulette",
-      "La Marsa",
-      "Le Bardo",
-      "Le Kram",
-      "Médina",
-      "Séjoumi",
-      "Sidi El Béchir",
-      "Sidi Hassine",
-    ],
-    Zaghouan: [
-      "Bir Mcherga",
-      "El Fahs",
-      "Nadhour",
-      "Saouaf",
-      "Zaghouan",
-      "Zriba",
-    ],
-  };
+  useEffect(() => {
+    if (selectedCity) {
+      axios
+        .get(`http://localhost:3000/api/delegations/${selectedCity}`)
+        .then((response) =>
+          setDelegationsByCity((prev) => ({
+            ...prev,
+            [selectedCity]: response.data.data.delegations,
+          }))
+        )
+        .catch((error) => console.error("Error fetching delegations:", error));
+    }
+  }, [selectedCity]);
 
-  const pharmaciesByDelegation = {
-    "Ariana Ville": [
-      { name: "Pharmacy A", delegation: "Delegation 1" },
-      { name: "Pharmacy B", delegation: "Delegation 1" },
-      { name: "Pharmacy C", delegation: "Delegation 1" },
-      { name: "Pharmacy A", delegation: "Delegation 1" },
-      { name: "Pharmacy B", delegation: "Delegation 1" },
-      { name: "Pharmacy C", delegation: "Delegation 1" },
-    ],
-    Amdoun: [
-      { name: "Pharmacy D", delegation: "Delegation 2" },
-      { name: "Pharmacy E", delegation: "Delegation 2" },
-      { name: "Pharmacy F", delegation: "Delegation 2" },
-      { name: "Pharmacy D", delegation: "Delegation 2" },
-      { name: "Pharmacy E", delegation: "Delegation 2" },
-      { name: "Pharmacy F", delegation: "Delegation 2" },
-    ],
-    "Béja Nord": [
-      { name: "Pharmacy G", delegation: "Delegation 3" },
-      { name: "Pharmacy H", delegation: "Delegation 3" },
-      { name: "Pharmacy I", delegation: "Delegation 3" },
-      { name: "Pharmacy G", delegation: "Delegation 3" },
-      { name: "Pharmacy H", delegation: "Delegation 3" },
-      { name: "Pharmacy I", delegation: "Delegation 3" },
-    ],
-    "Ben Arous": [
-      { name: "Pharmacy A", delegation: "Delegation A" },
-      { name: "Pharmacy B", delegation: "Delegation A" },
-      { name: "Pharmacy C", delegation: "Delegation A" },
-      { name: "Pharmacy A", delegation: "Delegation A" },
-      { name: "Pharmacy B", delegation: "Delegation A" },
-      { name: "Pharmacy C", delegation: "Delegation A" },
-    ],
-    "Béni Khalled": [
-      { name: "Pharmacy D", delegation: "Delegation B" },
-      { name: "Pharmacy E", delegation: "Delegation B" },
-      { name: "Pharmacy F", delegation: "Delegation B" },
-      { name: "Pharmacy DD", delegation: "Delegation B" },
-      { name: "Pharmacy EE", delegation: "Delegation B" },
-      { name: "Pharmacy FF", delegation: "Delegation B" },
-    ],
-  };
+  useEffect(() => {
+    if (selectedDelegation) {
+      axios
+        .get(`http://localhost:3000/api/pharmacies/${selectedDelegation}`)
+        .then((response) => {
+          console.log("Fetched pharmacies:", response.data.data.pharmacies);
+          setPharmaciesByDelegation((prev) => ({
+            ...prev,
+            [selectedDelegation]: response.data.data.pharmacies,
+          }));
+        })
+        .catch((error) => console.error("Error fetching pharmacies:", error));
+    }
+  }, [selectedDelegation]);
 
   const handleCityClick = (value) => {
     setSelectedCity(value);
@@ -399,12 +67,12 @@ export default function Location({ handleFieldChange, formData }) {
   };
 
   const handlePharmacyClick = (pharmacy) => {
-    setSelectedPharmacy(pharmacy.name);
+    setSelectedPharmacy(pharmacy.pharmacyName); // Adjusted to use pharmacy.name
     handleFieldChange({
       target: {
         name: "pharmacy",
-        value: pharmacy.name,
-        delegation: pharmacy.delegation,
+        value: pharmacy.pharmacyName, // Adjusted to use pharmacy.name
+        delegation: selectedDelegation,
       },
     });
     setActiveDropdown(null);
@@ -415,17 +83,16 @@ export default function Location({ handleFieldChange, formData }) {
   };
 
   useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest(".location-loc")) {
+        setActiveDropdown(null);
+      }
+    };
     document.body.addEventListener("click", handleClickOutside);
     return () => {
       document.body.removeEventListener("click", handleClickOutside);
     };
   }, []);
-
-  const handleClickOutside = (e) => {
-    if (!e.target.closest(".location-loc")) {
-      setActiveDropdown(null);
-    }
-  };
 
   return (
     <div className="location-loc">
@@ -447,15 +114,19 @@ export default function Location({ handleFieldChange, formData }) {
           <div className="custom-select-wrapper-loc">
             <div className="custom-select-loc">
               <div className="scrollable-list-loc">
-                {cityOptions.map((option) => (
-                  <div
-                    key={option}
-                    className="list-item-loc"
-                    onClick={() => handleCityClick(option)}
-                  >
-                    {option}
-                  </div>
-                ))}
+                {cityOptions.length ? (
+                  cityOptions.map((option) => (
+                    <div
+                      key={option}
+                      className="list-item-loc"
+                      onClick={() => handleCityClick(option)}
+                    >
+                      {option}
+                    </div>
+                  ))
+                ) : (
+                  <div className="list-item-loc">Loading cities...</div>
+                )}
               </div>
             </div>
           </div>
@@ -481,15 +152,19 @@ export default function Location({ handleFieldChange, formData }) {
             <div className="custom-select-wrapper-loc">
               <div className="custom-select-loc">
                 <div className="scrollable-list-loc">
-                  {delegationsByCity[selectedCity].map((delegation) => (
-                    <div
-                      key={delegation}
-                      className="list-item-loc"
-                      onClick={() => handleDelegationClick(delegation)}
-                    >
-                      {delegation}
-                    </div>
-                  ))}
+                  {delegationsByCity[selectedCity]?.length ? (
+                    delegationsByCity[selectedCity].map((delegation) => (
+                      <div
+                        key={delegation}
+                        className="list-item-loc"
+                        onClick={() => handleDelegationClick(delegation)}
+                      >
+                        {delegation}
+                      </div>
+                    ))
+                  ) : (
+                    <div className="list-item-loc">Loading delegations...</div>
+                  )}
                 </div>
               </div>
             </div>
@@ -500,7 +175,7 @@ export default function Location({ handleFieldChange, formData }) {
       {selectedCity && selectedDelegation && (
         <div className="form-group-loc">
           <input
-            placeholder="Pharmacy"
+            placeholder="Pharmacie"
             type="text"
             id="pharmacyInput"
             name="pharmacy"
@@ -516,16 +191,21 @@ export default function Location({ handleFieldChange, formData }) {
             <div className="custom-select-wrapper-loc">
               <div className="custom-select-loc">
                 <div className="scrollable-list-loc">
-                  {pharmaciesByDelegation[selectedDelegation].map(
-                    (pharmacy) => (
-                      <div
-                        key={pharmacy.name}
-                        className="list-item-loc"
-                        onClick={() => handlePharmacyClick(pharmacy)}
-                      >
-                        {pharmacy.name}
-                      </div>
+                  {pharmaciesByDelegation[selectedDelegation]?.length ? (
+                    pharmaciesByDelegation[selectedDelegation].map(
+                      (pharmacy) => (
+                        <div
+                          key={pharmacy._id}
+                          className="list-item-loc"
+                          onClick={() => handlePharmacyClick(pharmacy)}
+                        >
+                          {pharmacy.pharmacyName}{" "}
+                          {/* Ensure correct property is used */}
+                        </div>
+                      )
                     )
+                  ) : (
+                    <div className="list-item-loc">No pharmacies found</div>
                   )}
                 </div>
               </div>

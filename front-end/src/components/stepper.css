@@ -26,7 +26,12 @@
   color: white;
   background-color: #005c4b;
 }
-
+.view {
+  display: block;
+}
+.noview {
+  display: none;
+}
 .step-icon.completed {
   color: white;
   background-color: #005c4b;

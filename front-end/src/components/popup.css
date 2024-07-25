@@ -42,14 +42,14 @@
   border-radius: 46px;
 }
 .popup-content {
-  background-color: #ff7f504d;
+  background-color: rgb(255, 127, 80, 5%);
   padding: 12px;
   border-radius: 46px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   width: 458px;
   text-align: left;
   height: 91px;
-  color: #ff7f50;
+  color: #ff672f;
   font-size: 16px;
 }
 .popup-content p {

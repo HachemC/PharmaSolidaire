@@ -16,7 +16,7 @@ const Popup = ({ onClose, className }) => {
           />
         </button>
         {className === "popup-three" && (
-          <p width="314px">
+          <p width=" 353px">
             Seulement les individus et les professionnels peuvent donner des
             médicaments.
           </p>

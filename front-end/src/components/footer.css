@@ -47,7 +47,8 @@
   margin-left: 25px;
   font-size: 48px;
   color: #ffffff;
-  font-family: "Helvetica Compressed";
+  font-family: "Saira Condensed";
+  font-weight: bold;
   width: 859px;
 }
 .LEFT {
@@ -95,7 +96,7 @@
   grid-column: 4;
   display: flex;
   flex-direction: column;
-
+  font-family: "calibri";
   position: relative;
   bottom: 10rem;
   left: 4rem;

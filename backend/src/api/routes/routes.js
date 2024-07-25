@@ -5,13 +5,17 @@ module.exports = app => {
   const entrepriseController = require('../controllers/entreprises.controller');
   const donationController = require('../controllers/donations.controller'); // Import the Donation controller
   const demandeController = require('../controllers/demandes.controller'); // Import the Demande controller
+  const locationController = require('../controllers/locations.controller');
+
 
   // User routes
   router.post('/register', userController.registerUser); // Inscription
   router.post('/login', userController.loginUser);  // Connexion
+  router.post('/logout', userController.logout);  // Connexion
   router.put('/users/update/:id', userController.updateUser); // Modifier compte pharmacien
   router.delete('/users/delete/:id', userController.deleteUser); // Supprimer une pharmacie
   router.get('/users', userController.getAllUsers);  // Voir liste des pharmacies
+  
 
   // Particulier routes
   router.post('/particuliers/create', particulierController.createParticulier); // Create a new Particulier
@@ -36,6 +40,19 @@ module.exports = app => {
 
   // Demande routes
   router.post('/demandes/create', demandeController.createDemande); // Create a new demande
+
+///location
+router.post('/locations/create', locationController.createLocation);
+router.get('/locations', locationController.getAllLocations);
+
+const { getCities, getDelegations, getPharmacies } = require('../controllers/locations.controller');
+
+router.get('/cities', getCities);
+router.get('/delegations/:city', getDelegations);
+router.get('/pharmacies/:delegation', getPharmacies);
+
+
+  
 
   app.use('/api', router);
 };

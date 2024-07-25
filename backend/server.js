@@ -1,13 +1,13 @@
+// server.js or app.js
 const express = require('express');
 const app = express();
-const db = require('./config/db.config.js');
-const particulierRoutes = require('./routes/particuliers.routes.js');
+const locationRoutes = require('./routes/locationRoutes'); // Adjust the path as necessary
 
-app.use(express.json()); // Middleware for parsing JSON bodies
+// Use the routes from locationRoutes
+app.use('/api/locations', locationRoutes);
 
-app.use('/api/particuliers', particulierRoutes);
-
-const PORT = 3001;
+// Start the server
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

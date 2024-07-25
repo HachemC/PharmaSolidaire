@@ -29,7 +29,7 @@
   font-family: "Calibri";
   font-size: 64px;
   height: 181px;
-  width: 926px;
+  width: 906px;
   color: #333333;
   font-weight: bold;
 }
@@ -42,15 +42,17 @@
   font-family: "Calibri";
   font-size: 26px;
   height: 94;
-
+  font-weight: bold;
   color: #333333;
 }
 .buttons1 {
   grid-column: 2 / 9;
-  grid-row: 4;
+  grid-row: 3 / 4;
+  align-self: center;
   display: flex;
-  display: flex;
+
   height: 60px;
+  margin-top: 6rem;
 }
 .give {
   display: grid;
@@ -62,6 +64,7 @@
   font-size: 18px;
   height: 40px;
   width: 282px;
+  font-weight: bold;
   background-color: transparent;
   border: 1px solid;
   border-radius: 43px;
@@ -80,6 +83,7 @@
   align-self: center;
 }
 .take {
+  font-weight: bold;
   display: grid;
   grid-template-columns: auto auto auto;
   grid-template-rows: auto auto auto;
@@ -120,7 +124,7 @@
   grid-column: 5 / 11;
   grid-row: 6;
   margin: 0;
-  font-family: "Saira Condensed";
+  font-family: "Calibri";
   font-size: 70px;
   /* text-align: center; */
   padding-top: 2rem;
@@ -153,7 +157,8 @@
 }
 .text4 {
   margin-bottom: 2rem;
-  font-family: "Saira Condensed";
+  font-family: "calibri";
+  font-weight: bold;
   font-size: 26px;
   /* text-align: center; */
   color: #333333;
@@ -164,17 +169,16 @@
 .text4 span {
   font-size: 128px;
   color: #005c4b;
-  font-family: "Calibri", sans-serif;
+  font-family: "Calibri";
   font-weight: bold;
 }
 
 .text5 {
-  font-family: "Calibri", sans-serif;
-  font-size: 20px;
+  font-family: "Calibri";
+  font-size: 26px;
   /* text-align: center; */
   color: #333333;
   text-align: center;
-  text-shadow: 0.5px 0.5px 2px #333333;
 }
 .text5 span {
   color: #005c4b;
@@ -202,7 +206,8 @@
 }
 .text6 {
   margin-bottom: 2rem;
-  font-family: "Saira Condensed";
+  font-family: "Calibri";
+  font-weight: bold;
   font-size: 26px;
   /* text-align: center; */
   color: #333333;
@@ -217,12 +222,11 @@
   font-weight: bold;
 }
 .text7 {
-  font-family: "Calibri", sans-serif;
-  font-size: 20px;
+  font-family: "Calibri";
+  font-size: 26px;
   /* text-align: center; */
   color: #333333;
   text-align: center;
-  text-shadow: 0.5px 0.5px 2px #333333;
 }
 .text7 span {
   color: #005c4b;
@@ -232,7 +236,7 @@
 
 .g4 {
   grid-row: 13;
-  grid-column: 4 / 11;
+  grid-column: 2 / 11;
   align-self: center;
   justify-self: center;
 }
@@ -240,8 +244,8 @@
 .text8 {
   margin-bottom: 2rem;
   font-family: "Calibri";
-  font-size: 26px;
   text-align: center;
+  font-weight: bold;
   color: #333333;
 
   font-size: 40px;
@@ -255,15 +259,14 @@
   text-shadow: 0.5px 0.5px 2px #333333;
 }
 .text9 {
-  font-family: "Calibri", sans-serif;
-  font-size: 20px;
+  font-family: "Calibri";
+  font-size: 26px;
 
   color: #333333;
   text-align: center;
-  text-shadow: 0.5px 0.5px 2px #333333;
 }
 .illus4 {
-  grid-column: 7 / 11;
+  grid-column: 6 / 11;
   grid-row: 14 / 17;
   background-image: url("../images/support.svg");
   background-size: cover;
@@ -285,6 +288,57 @@
   left: 148px;
   bottom: 27px;
   width: 25px;
+  font-size: 24px;
+  z-index: 3;
+  background-color: #ff7f50;
+  color: #ffffff;
+  text-shadow: 0.5px 0.5px 2px #333333;
+}
+.mark1 {
+  border-radius: 50%;
+  text-align: center;
+  display: flex;
+  position: absolute;
+  height: 38px;
+  left: 232px;
+  bottom: 81px;
+  width: 40px;
+  font-size: 24px;
+  z-index: 3;
+  background-color: #ff7f50;
+  color: #ffffff;
+  text-shadow: 0.5px 0.5px 2px #333333;
+}
+.text4-1,
+.text6-1,
+.text8-1 {
+  position: relative;
+  display: inline;
+}
+.mark2 {
+  border-radius: 50%;
+  text-align: center;
+  display: flex;
+  position: absolute;
+  height: 38px;
+  left: 170px;
+  bottom: 74px;
+  width: 40px;
+  font-size: 24px;
+  z-index: 3;
+  background-color: #ff7f50;
+  color: #ffffff;
+  text-shadow: 0.5px 0.5px 2px #333333;
+}
+.mark3 {
+  border-radius: 50%;
+  text-align: center;
+  display: flex;
+  position: absolute;
+  height: 38px;
+  left: 297px;
+  bottom: 72px;
+  width: 40px;
   font-size: 24px;
   z-index: 3;
   background-color: #ff7f50;

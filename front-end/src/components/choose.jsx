@@ -71,10 +71,10 @@ export default function Choose() {
 
   return (
     <div className="choose-body">
-      <div className="head11">
+      <div className="head12">
         <Head1 />
       </div>
-      <Lines />
+
       <div className="a1">
         Arrêtons le gaspillage des médicaments. Sauvons des<span> vies</span>.
       </div>
@@ -84,7 +84,7 @@ export default function Choose() {
         lieu de jeter. Vos dons arrêtent le gaspillage et sauvent{" "}
         <span> des vies.</span>
       </div>
-
+      <div className="ff"></div>
       <div className="a4">
         <div className="a5">
           <button

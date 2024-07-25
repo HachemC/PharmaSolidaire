@@ -3,7 +3,11 @@ import "./donation.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import CloseIcon from "@mui/icons-material/Close";
-import "../demande.css";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Radio from "@mui/material/Radio";
 
 export default function Demande({
   handleFieldChange,
@@ -11,62 +15,40 @@ export default function Demande({
   deleteDonation,
   donations,
 }) {
-  const demande = donations[index];
-  console.log(donations);
-  const [selectedType, setSelectedType] = useState(demande.type || "");
+  const donation = donations[index];
+  const [selectedDosage, setSelectedDosage] = useState(donation.Dosage || "");
+  const [selectedNom, setSelectedNom] = useState(donation.nom || "");
+  const [selectedFormepharmaceutique, setSelectedFormepharmaceutique] =
+    useState(donation.Formepharmaceutique || "");
+  const [selectedOrdonnance, setSelectedOrdonnance] = useState(
+    donation.Ordonnance || ""
+  );
+  const [activeSection, setActiveSection] = useState();
 
-  const [activeSection, setActiveSection] = useState(null);
-
-  const typeOptions = [
-    "ALLERGIE",
-    "MÉDICAMENT DU CHOC",
-    "ANESTHÉSIQUES GÉNÉRAUX",
-    "ANESTHÉSIQUES LOCAUX",
-    "ANTALGIQUES NON OPIACÉS",
-    "ANTIANGINEUX",
-    "ANTIARYTHMIQUES",
-    "ANTIASTHMATIQUES",
-    "ANTIBIOTIQUES",
-    "ANTICANCÉREUX",
-    "ANTIDIABÉTIQUES",
-    "ANTIDÉPRESSEURS",
-    "ANTIDOTES",
-    "ANTIPARKINSONIENS",
-    "ANTIPSYCHOTIQUES",
-    "ANTIULCÉREUX",
-    "ANTIVIRAUX",
-    "ANTIDIARRHÉIQUES",
-    "ANTIÉMÉTIQUES",
-    "ANTI-ÉPILEPTIQUES",
-    "ANTIFONGIQUES",
-    "ANTIGLAUCOMATEUX",
-    "ANTIGOUTTEUX",
-    "ANTI-HYPERTENSEURS",
-    "ANTIMIGRAINEUX",
-    "ANTIOSTEOPOROSE",
-    "ANTIPALUDEENS",
-    "ANXIOLYTIQUES",
-    "AUTRES",
-    "CORTICOIDES",
-    "CYTOKINES ET ANTI-CYTOKINES",
-    "GYNÉCOLOGIE - OBSTÉTRIQUE",
-    "HÉMOSTASE",
-    "HYPNOTIQUES",
-    "HYPOLIPÉMIANTS",
-    "IMMUNOSUPPRESSEURS",
-    "INSUFFISANCE CARDIAQUE",
-    "MÉDICAMENTS DE LA CONSTIPATION",
-    "MÉDICAMENTS DE LA PLAQUE NEUROMUSCULAIRE",
-    "MÉDICAMENTS DES TROUBLES SEXUELS",
-    "MÉDICAMENTS STIMULANTS DE LA COGNITION",
-    "OPIACÉS",
-    "SUBSTANCES ADDICTIVES",
-    "RÉGULATEURS DE L'HUMEUR",
-    "UROLOGIE",
-    "VACCINS",
+  const FormepharmaceutiqueOptions = [
+    "autre",
+    "500G",
+    "200G",
+    "dose 3",
+    "dose 4",
+    "dose 5 ",
+    "dose 6",
   ];
 
-  const [quantity, setQuantity] = useState(demande.quantity || 0);
+  const DosageOptions = [
+    "autre",
+    "500G",
+    "200G",
+    "dose 3",
+    "dose 4",
+    "dose 5 ",
+    "dose 6",
+  ];
+
+  const NomOptions = ["autre", "2", "3", "dose 4", "dose 5 ", "dose 6"];
+  const OrdonnanceOptions = ["oui", "non"];
+
+  const [quantity, setQuantity] = useState(donation.quantity || 0);
 
   const increment = () => {
     setQuantity(quantity + 1);
@@ -87,22 +69,30 @@ export default function Demande({
   };
 
   useEffect(() => {
-    setSelectedType(demande.type || "");
-
-    setQuantity(demande.quantity || 0);
+    setSelectedDosage(donation.Dosage || "");
+    setSelectedNom(donation.nom || "");
+    setSelectedFormepharmaceutique(donation.Formepharmaceutique || "");
+    setSelectedOrdonnance(donation.Ordonnance || "");
+    setQuantity(donation.quantity || 0);
 
     return () => {
       document.body.removeEventListener("click", handleClickOutside);
     };
-  }, [demande]);
+  }, [donation]);
 
   const toggleSection = (section) => {
     setActiveSection(section);
   };
 
   const handleItemClick = (field, value) => {
-    if (field === "type") {
-      setSelectedType(value);
+    if (field === "Dosage") {
+      setSelectedDosage(value);
+    } else if (field === "nom") {
+      setSelectedNom(value);
+    } else if (field === "Formepharmaceutique") {
+      setSelectedFormepharmaceutique(value);
+    } else if (field === "Ordonnance") {
+      setSelectedOrdonnance(value);
     }
     handleFieldChange({ target: { name: field, value } }, index);
   };
@@ -146,28 +136,37 @@ export default function Demande({
           <input
             readOnly
             type="text"
-            value={demande.nom || ""}
-            onChange={(e) =>
-              handleFieldChange(
-                { target: { name: "nom", value: e.target.value } },
-                index
-              )
-            }
+            title={selectedNom || ""}
+            value={selectedNom || ""}
             onClick={() => toggleSection("nom")}
           />
         </div>
         <div className="form-group">
-          <label>Type</label>
+          <label>Dosage</label>
           <input
             data-toggle="tooltip"
             data-placement="bottom"
-            title={selectedType || ""}
+            title={selectedDosage || ""}
             type="text"
             id="textInput"
-            name="type"
-            value={selectedType || ""}
+            name="Dosage"
+            value={selectedDosage || ""}
             readOnly
-            onClick={() => toggleSection("type")}
+            onClick={() => toggleSection("Dosage")}
+          />
+        </div>
+        <div className="form-group">
+          <label>Forme pharmaceutique</label>
+          <input
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title={selectedFormepharmaceutique || ""}
+            type="text"
+            id="textInput"
+            name="Formepharmaceutique"
+            value={selectedFormepharmaceutique || ""}
+            readOnly
+            onClick={() => toggleSection("Formepharmaceutique")}
           />
         </div>
 
@@ -189,23 +188,40 @@ export default function Demande({
             />
           </div>
         </div>
+
+        <div className="form-group">
+          <label>Ordonnance</label>
+          <input
+            readOnly
+            type="text"
+            name="Ordonnance"
+            value={selectedOrdonnance || ""}
+            onChange={(e) =>
+              handleFieldChange(
+                { target: { name: "Ordonnance", value: e.target.value } },
+                index
+              )
+            }
+            onClick={() => toggleSection("Ordonnance")}
+          />
+        </div>
       </form>
 
       <div className="fillers">
         <div
           className={`select-slider-container ${
-            activeSection === "type" ? "active" : ""
+            activeSection === "Dosage" ? "active dosage" : ""
           }`}
         >
-          <label htmlFor="type-select">Type</label>
+          <label htmlFor="Dosage-select">Dosage</label>
           <div className="custom-select-wrapper">
             <div className="custom-select">
               <div className="scrollable-list">
-                {typeOptions.map((option) => (
+                {DosageOptions.map((option) => (
                   <div
                     key={option}
                     className="list-item"
-                    onClick={() => handleItemClick("type", option)}
+                    onClick={() => handleItemClick("Dosage", option)}
                   >
                     {option}
                   </div>
@@ -214,21 +230,55 @@ export default function Demande({
             </div>
           </div>
         </div>
-        <div className={activeSection === "nom" ? "active" : ""}>
-          <input
-            type="text"
-            name="nom"
-            placeholder="Nom"
-            value={demande.nom || ""}
-            onChange={(e) =>
-              handleFieldChange(
-                { target: { name: "nom", value: e.target.value } },
-                index
-              )
-            }
-          />
+
+        <div
+          className={`select-slider-container ${
+            activeSection === "nom" ? "active Nom1" : ""
+          }`}
+        >
+          <label htmlFor="nom-select">Nom</label>
+          <div className="custom-select-wrapper">
+            <div className="custom-select">
+              <div className="scrollable-list">
+                {NomOptions.map((option) => (
+                  <div
+                    key={option}
+                    className="list-item"
+                    onClick={() => handleItemClick("nom", option)}
+                  >
+                    {option}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-        <div className={activeSection === "quantity" ? "active" : ""}>
+
+        <div
+          className={`select-slider-container ${
+            activeSection === "Formepharmaceutique" ? "active formph" : ""
+          }`}
+        >
+          <label htmlFor="nom-select">Forme pharmaceutique</label>
+          <div className="custom-select-wrapper">
+            <div className="custom-select">
+              <div className="scrollable-list">
+                {FormepharmaceutiqueOptions.map((option) => (
+                  <div
+                    key={option}
+                    className="list-item"
+                    onClick={() =>
+                      handleItemClick("Formepharmaceutique", option)
+                    }
+                  >
+                    {option}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={activeSection === "quantity" ? "active qte" : ""}>
           <div className="qt">
             <button className="but" type="button" onClick={decrement}>
               -
@@ -250,6 +300,101 @@ export default function Demande({
               +
             </button>
           </div>
+        </div>
+        <div
+          className={
+            activeSection === "nom" && selectedNom === "autre" ? "active" : ""
+          }
+        >
+          <input
+            type="text"
+            name="nomEd"
+            placeholder="autre nom"
+            value={donation.nom || ""}
+            onChange={(e) =>
+              handleFieldChange(
+                { target: { name: "nom", value: e.target.value } },
+                index
+              )
+            }
+            onBlur={(e) => handleItemClick("nom", e.target.value)}
+          />
+        </div>
+
+        {/* Material UI Radio Buttons */}
+        <div
+          className={`select-slider-container ${
+            activeSection === "Ordonnance" ? "active ordonnance" : ""
+          }`}
+        >
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Ordonnance</FormLabel>
+            <RadioGroup
+              aria-label="Ordonnance"
+              name="ordonnance"
+              value={selectedOrdonnance}
+              onChange={(e) => handleItemClick("Ordonnance", e.target.value)}
+            >
+              {OrdonnanceOptions.map((option) => (
+                <FormControlLabel
+                  key={option}
+                  value={option}
+                  control={<Radio />}
+                  label={option}
+                />
+              ))}
+            </RadioGroup>
+          </FormControl>
+        </div>
+        <div
+          className={
+            activeSection === "Dosage" && selectedDosage === "autre"
+              ? "active"
+              : ""
+          }
+        >
+          <input
+            type="text"
+            name="nomEd"
+            placeholder="autre dosage"
+            value={donation.Dosage || ""}
+            onChange={(e) =>
+              handleFieldChange(
+                { target: { name: "Dosage", value: e.target.value } },
+                index
+              )
+            }
+            onBlur={(e) => handleItemClick("Dosage", e.target.value)}
+          />
+        </div>
+        <div
+          className={
+            activeSection === "Formepharmaceutique" &&
+            selectedFormepharmaceutique === "autre"
+              ? "active"
+              : ""
+          }
+        >
+          <input
+            type="text"
+            name="nomEd"
+            placeholder="autre Forme pharmaceutique"
+            value={donation.Formepharmaceutique || ""}
+            onChange={(e) =>
+              handleFieldChange(
+                {
+                  target: {
+                    name: "Formepharmaceutique",
+                    value: e.target.value,
+                  },
+                },
+                index
+              )
+            }
+            onBlur={(e) =>
+              handleItemClick("Formepharmaceutique", e.target.value)
+            }
+          />
         </div>
       </div>
     </div>

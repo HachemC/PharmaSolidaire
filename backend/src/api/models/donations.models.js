@@ -4,11 +4,12 @@ const Schema = mongoose.Schema;
 // Define schema for medications within a donation
 const MedicamentSchema = new Schema({
   nom: { type: String, required: true },
-  type: { type: String, required: true },
+  Formepharmaceutique: { type: String, required: true },
   qte: { type: Number, required: true },
   condition: { type: String, required: true },
   expirationDate: { type: String, required: true },
-  source: { type: String, required: true },
+  Dosage: { type: String, required: true },
+  Raison: { type: String, required: true },
 });
 
 // Define schema for donations

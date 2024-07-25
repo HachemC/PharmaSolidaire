@@ -7,7 +7,7 @@ export default function Head1() {
   const nav = useNavigate();
   return (
     <div className="header-1">
-      <div className="logo">
+      <div className="logo" onClick={() => nav("/")}>
         <PhLogo></PhLogo>
       </div>
       <div className="nav-1">
