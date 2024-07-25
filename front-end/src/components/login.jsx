@@ -3,6 +3,8 @@ import "./login.css";
 import Footer from "./footer";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Head1 from "./head1";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 export default function Login({ setIsAuthenticated }) {
   const [email, setEmail] = useState("");
@@ -34,19 +36,14 @@ export default function Login({ setIsAuthenticated }) {
 
   return (
     <div className="login-body">
-      <div className="t-3">commencez à faire la différence.</div>
-      <div className="icon">
-        <img src={require("../images/1.png")} alt="none" />
+      <div className="head11">
+        <Head1 />
       </div>
-      <form className="forma" onSubmit={handleSubmit}>
-        <div className="t-1">Se connecter </div>
-        <div className="icon-2">
-          <img src={require("../images/icon.png")} alt="none" />
-        </div>
-        <div className="t-2">
-          pas de compte?
-          <span onClick={() => navigate("/register")}>s'inscrire</span>
-        </div>
+      <div className="t-3">
+        Connecter vous et commencez à faire la différence.
+      </div>
+
+      <form className="forma">
         {error && <div className="error-message">{error}</div>}
         <div className="login-inputs">
           <input
@@ -66,8 +63,17 @@ export default function Login({ setIsAuthenticated }) {
             required
           />
         </div>
-        <input className="button-login" type="submit" value="se connecter" />
       </form>
+      <button className="button-login" type="submit" onClick={handleSubmit}>
+        <ArrowForwardIcon
+          style={{ position: "relative", left: "10px", top: "10px" }}
+        />
+        <span className="login-button-text">se connecter</span>
+      </button>
+      <div className="t-2">
+        pas de compte?
+        <span onClick={() => navigate("/register")}>&nbsp; s'inscrire</span>
+      </div>
       <div className="foot1">
         <Footer />
       </div>
