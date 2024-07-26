@@ -161,6 +161,9 @@ const StepperComponent = () => {
       pharmacy: formData.pharmacy,
       adresse: formData.adresse,
       zip: formData.zipCode,
+      tel: formData.tel,
+      email: formData.email,
+
       req: donations.map((donation) => ({
         nom: donation.nom,
         Dosage: donation.Dosage,
@@ -197,7 +200,9 @@ const StepperComponent = () => {
       delegation: formData.delegation,
       pharmacy: formData.pharmacy,
       adresse: formData.adresse,
+      email: formData.email,
       zip: formData.zipCode,
+      tel: formData.tel,
       req: donations.map((donation) => ({
         nom: donation.nom,
         Dosage: donation.Dosage,

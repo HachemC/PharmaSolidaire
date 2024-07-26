@@ -100,6 +100,16 @@
   margin-right: 2rem;
   cursor: pointer;
 }
+
+@keyframes upDown {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
 .illust-flesh {
   height: 40px;
   width: 37px;
@@ -108,7 +118,9 @@
   grid-row: 4 / 6;
 
   align-self: center;
+  animation: upDown 2s infinite;
 }
+
 .illust-cure {
   background-image: url("../images/cure.svg");
   background-size: cover;

@@ -410,7 +410,7 @@ export function Register() {
       <div className="backarrow" onClick={() => navigate("/")}>
         <ArrowBackIcon />
       </div>
-      <form className="register-form-container" onSubmit={handleSubmit}>
+      <form className="register-form-container">
         <div className="c1">
           <input
             type="text"
@@ -516,15 +516,15 @@ export function Register() {
             <LocationOnIcon />
           </button>
         </div>
-        <div className="c10">
-          <button type="submit" className="c10-1">
-            <PersonAddAltIcon
-              style={{ position: "relative", top: "1px", left: "11px" }}
-            />
-            S'inscrire
-          </button>
-        </div>
-      </form>
+      </form>{" "}
+      <div className="c10">
+        <button type="submit" onClick={handleSubmit} className="c10-1">
+          <PersonAddAltIcon
+            style={{ position: "relative", top: "1px", left: "11px" }}
+          />
+          S'inscrire
+        </button>
+      </div>
       <div className="footReg">
         <Footer />
       </div>

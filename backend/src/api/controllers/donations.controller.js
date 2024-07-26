@@ -63,7 +63,31 @@ const DonationController = {
         } catch (error) {
             res.status(500).json({ message: error.message }); // Handle server errors
         }
-    }
-};
+    },
+    
+        getDonationsByLocation: async (req, res) => {
+          const { ville, delegation, pharmacy } = req.query;
+      
+          try {
+            // Ensure field names match the database schema
+            const query = { ville, delegation, pharmacy };
+      
+            console.log("Query: ", query); // Log to debug
+            const donations = await Donation.find(query);
+      
+            if (donations.length > 0) {
+              console.log("Donations found:", donations);
+              res.status(200).json(donations);
+            } else {
+              res.status(404).json({ message: 'No donations found for this location.' });
+            }
+          } catch (error) {
+            console.error("Error fetching donations:", error);
+            res.status(500).json({ message: error.message });
+          }
+        }
+      };
+
+
 
 module.exports = DonationController;

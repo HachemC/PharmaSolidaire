@@ -37,6 +37,7 @@ module.exports = app => {
   router.get('/donations/:id', donationController.getDonationById); // Get a specific Donation by ID
   router.put('/donations/update/:id', donationController.updateDonation); // Update a specific Donation by ID
   router.delete('/donations/delete/:id', donationController.deleteDonation); // Delete a specific Donation by ID
+  router.get('/donationsloc', donationController.getDonationsByLocation);
 
   // Demande routes
   router.post('/demandes/create', demandeController.createDemande); // Create a new demande

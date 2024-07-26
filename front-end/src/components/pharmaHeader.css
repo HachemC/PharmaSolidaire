@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+.headerPh {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: white;
+  border-bottom: solid 1px;
+  border-color: #005c4b;
+  color: #222222;
+  font-family: "Calibri";
+  font-weight: bold;
+  height: 70px;
+}
+
+.logo img {
+  height: 14.25rem;
+  width: 16.25rem;
+}
+
+.navPh {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+}
+
+.ulPh {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.ulPh li {
+  margin: 0 10px;
+}
+
+.ulPh {
+  margin-right: 76px;
+}
+.sign {
+  color: #005c4b;
+}
