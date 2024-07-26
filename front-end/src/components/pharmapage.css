@@ -1,12 +1,14 @@
 .pharmacien-body {
   display: grid;
-  grid-template-rows: repeat(7, 1fr);
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto 1fr auto; /* Adjust to fit content */
+  grid-template-columns: 1fr;
+  height: 105vh;
 }
+
 .head3 {
-  grid-column: 1 / 13;
-  height: fit-content;
+  grid-column: 1 / -1;
 }
+
 .logoutbutton {
   background-color: transparent;
   border: none;
@@ -16,8 +18,8 @@
 .donationcard-container {
   display: flex;
   gap: 20px;
-  /* margin-top: 3rem; */
-  grid-column: 2/11;
+  margin-top: 6rem;
+  grid-column: 1 / 8;
   grid-row: 2 / 5;
   justify-self: center;
 }
@@ -62,12 +64,13 @@
   color: #f44336;
 }
 .pagination-controls {
-  grid-row: 3 / 8;
   display: flex;
   /* justify-self: center; */
-  align-self: center;
-  grid-column: 6;
+
   height: fit-content;
+  position: relative;
+  top: 4rem;
+  left: 33rem;
 }
 .pagination-controls button {
   width: 39px;
@@ -83,4 +86,67 @@
   margin-left: 10px;
   font-size: 20;
   color: #005c4b;
+}
+
+.button-container {
+  grid-column: 1 / 3;
+  grid-row: 2;
+  margin-top: 2rem;
+  justify-self: center;
+  display: flex;
+  height: -moz-fit-content;
+  height: fit-content;
+  border: solid 1px;
+  width: 404px;
+  border-radius: 31px;
+}
+
+.Listedon,
+.Listedemande {
+  cursor: pointer;
+}
+
+.Listedon {
+  height: 35px;
+  width: 172px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-left: 4px;
+  border: none;
+  background-color: transparent;
+
+  border-radius: 21px;
+}
+.Listedemande {
+  width: 214px;
+  background-color: transparent;
+  border: none;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-left: 4px;
+  border: none;
+  border-radius: 21px;
+}
+.active-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.fade-enter {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+.fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+}
+.fade-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+.fade-exit-active {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
 }
