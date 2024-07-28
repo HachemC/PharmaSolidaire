@@ -110,6 +110,7 @@ export default function Demandesdisplay() {
                 <p>Nom de médicament: {demande.nomMedicament}</p>
                 <p>Forme pharmaceutique: {demande.Formepharmaceutique}</p>
                 <p>Quantité: {demande.qte}</p>
+                <p>Dosage: {demande.Dosage}</p>
                 <p>Ordonnance: {demande.ordonnance}</p>
                 <p>
                   Statut du stock: <strong>{demande.stockStatus}</strong>
@@ -119,18 +120,29 @@ export default function Demandesdisplay() {
                 )} */}
               </div>
               <div className="card-buttons">
-                <button
-                  onClick={() => handleAccept(demande._id)}
-                  className="accept-button"
-                >
-                  Accepter
-                </button>
-                <button
-                  onClick={() => handleRefuse(demande._id)}
-                  className="refuse-button"
-                >
-                  Refuser
-                </button>
+                {demande.stockStatus === "En Stock" ? (
+                  <>
+                    <button
+                      onClick={() => handleAccept(demande._id)}
+                      className="accept-button"
+                    >
+                      Accepter
+                    </button>
+                    <button
+                      onClick={() => handleRefuse(demande._id)}
+                      className="refuse-button"
+                    >
+                      Refuser
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    onClick={() => handleRefuse(demande._id)}
+                    className="refuse-button"
+                  >
+                    Refuser
+                  </button>
+                )}
               </div>
             </div>
           ))

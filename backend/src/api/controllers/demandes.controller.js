@@ -128,34 +128,64 @@ const DemandeController = {
     },
  
 
-  acceptDemande: async (req, res) => {
-    try {
-      const demandeId = req.params.id;
-      console.log(`Attempting to accept demande with ID: ${demandeId}`);
-
-      const demande = await Demande.findById(demandeId);
-      if (!demande) {
-        console.error(`Demande not found for ID: ${demandeId}`);
-        return res.status(404).json({ error: 'Demande not found' });
+    acceptDemande: async (req, res) => {
+      try {
+        const demandeId = req.params.id;
+        console.log(`Attempting to accept demande with ID: ${demandeId}`);
+    
+        // Find the demande by ID
+        const demande = await Demande.findById(demandeId);
+        if (!demande) {
+          console.error(`Demande not found for ID: ${demandeId}`);
+          return res.status(404).json({ error: 'Demande not found' });
+        }
+    
+        // Find the corresponding medicament by its details
+        const medicament = await Medicament.findOne({
+          nomMedicament: demande.nomMedicament,
+          Dosage: demande.Dosage,
+          Formepharmaceutique: demande.Formepharmaceutique,
+        });
+    
+        if (!medicament) {
+          console.error('Medicament not found for the demande');
+          return res.status(404).json({ error: 'Medicament not found' });
+        }
+    
+        if (medicament.qte < demande.qte) {
+          console.error('Not enough stock for the demande');
+          return res.status(400).json({ error: 'Insufficient stock' });
+        }
+    
+        // Update the stock quantity
+        medicament.qte -= demande.qte;
+    
+        // Check if the stock is depleted
+        if (medicament.qte <= 0) {
+          console.log(`Deleting medicament with ID: ${medicament._id} as stock is zero`);
+          await Medicament.findByIdAndDelete(medicament._id);
+        } else {
+          await medicament.save(); // Save the updated medicament
+        }
+    
+        // Create a new treated demande using the existing demande data
+        const treatedDemande = new TreatedDemande(demande.toObject());
+        treatedDemande.traited = true;
+        treatedDemande.confirmed = true;
+    
+        console.log(`Saving treated demande with ID: ${treatedDemande._id}`);
+        await treatedDemande.save();
+    
+        console.log(`Deleting original demande with ID: ${demandeId}`);
+        await Demande.findByIdAndDelete(demandeId);
+    
+        res.json({ message: 'Demande accepted and stock updated' });
+      } catch (error) {
+        console.error(`Error accepting demande: ${error.message}`);
+        res.status(500).json({ error: 'Internal Server Error' });
       }
-
-      // Create a new treated demande using the existing demande data
-      const treatedDemande = new TreatedDemande(demande.toObject());
-      treatedDemande.traited = true;
-      treatedDemande.confirmed = true;
-
-      console.log(`Saving treated demande with ID: ${treatedDemande._id}`);
-      await treatedDemande.save();
-
-      console.log(`Deleting original demande with ID: ${demandeId}`);
-      await Demande.findByIdAndDelete(demandeId);
-
-      res.json({ message: 'Demande accepted and moved to treated demandes' });
-    } catch (error) {
-      console.error(`Error accepting demande: ${error.message}`);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  },
+    },
+    
   refuseDemande: async (req, res) => {
     try {
       const demandeId = req.params.id;
