@@ -2,7 +2,7 @@
   display: grid;
   grid-template-rows: auto 1fr auto; /* Adjust to fit content */
   grid-template-columns: 1fr;
-  height: 105vh;
+  height: 90vh;
 }
 
 .head3 {
@@ -43,6 +43,7 @@
   position: relative;
   top: 89px;
   left: 95px;
+  width: fit-content;
 }
 
 .accept-button,
@@ -68,9 +69,7 @@
   /* justify-self: center; */
 
   height: fit-content;
-  position: relative;
-  top: 4rem;
-  left: 33rem;
+  margin-top: 1rem;
 }
 .pagination-controls button {
   width: 39px;
@@ -149,4 +148,34 @@
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+}
+.toutestcalm {
+  grid-column: 1 / 11;
+  grid-row: 2 / 11;
+  background-image: url("../images/pharmacist.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  justify-self: center;
+  align-self: center;
+  height: 420.04px;
+  width: 558px;
+  margin-top: 1.313rem;
+}
+.nopage {
+  display: none;
+}
+.navbuttonscontainer {
+  margin-top: 6rem;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+.demande-buttons {
+  margin-top: 10px;
+  position: relative;
+  top: 221px;
+  left: 95px;
+
+  width: fit-content;
 }

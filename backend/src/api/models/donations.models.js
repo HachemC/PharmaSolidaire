@@ -1,18 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Define schema for medications within a donation
-const MedicamentSchema = new Schema({
-  nom: { type: String, required: true },
-  Formepharmaceutique: { type: String, required: true },
-  qte: { type: Number, required: true },
-  condition: { type: String, required: true },
-  expirationDate: { type: String, required: true },
-  Dosage: { type: String, required: true },
-  Raison: { type: String, required: true },
-});
-
-// Define schema for donations
 const DonationSchema = new Schema({
   represent: {
     type: String,
@@ -38,7 +26,14 @@ const DonationSchema = new Schema({
     }
   },
   UserID: { type: Schema.Types.ObjectId, ref: 'User' },
-  req: [MedicamentSchema], // Array of medications
+  nomMedicament: { type: String, required: true },
+  Formepharmaceutique: { type: String, required: true },
+  qte: { type: Number, required: true },
+  condition: { type: String, required: true },
+  expirationDate: { type: String, required: true },
+  Dosage: { type: String, required: true },
+  Raison: { type: String, required: true },
+  status: { type: String, default: 'pending' },
   traited: { type: Boolean, default: false },
   confirmed: { type: Boolean, default: false }
 }, { timestamps: true });

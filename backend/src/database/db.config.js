@@ -17,6 +17,5 @@ mongoose.connect(config.DB_URL, { useUnifiedTopology: true })
 db.mongoose = mongoose;
 db.url = config.DB_URL;
 db.users = require('../api/models/users.models.js')(mongoose);
-db.particuliers = require('../api/models/particuliers.models.js'); // Import the model
 
 module.exports = db;

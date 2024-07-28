@@ -41,10 +41,13 @@ export default function Pharmapage({ onLogout }) {
           )}
           {activeComponent === "demandes" && (
             <CSSTransition key="demandes" timeout={200} classNames="fade">
-              <Donationsdisplay />
+              <Demandesdisplay />
             </CSSTransition>
           )}
         </TransitionGroup>
+      </div>
+      <div className="foot2">
+        <Footer></Footer>
       </div>
     </div>
   );

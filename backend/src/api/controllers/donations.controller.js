@@ -1,13 +1,28 @@
 const Donation = require('../models/donations.models'); // Import the Donation model
-
+const TreatedDonation = require('../models/treateddonations.model');
+const Medicament = require('../models/medicament.model');
 const DonationController = {
     createDonation: async (req, res) => {
         try {
-            const donation = new Donation(req.body); // Create a new Donation instance
+            const { donations, ...formData } = req.body;
 
-            await donation.save(); // Save the donation to MongoDB
+          
+            const createdDonations = await Promise.all(donations.map(async (medicament) => {
+                const newDonation = new Donation({
+                    ...formData,
+                    nomMedicament: medicament.nom,
+                    Dosage: medicament.Dosage,
+                    Formepharmaceutique: medicament.Formepharmaceutique,
+                    qte: medicament.quantity,
+                    condition: medicament.condition,
+                    expirationDate: medicament.expirationDate,
+                    Raison: medicament.Raison,
+                });
 
-            res.status(201).json(donation); // Respond with the created donation data
+                return await newDonation.save();
+            }));
+
+            res.status(201).json(createdDonations); // Respond with the created donations data
         } catch (error) {
             res.status(400).json({ message: error.message }); // Handle validation or server errors
         }
@@ -85,7 +100,72 @@ const DonationController = {
             console.error("Error fetching donations:", error);
             res.status(500).json({ message: error.message });
           }
-        }
+        },
+        acceptDonations: async (req, res) => {
+            try {
+              const donationId = req.params.id;
+              const donation = await Donation.findById(donationId);
+        
+              if (!donation) {
+                return res.status(404).json({ error: 'Donation not found' });
+              }
+        
+              // Create a new treated donation using the existing donation data
+              const treatedDonation = new TreatedDonation(donation.toObject());
+              treatedDonation.traited = true;
+              treatedDonation.confirmed = true;
+    
+                // Create a new Medicament entry with the same data
+            const medicament = new Medicament({
+                nomMedicament: donation.nomMedicament,
+                Dosage: donation.Dosage,
+                Formepharmaceutique: donation.Formepharmaceutique,
+                qte: donation.qte,
+                condition: donation.condition,
+                expirationDate: donation.expirationDate,
+                ville: donation.ville,
+    delegation: donation.delegation,
+    NomPharmacie: donation.pharmacy,
+            });
+
+            // Save the treated donation and medicament, then delete the original donation
+                await Promise.all([
+                    treatedDonation.save(),
+                    medicament.save(),
+                    Donation.findByIdAndDelete(donationId)
+                ]);
+    
+                res.status(200).json({ message: 'Donation accepted and medicament added to the database' });
+            } catch (error) {
+                console.error("Error in acceptDonations:", error); // Debugging line
+              res.status(500).json({ error: 'Error accepting donation' });
+            }
+          },
+        
+        refuseDonations: async (req, res) => {
+            try {
+              const donationId = req.params.id;
+              const donation = await Donation.findById(donationId);
+        
+              if (!donation) {
+                return res.status(404).json({ error: 'Donation not found' });
+              }
+        
+              // Create a new treated donation using the existing donation data
+              const treatedDonation = new TreatedDonation(donation.toObject());
+              treatedDonation.traited = true;
+              treatedDonation.confirmed = false;
+        
+              // Save the treated donation and delete the original donation
+              await treatedDonation.save();
+              await Donation.findByIdAndDelete(donationId);
+        
+              res.json({ message: 'Donation accepted and moved to treated donations' });
+            } catch (error) {
+              res.status(500).json({ error: 'Error accepting donation' });
+            }
+          },
+        
       };
 
 

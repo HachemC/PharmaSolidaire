@@ -163,24 +163,11 @@ const StepperComponent = () => {
       zip: formData.zipCode,
       tel: formData.tel,
       email: formData.email,
-
-      req: donations.map((donation) => ({
-        nom: donation.nom,
-        Dosage: donation.Dosage,
-        Formepharmaceutique: donation.Formepharmaceutique,
-        qte: donation.quantity,
-        condition: donation.condition,
-        expirationDate: donation.expirationDate,
-        source: donation.source,
-        Raison: donation.Raison,
-      })),
     };
-
     setShowMerci(true);
-
     try {
       const url = "http://localhost:3000/api/donations/create";
-      const response = await axios.post(url, requestData);
+      const response = await axios.post(url, { donations, ...requestData });
       console.log("Request created successfully:", response.data);
     } catch (error) {
       console.error("Error creating request:", error);
@@ -200,24 +187,25 @@ const StepperComponent = () => {
       delegation: formData.delegation,
       pharmacy: formData.pharmacy,
       adresse: formData.adresse,
-      email: formData.email,
       zip: formData.zipCode,
       tel: formData.tel,
-      req: donations.map((donation) => ({
+      email: formData.email,
+      donations: donations.map((donation) => ({
         nom: donation.nom,
-        Dosage: donation.Dosage,
-        qte: donation.quantity,
         Formepharmaceutique: donation.Formepharmaceutique,
-        Ordonnance: donation.Ordonnance,
+        Dosage: donation.Dosage,
+        quantity: donation.quantity,
+        ordonnance: donation.Ordonnance,
       })),
     };
 
     try {
       const url = "http://localhost:3000/api/demandes/create";
       const response = await axios.post(url, requestData);
-      console.log("Request created successfully:", response.data);
+      console.log("Demande created successfully:", response.data);
+      // Handle successful response, e.g., show a confirmation message or navigate to another page
     } catch (error) {
-      console.error("Error creating request:", error);
+      console.error("Error creating demande:", error);
       if (error.response) {
         console.log("Server responded with:", error.response.data);
       } else {

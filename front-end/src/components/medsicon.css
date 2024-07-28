@@ -1,9 +1,3 @@
-.right {
-  display: flex;
-  top: 7rem;
-  flex-direction: row-reverse;
-  position: relative;
-}
 .right1 {
   height: fit-content;
   width: fit-content;
