@@ -76,58 +76,57 @@ const DemandeController = {
     }
   },
 
-  getDemandesByLocation: async (req, res) => {
-    try {
-      const { ville, delegation, pharmacy } = req.query;
-      console.log("Query Parameters:", req.query);
+    getDemandesByLocation: async (req, res) => {
+      try {
+        const { ville, delegation, pharmacy } = req.query;
   
-      // Ensure the field names match your schema
-      const query = { ville, delegation, pharmacy };
-      
-      // Log the query for debugging
-      console.log("Database Query:", query);
+        const demandes = await Demande.find({ ville, delegation, pharmacy });
   
-      const demandes = await Demande.find(query);
+        if (!demandes || demandes.length === 0) {
+          return res.status(404).json({ message: "No demandes found." });
+        }
   
-      if (!demandes || demandes.length === 0) {
-        console.log("No demandes found for query:", query);
-        return res.status(404).json({ message: "No demandes found." });
+        const demandesWithStockStatus = await Promise.all(
+          demandes.map(async (demande) => {
+            try {
+              const { nomMedicament, Dosage, Formepharmaceutique } = demande;
+              const medicament = await Medicament.findOne({
+                nomMedicament,
+                Dosage,
+                Formepharmaceutique,
+              });
+  
+              const stockStatus = medicament && medicament.qte > 0 
+                ? 'En Stock' 
+                : 'Hors Stock';
+  
+              const medicamentAddress = medicament && medicament.qte > 0
+                ? `ville:${medicament.ville}-delegation:${medicament.delegation}-pharmacie ${medicament.NomPharmacie}`
+                : null;
+  
+              return {
+                ...demande.toObject(),
+                stockStatus,
+                medicamentAddress,
+              };
+            } catch (innerError) {
+              console.error("Error finding medicament:", innerError);
+              return {
+                ...demande.toObject(),
+                stockStatus: 'Unknown',
+                medicamentAddress: null,
+              };
+            }
+          })
+        );
+  
+        res.json(demandesWithStockStatus);
+      } catch (error) {
+        console.error("Error fetching demandes:", error);
+        res.status(500).json({ message: "Internal server error", error: error.message });
       }
-  
-      // Add stock status if needed
-      const demandesWithStockStatus = await Promise.all(
-        demandes.map(async (demande) => {
-          try {
-            const { nomMedicament, Dosage, Formepharmaceutique, qte } = demande;
-  
-            const medicament = await Medicament.findOne({
-              nomMedicament,
-              Dosage,
-              Formepharmaceutique,
-            });
-  
-            return {
-              ...demande.toObject(),
-              stockStatus: medicament && medicament.qte >= demande.qte ? 'En Stock' : 'Hors Stock',
-            };
-          } catch (innerError) {
-            console.error("Error finding medicament:", innerError);
-            return {
-              ...demande.toObject(),
-              stockStatus: 'Unknown',
-            };
-          }
-        })
-      );
-  
-      res.json(demandesWithStockStatus);
-    } catch (error) {
-      console.error("Error fetching demandes:", error);
-      res.status(500).json({ message: "Internal server error", error: error.message });
-    }
-  },
-  
-  
+    },
+ 
 
   acceptDemande: async (req, res) => {
     try {

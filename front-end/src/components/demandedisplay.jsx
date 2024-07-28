@@ -28,7 +28,7 @@ export default function Demandesdisplay() {
           },
         })
         .then((response) => {
-          setDemandes(response.data || []); // Ensure demandes is an array
+          setDemandes(response.data || []);
         })
         .catch((error) => {
           console.error("Error fetching demandes:", error);
@@ -61,7 +61,7 @@ export default function Demandesdisplay() {
   const handleRefuse = (demandeId) => {
     axios
       .post(
-        `http://localhost:3000/api/donations/${demandeId}/refuse`,
+        `http://localhost:3000/api/demandes/${demandeId}/refuse`,
         {},
         {
           headers: {
@@ -76,11 +76,10 @@ export default function Demandesdisplay() {
         );
       })
       .catch((error) => {
-        console.error("Error accepting demande:", error);
+        console.error("Error refusing demande:", error);
       });
   };
 
-  // Calculate pagination
   const totalPages = Math.ceil(demandes.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -113,11 +112,11 @@ export default function Demandesdisplay() {
                 <p>Quantité: {demande.qte}</p>
                 <p>Ordonnance: {demande.ordonnance}</p>
                 <p>
-                  Adresse de don: {demande.ville} - {demande.delegation}
-                </p>
-                <p>
                   Statut du stock: <strong>{demande.stockStatus}</strong>
-                </p>
+                </p>{" "}
+                {/* {demande.medicamentAddress && (
+                  <p> {demande.medicamentAddress}</p>
+                )} */}
               </div>
               <div className="card-buttons">
                 <button
@@ -140,7 +139,6 @@ export default function Demandesdisplay() {
         )}
       </div>
 
-      {/* Pagination Controls */}
       <div className="navbuttonscontainer">
         <div
           className={`${
