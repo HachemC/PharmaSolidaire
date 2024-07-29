@@ -45,6 +45,23 @@
   left: 95px;
   width: fit-content;
 }
+.card-buttons-demande {
+  margin-top: 10px;
+  position: relative;
+  top: 130px;
+  left: 95px;
+  width: fit-content;
+}
+.mailiconDemande {
+  background-color: rgb(23, 154, 147, 0.1);
+  width: 44px;
+  justify-content: center;
+  height: 34px;
+  margin-left: 5px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 0 5px #333333;
+}
 
 .accept-button,
 .refuse-button {
@@ -66,6 +83,7 @@
 }
 .pagination-controls {
   display: flex;
+
   /* justify-self: center; */
 
   height: fit-content;
@@ -73,7 +91,7 @@
 }
 .pagination-controls button {
   width: 39px;
-  height: 20px;
+  height: 29px;
   background-color: #005c4b;
   border: none;
 }
@@ -178,4 +196,10 @@
   left: 95px;
 
   width: fit-content;
+}
+.greencard {
+  background-color: rgb(23, 154, 147, 0.1);
+}
+.redcard {
+  background-color: rgb(244, 67, 54, 0.1);
 }

@@ -1,7 +1,7 @@
 const Demande = require('../models/demandes.models');
 const TreatedDemande = require('../models/treatedDemandes.model');
 const Medicament = require('../models/medicament.model');
-
+const nomOptions = [ "2", "3", "dose 4", "dose 5 ", "dose 6"];
 
 const DemandeController = {
   createDemande: async (req, res) => {
@@ -10,6 +10,12 @@ const DemandeController = {
 
       // Create and save each donation as a separate Demande document
       const createdDemandes = await Promise.all(donations.map(async (donation) => {
+        let type = 'medicament';
+        if (!nomOptions.includes(donation.nom)) {
+          type = 'autre';
+        }
+
+
         const newDemande = new Demande({
           ...formData,
           nomMedicament: donation.nom,
@@ -17,6 +23,7 @@ const DemandeController = {
           qte: donation.quantity,
           ordonnance: donation.ordonnance,
           Dosage: donation.Dosage,
+          type,
         });
 
         return await newDemande.save();
@@ -96,7 +103,7 @@ const DemandeController = {
                 Formepharmaceutique,
               });
   
-              const stockStatus = medicament && medicament.qte > 0 
+              const stockStatus = medicament && medicament.qte > demande.qte
                 ? 'En Stock' 
                 : 'Hors Stock';
   

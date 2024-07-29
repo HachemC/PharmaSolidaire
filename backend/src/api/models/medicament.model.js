@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const medicamentSchema = new mongoose.Schema({
     nomMedicament: { type: String, required: true },
     Dosage: { type: String, required: true },
+    type: { type: String, required: true },
+    
     Formepharmaceutique: { type: String, required: true },
     qte: { type: Number, required: true },
     condition: { type: String, required: true },

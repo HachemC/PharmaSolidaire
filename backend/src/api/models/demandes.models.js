@@ -20,12 +20,19 @@ const DemandeSchema = new Schema({
     validate: {
       validator: function(v) {
         return /^[0-9]{4}$/.test(v.toString());
+        
       },
       message: props => `${props.value} n'est pas un code postal valide.`
     }
   },
+  type: {
+    type: String,
+    enum: ['medicament', 'autre'],
+    required: true
+  },
   UserID: { type: Schema.Types.ObjectId, ref: 'User' },
   nomMedicament: { type: String, required: true },
+
   Formepharmaceutique: { type: String, required: true },
   qte: { type: Number, required: true },
   ordonnance: { type: String, required: true },

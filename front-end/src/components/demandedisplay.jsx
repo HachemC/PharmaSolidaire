@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import "./pharmapage.css";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import MailIcon from "@mui/icons-material/Mail";
 
 export default function Demandesdisplay() {
   const [demandes, setDemandes] = useState([]);
@@ -102,8 +103,15 @@ export default function Demandesdisplay() {
       <div className="donationcard-container">
         {currentDemandes.length > 0 ? (
           currentDemandes.map((demande) => (
-            <div key={demande._id} className="donation-card">
-              <p>Donateur: {demande.nom}</p>
+            <div
+              key={demande._id}
+              className={`donation-card  ${
+                demande.stockStatus === "En Stock" ? "greencard" : "redcard"
+              }`}
+            >
+              <p>association: {demande.nom}</p>
+              <p>type: {demande.type}</p>
+
               <p>Téléphone: {demande.tel}</p>
               <p>Email: {demande.email}</p>
               <div className="medication-details">
@@ -115,11 +123,8 @@ export default function Demandesdisplay() {
                 <p>
                   Statut du stock: <strong>{demande.stockStatus}</strong>
                 </p>{" "}
-                {/* {demande.medicamentAddress && (
-                  <p> {demande.medicamentAddress}</p>
-                )} */}
               </div>
-              <div className="card-buttons">
+              <div className="card-buttons-demande">
                 {demande.stockStatus === "En Stock" ? (
                   <>
                     <button
@@ -143,6 +148,19 @@ export default function Demandesdisplay() {
                     Refuser
                   </button>
                 )}
+                <button className="mailiconDemande">
+                  {" "}
+                  <MailIcon
+                    style={{
+                      color: "#179a93",
+                      cursor: "pointer",
+                      width: "28px",
+                      height: "24px",
+                      border: "none",
+                      backgroundColor: "transparent",
+                    }}
+                  />
+                </button>
               </div>
             </div>
           ))
@@ -166,7 +184,7 @@ export default function Demandesdisplay() {
               style={{
                 color: "white",
                 position: "relative",
-                left: "2px",
+                left: "-4px",
                 top: "-4px",
                 width: "26px",
               }}

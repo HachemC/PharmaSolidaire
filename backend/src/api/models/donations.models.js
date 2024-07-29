@@ -25,6 +25,11 @@ const DonationSchema = new Schema({
       message: props => `${props.value} n'est pas un code postal valide.`
     }
   },
+  type: {
+    type: String,
+    enum: ['medicament', 'autre'],
+    required: true
+  },
   UserID: { type: Schema.Types.ObjectId, ref: 'User' },
   nomMedicament: { type: String, required: true },
   Formepharmaceutique: { type: String, required: true },

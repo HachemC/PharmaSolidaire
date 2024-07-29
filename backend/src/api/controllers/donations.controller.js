@@ -1,15 +1,22 @@
 const Donation = require('../models/donations.models'); // Import the Donation model
 const TreatedDonation = require('../models/treateddonations.model');
 const Medicament = require('../models/medicament.model');
+const nomOptions = [ "2", "3", "dose 4", "dose 5 ", "dose 6"];
 const DonationController = {
+    
     createDonation: async (req, res) => {
         try {
             const { donations, ...formData } = req.body;
-
+           
           
-            const createdDonations = await Promise.all(donations.map(async (medicament) => {
+            const createdDonations = await Promise.all(donations.map(async (medicament) => { 
+                let type = 'medicament';
+            if (!nomOptions.includes(medicament.nom)) {
+              type = 'autre';
+            }
                 const newDonation = new Donation({
                     ...formData,
+                    type,
                     nomMedicament: medicament.nom,
                     Dosage: medicament.Dosage,
                     Formepharmaceutique: medicament.Formepharmaceutique,
@@ -126,6 +133,7 @@ const DonationController = {
                 ville: donation.ville,
     delegation: donation.delegation,
     NomPharmacie: donation.pharmacy,
+    type:donation.type
             });
 
             // Save the treated donation and medicament, then delete the original donation

@@ -4,6 +4,7 @@ module.exports = app => {
   const donationController = require('../controllers/donations.controller');
   const DemandeController = require('../controllers/demandes.controller'); 
   const locationController = require('../controllers/locations.controller');
+  const { getAllMedicaments } = require('../controllers/medicaments.controller');
 
 
   // User routes
@@ -49,7 +50,8 @@ router.get('/delegations/:city', getDelegations);
 router.get('/pharmacies/:delegation', getPharmacies);
 
 
-  
+  // Route to get all medicaments
+router.get('/medicaments', getAllMedicaments);
 
   app.use('/api', router);
 };

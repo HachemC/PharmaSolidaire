@@ -46,7 +46,7 @@ export default function Pharmapage({ onLogout }) {
           )}
         </TransitionGroup>
       </div>
-      <div className="foot2">
+      <div className="foot4">
         <Footer></Footer>
       </div>
     </div>

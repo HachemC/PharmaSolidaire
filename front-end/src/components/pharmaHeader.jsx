@@ -23,8 +23,8 @@ export default function PharmaHeader({ onLogout }) {
       </div>
       <div className="navPh">
         <ul className="ulPh">
-          <li>Dons & demandes</li>
-          <li>Liste des médicaments</li>
+          <li onClick={() => navigate("/pharmapage")}>Dons & demandes</li>
+          <li onClick={() => navigate("/listmeds")}>Liste des médicaments</li>
           <li>
             {" "}
             <input

@@ -1,0 +1,170 @@
+/* src/pharmapage.css */
+table {
+  border-collapse: separate;
+  border-spacing: 0 15px;
+  width: 1500px;
+  margin: auto;
+  grid-column: 1 / 12;
+  grid-row: 3;
+  margin-left: 4rem;
+}
+
+th {
+  background-color: transparent; /* Remove background color */
+  color: #333333; /* Change text color if needed */
+  text-align: center;
+  padding: 5px;
+  border: none; /* Remove border */
+}
+
+td {
+  width: 220px;
+  text-align: center;
+  border: 2px solid #179a93; /* Border for table cells */
+  padding: 5px;
+}
+
+/* Optional: If you need to remove right border for certain cells */
+.geeks {
+  border-right: hidden;
+}
+
+/* Adjust pagination styling */
+.paginationButtons {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.page-item {
+  margin: 0 5px;
+}
+
+.page-link {
+  padding: 5px 10px;
+  text-decoration: none;
+}
+
+.previousButton2,
+.nextButton2 {
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: #179a93;
+}
+
+.paginationDisabled {
+  cursor: not-allowed;
+}
+
+.paginationActive {
+  font-weight: bold;
+}
+.listmedsbody {
+  display: grid;
+  grid-template-columns: repeat(12, auto);
+  grid-template-rows: repeat(3, auto);
+  height: 100vh;
+}
+.navbuttonscontainer2 {
+  margin-top: 2rem;
+  display: flex;
+  grid-column: 6 / 11;
+  grid-row: 4;
+  justify-content: center;
+}
+.foot4 {
+  grid-column: 1 / 13;
+  grid-row: 3;
+}
+.listtext {
+  grid-column: 7 / 10;
+
+  width: fit-content;
+  height: fit-content;
+  margin-top: 4rem;
+  font-size: 36px;
+  font-family: "Calibri";
+  justify-self: center;
+  grid-row: 1;
+}
+.filtersMeds {
+  grid-column: 1 / 6;
+  grid-row: 2;
+  display: flex;
+  gap: 10px;
+  margin: auto;
+
+  height: fit-content;
+}
+
+.search {
+  margin-top: 20px;
+  margin-left: 34px;
+}
+
+.search-input {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  border-bottom: solid 2px #999999;
+  font-size: 16px;
+  color: #222222;
+
+  width: 200px;
+  height: 30px;
+}
+
+.search-button {
+  background-color: #179a93;
+  border: none;
+  padding: 8px 12px;
+  margin-left: 5px;
+  border-radius: 4px;
+  color: white;
+  width: 37px;
+  height: 37px;
+  cursor: pointer;
+}
+
+.search-button .search-icon {
+  font-size: 20px;
+  color: white;
+}
+.no-results-image {
+  width: 150px; /* Adjust size as needed */
+  height: auto;
+  margin-bottom: 10px;
+}
+.no-results {
+  grid-column: 1 / 13;
+  grid-row: 3 / 4;
+  align-self: center;
+  justify-self: center;
+  text-align: center;
+  color: #333333;
+  font-size: 22px;
+  font-family: "Calibri";
+}
+.articletext {
+  color: #333333;
+  font-size: 22px;
+  font-family: "Calibri";
+}
+.mailicon {
+  background-color: rgb(23, 154, 147, 0.1);
+  width: 64px;
+  justify-content: center;
+  height: 54px;
+  margin-left: 1rem;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #333333;
+}
+.medqte {
+  width: 50px;
+}
+.locationmed {
+  width: 300px;
+}
+.notext {
+  display: none;
+}

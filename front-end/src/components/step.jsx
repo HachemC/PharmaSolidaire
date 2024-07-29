@@ -92,19 +92,84 @@ const StepperComponent = () => {
   ];
 
   const [showMerci, setShowMerci] = useState(false);
-
+  const isFormValid = () => {
+    // Check the required fields for the current step
+    if (currentStep === 0) {
+      return (
+        formData.nom &&
+        formData.email &&
+        formData.adresse &&
+        formData.zipCode &&
+        formData.tel
+      );
+    } else if (currentStep === 1) {
+      return formData.city && formData.delegation && formData.pharmacy;
+    } else if (currentStep === 2) {
+      // Validate each donation item
+      return donations.every(
+        (donation) =>
+          donation.nom &&
+          donation.Dosage &&
+          donation.Formepharmaceutique &&
+          donation.quantity &&
+          donation.expirationDate &&
+          donation.condition &&
+          donation.Raison
+      );
+    }
+    return true; // No validation needed for the last step
+  };
+  const isdemandeValid = () => {
+    // Check the required fields for the current step
+    if (currentStep === 0) {
+      return (
+        formData.nom &&
+        formData.email &&
+        formData.adresse &&
+        formData.zipCode &&
+        formData.tel
+      );
+    } else if (currentStep === 1) {
+      return formData.city && formData.delegation && formData.pharmacy;
+    } else if (currentStep === 2) {
+      // Validate each donation item
+      return donations.every(
+        (donation) =>
+          donation.nom &&
+          donation.Dosage &&
+          donation.Formepharmaceutique &&
+          donation.quantity
+      );
+    }
+    return true; // No validation needed for the last step
+  };
   const handleNext = () => {
-    setCompletedSteps((prevCompletedSteps) => {
-      if (!prevCompletedSteps.includes(currentStep)) {
-        return [...prevCompletedSteps, currentStep];
+    if (clicked && isFormValid()) {
+      setCompletedSteps((prevCompletedSteps) => {
+        if (!prevCompletedSteps.includes(currentStep)) {
+          return [...prevCompletedSteps, currentStep];
+        }
+        return prevCompletedSteps;
+      });
+      setCurrentStep((prevStep) =>
+        prevStep + 1 < steps.length ? prevStep + 1 : prevStep
+      );
+      if (currentStep + 1 === steps.length - 1 && !clicked) {
+        handleDemande();
       }
-      return prevCompletedSteps;
-    });
-    setCurrentStep((prevStep) =>
-      prevStep + 1 < steps.length ? prevStep + 1 : prevStep
-    );
-    if (currentStep + 1 === steps.length - 1 && !clicked) {
-      handleDemande();
+    } else if (!clicked && isdemandeValid()) {
+      setCompletedSteps((prevCompletedSteps) => {
+        if (!prevCompletedSteps.includes(currentStep)) {
+          return [...prevCompletedSteps, currentStep];
+        }
+        return prevCompletedSteps;
+      });
+      setCurrentStep((prevStep) =>
+        prevStep + 1 < steps.length ? prevStep + 1 : prevStep
+      );
+      if (currentStep + 1 === steps.length - 1 && !clicked) {
+        handleDemande();
+      }
     }
   };
 

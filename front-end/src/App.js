@@ -11,6 +11,7 @@ import DemandePage from './components/demandePage';
 import Pharmapage from './components/pharmapage';
 import ProtectedRoute from './components/protectedroute';
 import PublicRoute from './components/publicroute';
+import Listmeds from './components/listmeds';
 
 
 function App() {
@@ -53,6 +54,10 @@ function App() {
             <Route 
               path='/pharmapage' 
               element={<Pharmapage onLogout={handleLogout} />} 
+            />
+            <Route 
+              path='/listmeds' 
+              element={<Listmeds onLogout={handleLogout} />} 
             />
          
           </Route>

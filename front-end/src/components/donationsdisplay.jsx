@@ -30,7 +30,7 @@ export default function Donationsdisplay() {
         })
         .then((response) => {
           console.log("Donations fetched:", response.data);
-          setDonations(response.data || []); // Ensure donations is an array
+          setDonations(response.data || []);
         })
         .catch((error) => {
           console.error("Error fetching donations:", error);
@@ -104,6 +104,7 @@ export default function Donationsdisplay() {
         {currentDonations.length > 0 ? (
           currentDonations.map((donation) => (
             <div key={donation._id} className="donation-card">
+              <p>type:{donation.type}</p>
               <p>Donateur: {donation.nom}</p>
               <p>Téléphone: {donation.tel}</p>
               <p>Email: {donation.email}</p>
@@ -156,7 +157,7 @@ export default function Donationsdisplay() {
               style={{
                 color: "white",
                 position: "relative",
-                left: "2px",
+                left: "-4px",
                 top: "-4px",
                 width: "26px",
               }}
