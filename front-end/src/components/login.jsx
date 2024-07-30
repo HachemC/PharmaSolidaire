@@ -6,7 +6,7 @@ import axios from "axios";
 import Head1 from "./head1";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
-export default function Login({ setIsAuthenticated }) {
+export default function Login({ setIsAuthenticated, setIsAdmin }) {
   const [email, setEmail] = useState("");
   const [motDePasse, setmotDePasse] = useState("");
   const [error, setError] = useState("");
@@ -14,23 +14,57 @@ export default function Login({ setIsAuthenticated }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const url = "http://localhost:3000/api/login";
-      const response = await axios.post(url, { email, motDePasse });
 
-      // Handle successful login
-      if (response.status === 200) {
-        const { token } = response.data.result;
-        localStorage.setItem("token", token);
-        setIsAuthenticated(true); // Update the auth state
-        navigate("/pharmapage");
+    try {
+      const userLoginUrl = "http://localhost:3000/api/login";
+      const adminLoginUrl = "http://localhost:3000/api/loginAdmin";
+
+      try {
+        const response = await axios.post(userLoginUrl, { email, motDePasse });
+        if (response.status === 200) {
+          const { token, role } = response.data.result;
+          localStorage.setItem("token", token);
+          localStorage.setItem("role", role);
+          setIsAuthenticated(true);
+          setIsAdmin(role === "superadmin" || role === "admin");
+          if (role === "superadmin" || role === "admin") {
+            navigate("/adminPage");
+          } else {
+            navigate("/pharmapage");
+          }
+          return;
+        }
+      } catch (err) {
+        if (err.response && err.response.status === 401) {
+          // User not found, try admin login next
+        } else {
+          setError("An unexpected error occurred");
+        }
+      }
+
+      try {
+        const response = await axios.post(adminLoginUrl, { email, motDePasse });
+        if (response.status === 200) {
+          const { token, role } = response.data.result;
+          localStorage.setItem("token", token);
+          localStorage.setItem("role", role);
+          setIsAuthenticated(true);
+          setIsAdmin(role === "superadmin" || role === "admin");
+          if (role === "superadmin" || role === "admin") {
+            navigate("/adminPage");
+          } else {
+            navigate("/pharmapage");
+          }
+          return;
+        }
+      } catch (err) {
+        setError(
+          err.response?.data.message ||
+            "Invalid email or password. Please try again."
+        );
       }
     } catch (err) {
-      if (err.response && err.response.data.status === "error") {
-        setError(err.response.data.message); // Set error message from the backend
-      } else {
-        setError("An unexpected error occurred");
-      }
+      setError("An unexpected error occurred");
     }
   };
 

@@ -11,7 +11,7 @@ const validateEmail = (email) => {
 
 exports.registerUser = async (req, res) => {
   try {
-    const { NomEtPrenom, NomPharmacie, ville, numeroEnregistrement, codePostal, telephonePharmacie, email, motDePasse, delegations, } = req.body;
+    const { NomEtPrenom, NomPharmacie, ville, numeroEnregistrement, codePostal, telephonePharmacie, email, motDePasse, delegations } = req.body;
 
     // Check if the user with the same email already exists
     const existingUserByEmail = await User.findOne({ email });
@@ -44,7 +44,6 @@ exports.registerUser = async (req, res) => {
       email,
       motDePasse: hashedPassword,
       ville,
-
       accepted: false,
       role: 'pharmacien'
     });
@@ -72,6 +71,7 @@ exports.registerUser = async (req, res) => {
     });
   }
 };
+
 exports.loginUser = async (req, res) => {
   const { email, motDePasse } = req.body;
 
@@ -80,10 +80,12 @@ exports.loginUser = async (req, res) => {
     if (!user) {
       return res.status(400).json({ status: 'error', message: 'Email invalide' });
     }
-const state=user.accepted
-if (!state) {
-  return res.status(400).json({ status: 'error', message: 'Compte non accepté, veuillez attendre la validation.' });
-}
+
+    const state = user.accepted;
+    if (!state) {
+      return res.status(400).json({ status: 'error', message: 'Compte non accepté, veuillez attendre la validation.' });
+    }
+
     const isMatch = await bcrypt.compare(motDePasse, user.motDePasse);
     if (!isMatch) {
       return res.status(400).json({ status: 'error', message: 'Mot de passe incorrect' });
@@ -117,6 +119,7 @@ if (!state) {
     res.status(500).json({ status: 'error', message: 'Erreur serveur interne' });
   }
 };
+
 exports.logout = (req, res) => {
   // Handle logout logic
   res.status(200).json({ status: 'success', message: 'Déconnexion réussie' });
@@ -166,18 +169,53 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
-exports.getAllUsers = async (req, res) => {
+exports.getAcceptedUsers = async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.find({ accepted: true });
     res.status(200).json({ status: 'success', data: { users } });
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ status: 'error', message: err.message });
   }
-  /////////////////////////////////////////////////
-  
-  
+};
+exports.getNonAcceptedUsers = async (req, res) => {
+  try {
+    // Find users with accepted status as false
+    const users = await User.find({ accepted: false });
+    res.status(200).json({ status: 'success', data: { users } });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ status: 'error', message: err.message });
+  }
 };
 
+exports.acceptUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findByIdAndUpdate(id, { accepted: true }, { new: true });
+    if (!user) {
+      return res.status(404).json({ status: 'error', message: 'Utilisateur non trouvé' });
+    }
 
+    res.status(200).json({ status: 'success', data: { user } });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ status: 'error', message: err.message });
+  }
+};
 
+exports.refuseUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedUser = await User.findByIdAndDelete(id);
+    if (!deletedUser) {
+      return res.status(404).json({ status: 'error', message: 'Utilisateur non trouvé' });
+    }
+
+    res.status(204).json({ status: 'success', data: null });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ status: 'error', message: err.message });
+  }
+};

@@ -1,20 +1,14 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
-function ProtectedRoute({ isAuthenticated, isAdmin, adminRoute }) {
+function ProtectedAdmin({ isAuthenticated, isAdmin }) {
   if (!isAuthenticated) {
     return <Navigate to="/login" />;
   }
-
-  if (adminRoute && !isAdmin) {
+  if (isAuthenticated && !isAdmin) {
     return <Navigate to="/pharmapage" />;
   }
-
-  if (!adminRoute && isAdmin) {
-    return <Navigate to="/adminPage" />;
-  }
-
   return <Outlet />;
 }
 
-export default ProtectedRoute;
+export default ProtectedAdmin;
