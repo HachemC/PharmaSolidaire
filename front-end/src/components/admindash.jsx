@@ -75,7 +75,6 @@ const Admindash = ({ onLogout }) => {
             <th>Nom Pharmacie</th>
             <th>Ville</th>
             <th>Accepté</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -86,16 +85,26 @@ const Admindash = ({ onLogout }) => {
               <td>{user.NomPharmacie}</td>
               <td>{user.ville}</td>
               <td>{user.accepted ? "Oui" : "Non"}</td>
-              <td>
-                <button onClick={() => acceptUser(user._id)}>Accepter</button>
-                <button onClick={() => refuseUser(user._id)}>Refuser</button>
+              <td className="action-buttons">
+                <button
+                  className="accptUser"
+                  onClick={() => acceptUser(user._id)}
+                >
+                  Accepter
+                </button>
+                <button
+                  className="refuseUser"
+                  onClick={() => refuseUser(user._id)}
+                >
+                  Refuser
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      <div className="pagination-controls">
+      <div className="pagination-controls-admin">
         <button
           onClick={handlePrevious}
           disabled={currentPage === 1}

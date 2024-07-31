@@ -13,6 +13,8 @@ router.patch('/accept/:id', userController.acceptUser);
 router.delete('/refuse/:id', userController.refuseUser);
 router.get('/users', userController.getAcceptedUsers );  // Voir liste des pharmacies
 router.get('/nonaccepted', userController.getNonAcceptedUsers);
+router.get('/gettreateddemandes', adminController.getAllTreatedDemandes);
+router.get('/gettreateddonations', adminController.getAllTreatedDonations);
 
 // User routes
 router.post('/register', userController.registerUser); // Inscription

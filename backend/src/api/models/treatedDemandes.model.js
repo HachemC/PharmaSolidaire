@@ -15,7 +15,11 @@ const TreatedDemandesSchema = new Schema({
   nomMedicament: { type: String, required: true },
   Formepharmaceutique: { type: String, required: true },
   qte: { type: Number, required: true },
-  
+  type: {
+    type: String,
+    enum: ['medicament', 'autre'],
+    required: true
+  },
   Dosage: { type: String, required: true },
  
   UserID: { type: Schema.Types.ObjectId, ref: 'User' },

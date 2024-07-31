@@ -23,8 +23,10 @@ export default function AdminHeader({ onLogout }) {
       </div>
       <div className="navPh">
         <ul className="ulPh">
-          <li onClick={() => navigate("/admindash")}>nouveau utilisateur</li>
-          <li onClick={() => navigate("/")}>gestion des utilisateur</li>
+          <li onClick={() => navigate("/adminpage")}>nouveau utilisateur</li>
+          <li onClick={() => navigate("/adminpage/history")}>
+            voir historique
+          </li>
           <li>
             {" "}
             <input

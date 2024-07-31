@@ -18,6 +18,7 @@ const DemandeController = {
 
         const newDemande = new Demande({
           ...formData,
+          
           nomMedicament: donation.nom,
           Formepharmaceutique: donation.Formepharmaceutique,
           qte: donation.quantity,

@@ -1,4 +1,6 @@
 const Admin = require('../models/admins.models');
+const TreatedDemande = require('../models/treatedDemandes.model');
+const TreatedDonation = require('../models/treateddonations.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -112,4 +114,25 @@ exports.loginAdmin = async (req, res) => {
       console.error(error);
       res.status(500).json({ status: 'error', message: 'Erreur serveur interne' });
     }
+  };
+  exports.getAllTreatedDemandes = async (req, res) => {
+    try {
+      const donations = await TreatedDemande.find(); // Fetch all donations
+
+      res.json(donations); // Respond with the list of donations
+  } catch (error) {
+      res.status(500).json({ message: error.message }); // Handle server errors
+  }
+};
+ 
+  
+  // Get all treated donations
+  exports.getAllTreatedDonations = async (req, res) => {
+    try {
+      const donations = await TreatedDonation.find(); // Fetch all donations
+
+      res.json(donations); // Respond with the list of donations
+  } catch (error) {
+      res.status(500).json({ message: error.message }); // Handle server errors
+  }
   };

@@ -14,7 +14,7 @@ export default function AdminPage({ onLogout }) {
       <div className="header-container">
         <AdminHeader onLogout={onLogout} />
       </div>
-      <div className="button-container">
+      <div className="button-container-admin">
         <button
           onClick={() => setActiveComponent("users")}
           className={`user-list-button ${
@@ -32,7 +32,7 @@ export default function AdminPage({ onLogout }) {
           Modifier la liste des utilisateurs
         </button>
       </div>
-      <div className="content-container">
+      <div className="content-container-admin">
         <TransitionGroup>
           {activeComponent === "users" && (
             <CSSTransition key="users" timeout={200} classNames="fade">
@@ -46,7 +46,7 @@ export default function AdminPage({ onLogout }) {
           )}
         </TransitionGroup>
       </div>
-      <div className="footer-container">
+      <div className="footer-container-admin">
         <Footer />
       </div>
     </div>

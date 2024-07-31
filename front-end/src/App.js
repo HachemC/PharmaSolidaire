@@ -14,7 +14,7 @@ import PublicRoute from './components/publicroute';
 import Listmeds from './components/listmeds';
 import ProtectedAdmin from './components/protectedadmin';
 import AdminPage from './components/adminPage';
-
+import History from './components/history';
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
   const [isAdmin, setIsAdmin] = useState(localStorage.getItem('role') === 'superadmin' || localStorage.getItem('role') === 'admin');
@@ -63,6 +63,7 @@ function App() {
           {/* Admin Routes */}
           <Route element={<ProtectedAdmin isAuthenticated={isAuthenticated} isAdmin={isAdmin} />}>
             <Route path='/adminPage' element={<AdminPage onLogout={handleLogout} />} />
+            <Route path='/adminPage/history' element={<History onLogout={handleLogout} />} />
           </Route>
         </Routes>
       </Router>

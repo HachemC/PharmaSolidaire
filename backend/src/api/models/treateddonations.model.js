@@ -20,7 +20,11 @@ const TreatedDonationSchema = new Schema({
   Dosage: { type: String, required: true },
   Raison: { type: String, required: true },
   UserID: { type: Schema.Types.ObjectId, ref: 'User' },
-
+  type: {
+    type: String,
+    enum: ['medicament', 'autre'],
+    required: true
+  },
   traited: { type: Boolean, default: true },
   confirmed: { type: Boolean, default: true }
 }, { timestamps: true });
