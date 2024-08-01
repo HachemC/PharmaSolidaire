@@ -12,25 +12,22 @@ export default function Login({
   setIsSuperAdmin,
 }) {
   const [email, setEmail] = useState("");
-  const [motDePasse, setmotDePasse] = useState("");
-  const [error, setError] = useState("");
+  const [motDePasse, setMotDePasse] = useState("");
+  const [err, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(""); // Clear any existing error
 
     try {
       const userLoginUrl = "http://localhost:3000/api/login";
       const adminLoginUrl = "http://localhost:3000/api/loginAdmin";
 
-      // Attempt user login
       try {
-        console.log("Attempting user login...");
-        console.log("Sending data:", { email, motDePasse });
         const response = await axios.post(userLoginUrl, { email, motDePasse });
         if (response.status === 200) {
           const { token, role } = response.data.result;
-          console.log("User login successful:", response.data.result);
           localStorage.setItem("token", token);
           localStorage.setItem("role", role);
           setIsAuthenticated(true);
@@ -44,44 +41,41 @@ export default function Login({
           return;
         }
       } catch (err) {
-        if (err.response && err.response.status === 401) {
-          console.log("User login failed, trying admin login...");
-        } else {
-          setError("An unexpected error occurred");
-          console.error("User login error:", err);
+        if (err.response && err.response.status === 400) {
+          // Display specific error messages based on backend response
+          const { message } = err.response.data;
+          setError(message || "Une erreur inattendue est survenue.");
         }
-      }
 
-      // Attempt admin login
-      try {
-        console.log("Attempting admin login...");
-        console.log("Sending data:", { email, motDePasse });
-        const response = await axios.post(adminLoginUrl, { email, motDePasse });
-        if (response.status === 200) {
-          const { token, role } = response.data.result;
-          console.log("Admin login successful:", response.data.result);
-          localStorage.setItem("token", token);
-          localStorage.setItem("role", role);
-          setIsAuthenticated(true);
-          setIsAdmin(role === "superadmin" || role === "admin");
-          setIsSuperAdmin(role === "superadmin");
-          navigate(
-            role === "superadmin" || role === "admin"
-              ? "/adminPage"
-              : "/pharmapage"
-          );
-          return;
+        // Attempt admin login if user login fails
+        try {
+          const response = await axios.post(adminLoginUrl, {
+            email,
+            motDePasse,
+          });
+          if (response.status === 200) {
+            const { token, role } = response.data.result;
+            localStorage.setItem("token", token);
+            localStorage.setItem("role", role);
+            setIsAuthenticated(true);
+            setIsAdmin(role === "superadmin" || role === "admin");
+            setIsSuperAdmin(role === "superadmin");
+            navigate(
+              role === "superadmin" || role === "admin"
+                ? "/adminPage"
+                : "/pharmapage"
+            );
+            return;
+          }
+        } catch (err) {
+          console.log("Admin login failed:", err.response);
+          const { message } = err.response?.data || {};
+          setError(message || "Une erreur inattendue est survenue.");
         }
-      } catch (err) {
-        setError(
-          err.response?.data.message ||
-            "Invalid email or password. Please try again."
-        );
-        console.error("Admin login error:", err);
       }
     } catch (err) {
-      setError("An unexpected error occurred");
       console.error("Unexpected error:", err);
+      setError("Une erreur inattendue est survenue.");
     }
   };
 
@@ -91,11 +85,10 @@ export default function Login({
         <Head1 />
       </div>
       <div className="t-3">
-        Connecter vous et commencez à faire la différence.
+        Connectez-vous et commencez à faire la différence.{" "}
+        {err && <div className="error-message">{err}</div>}
       </div>
-
       <form className="forma">
-        {error && <div className="error-message">{error}</div>}
         <div className="login-inputs">
           <input
             className="email-f"
@@ -108,22 +101,22 @@ export default function Login({
           <input
             type="password"
             className="password"
-            placeholder="Password"
+            placeholder="Mot de passe"
             value={motDePasse}
-            onChange={(e) => setmotDePasse(e.target.value)}
+            onChange={(e) => setMotDePasse(e.target.value)}
             required
           />
         </div>
-      </form>
+      </form>{" "}
       <button className="button-login" onClick={handleSubmit} type="submit">
         <ArrowForwardIcon
           style={{ position: "relative", left: "10px", top: "10px" }}
         />
-        <span className="login-button-text">se connecter</span>
+        <span className="login-button-text">Se connecter</span>
       </button>
       <div className="t-2">
-        pas de compte?
-        <span onClick={() => navigate("/register")}>&nbsp; s'inscrire</span>
+        Pas de compte?
+        <span onClick={() => navigate("/register")}>&nbsp; S'inscrire</span>
       </div>
       <div className="foot1">
         <Footer />

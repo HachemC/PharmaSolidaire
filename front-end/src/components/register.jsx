@@ -360,8 +360,12 @@ export function Register() {
     setUserData({ ...userData, [name]: value });
   };
 
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(""); // Reset error state before submission
 
     const requestData = {
       NomEtPrenom: userData.NomEtPrenom,
@@ -380,7 +384,8 @@ export function Register() {
       const response = await axios.post(url, requestData);
 
       // Handle successful registration
-      console.log("Registration successful:", response.data);
+      setSuccessMessage("Inscription réussie !");
+      setError("");
 
       // Optional: handle location data submission
       const locationUrl = "http://localhost:3000/api/locations/create";
@@ -389,13 +394,15 @@ export function Register() {
         delegation: userData.delegations,
         pharmacyName: userData.NomPharmacie,
       });
+
+      navigate("/login");
     } catch (error) {
-      console.error("Error during registration:", error);
       if (error.response) {
-        console.log("Server response:", error.response.data);
+        setError(error.response.data.msg || "Erreur lors de l'inscription.");
       } else {
-        console.log("Error message:", error.message);
+        setError("Erreur de connexion au serveur.");
       }
+      setSuccessMessage("");
     }
   };
 
@@ -406,6 +413,10 @@ export function Register() {
       </div>
       <p className="welcometextt">
         Créez un compte et commencez à faire la différence.
+        {error && <div className="error-message">{error}</div>}
+        {successMessage && (
+          <div className="success-message">{successMessage}</div>
+        )}{" "}
       </p>
       <div className="backarrow" onClick={() => navigate("/")}>
         <ArrowBackIcon />
@@ -516,7 +527,7 @@ export function Register() {
             <LocationOnIcon />
           </button>
         </div>
-      </form>{" "}
+      </form>
       <div className="c10">
         <button type="submit" onClick={handleSubmit} className="c10-1">
           <PersonAddAltIcon
@@ -525,6 +536,7 @@ export function Register() {
           S'inscrire
         </button>
       </div>
+
       <div className="footReg">
         <Footer />
       </div>

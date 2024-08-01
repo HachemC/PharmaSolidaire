@@ -55,7 +55,10 @@
   width: 371px;
   height: 30px;
 }
-
+.error-message {
+  color: red;
+  font-size: 16px;
+}
 .t-2 span {
   color: #005c4b;
   cursor: pointer;

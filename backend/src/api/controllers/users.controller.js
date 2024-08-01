@@ -9,20 +9,42 @@ const validateEmail = (email) => {
   return re.test(String(email).toLowerCase());
 };
 
+// Utility function to validate phone number format (8 digits)
+const validatePhoneNumber = (phoneNumber) => {
+  const re = /^\d{8}$/;
+  return re.test(phoneNumber);
+};
+
+
+const validatePostalCode = (postalCode) => {
+  const re = /^\d{4}$/;
+  return re.test(postalCode);
+};
+
+// Check if user exists by field
+const checkUserExistence = async (field, value) => {
+  return await User.findOne({ [field]: value });
+};
+
 exports.registerUser = async (req, res) => {
   try {
     const { NomEtPrenom, NomPharmacie, ville, numeroEnregistrement, codePostal, telephonePharmacie, email, motDePasse, delegations } = req.body;
 
-    // Check if the user with the same email already exists
-    const existingUserByEmail = await User.findOne({ email });
-    if (existingUserByEmail) {
+    // Check for empty fields
+    if (!NomEtPrenom || !NomPharmacie || !ville || !numeroEnregistrement || !codePostal || !telephonePharmacie || !email || !motDePasse || !delegations) {
+      return res.status(400).json({ msg: 'Tous les champs sont requis.' });
+    }
+
+    // Check if user exists by email and registration number
+    if (await checkUserExistence('email', email)) {
       return res.status(400).json({ msg: 'Vous êtes déjà inscrit avec cet e-mail.' });
     }
 
-    // Check if the user with the same registration number already exists
-    const existingUserByRegistrationNumber = await User.findOne({ numeroEnregistrement });
-    if (existingUserByRegistrationNumber) {
+    if (await checkUserExistence('numeroEnregistrement', numeroEnregistrement)) {
       return res.status(400).json({ msg: 'Numéro d’enregistrement déjà utilisé.' });
+    }
+    if (await checkUserExistence('telephonePharmacie', telephonePharmacie)) {
+      return res.status(400).json({ msg: 'Numéro telephone déjà utilisé.' });
     }
 
     // Validate email format
@@ -30,10 +52,20 @@ exports.registerUser = async (req, res) => {
       return res.status(400).json({ msg: 'Format d\'adresse e-mail invalide.' });
     }
 
-    // Hash the password before saving the user
+    // Validate phone number format
+    if (!validatePhoneNumber(telephonePharmacie)) {
+      return res.status(400).json({ msg: 'Le numéro de téléphone doit comporter 8 chiffres.' });
+    }
+
+    // Validate postal code format
+    if (!validatePostalCode(codePostal)) {
+      return res.status(400).json({ msg: 'Le code postal doit comporter 4 chiffres.' });
+    }
+
+    // Hash password
     const hashedPassword = await bcrypt.hash(motDePasse, 10);
 
-    // Create a new user object
+    // Create new user
     const user = new User({
       NomEtPrenom,
       NomPharmacie,
@@ -48,10 +80,10 @@ exports.registerUser = async (req, res) => {
       role: 'pharmacien'
     });
 
-    // Save the user to the database
+    // Save user
     await user.save();
 
-    return res.status(201).json({
+    res.status(201).json({
       status: 'success',
       data: { user }
     });
@@ -65,7 +97,7 @@ exports.registerUser = async (req, res) => {
         message: `Erreur de duplication : ${duplicatedField}`
       });
     }
-    return res.status(500).json({
+    res.status(500).json({
       status: 'error',
       message: err.message
     });
@@ -76,22 +108,24 @@ exports.loginUser = async (req, res) => {
   const { email, motDePasse } = req.body;
 
   try {
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ status: 'error', message: 'Email invalide' });
+    if (!email || !motDePasse) {
+      return res.status(400).json({ status: 'error', message: 'Email et mot de passe sont requis.' });
     }
 
-    const state = user.accepted;
-    if (!state) {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ status: 'error', message: 'Email ou mot de passe invalide.' });
+    }
+
+    if (!user.accepted) {
       return res.status(400).json({ status: 'error', message: 'Compte non accepté, veuillez attendre la validation.' });
     }
 
     const isMatch = await bcrypt.compare(motDePasse, user.motDePasse);
     if (!isMatch) {
-      return res.status(400).json({ status: 'error', message: 'Mot de passe incorrect' });
+      return res.status(400).json({ status: 'error', message: 'Mot de passe incorrect.' });
     }
 
-    // Include additional user information in the token payload
     const tokenPayload = {
       id: user._id,
       NomPharmacie: user.NomPharmacie,
@@ -112,11 +146,11 @@ exports.loginUser = async (req, res) => {
         delegations: user.delegations,
         ville: user.ville
       },
-      message: 'Connexion réussie'
+      message: 'Connexion réussie.'
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ status: 'error', message: 'Erreur serveur interne' });
+    res.status(500).json({ status: 'error', message: 'Erreur serveur interne.' });
   }
 };
 
@@ -177,9 +211,9 @@ exports.getAcceptedUsers = async (req, res) => {
     res.status(500).json({ status: 'error', message: err.message });
   }
 };
+
 exports.getNonAcceptedUsers = async (req, res) => {
   try {
-    // Find users with accepted status as false
     const users = await User.find({ accepted: false });
     res.status(200).json({ status: 'success', data: { users } });
   } catch (err) {
