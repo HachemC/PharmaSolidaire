@@ -14,6 +14,7 @@ export default function AdminPage({ onLogout }) {
       <div className="header-container">
         <AdminHeader onLogout={onLogout} />
       </div>
+
       <div className="button-container-admin">
         <button
           onClick={() => setActiveComponent("users")}

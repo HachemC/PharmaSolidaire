@@ -6,7 +6,11 @@ import axios from "axios";
 import Head1 from "./head1";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
-export default function Login({ setIsAuthenticated, setIsAdmin }) {
+export default function Login({
+  setIsAuthenticated,
+  setIsAdmin,
+  setIsSuperAdmin,
+}) {
   const [email, setEmail] = useState("");
   const [motDePasse, setmotDePasse] = useState("");
   const [error, setError] = useState("");
@@ -19,42 +23,53 @@ export default function Login({ setIsAuthenticated, setIsAdmin }) {
       const userLoginUrl = "http://localhost:3000/api/login";
       const adminLoginUrl = "http://localhost:3000/api/loginAdmin";
 
+      // Attempt user login
       try {
+        console.log("Attempting user login...");
+        console.log("Sending data:", { email, motDePasse });
         const response = await axios.post(userLoginUrl, { email, motDePasse });
         if (response.status === 200) {
           const { token, role } = response.data.result;
+          console.log("User login successful:", response.data.result);
           localStorage.setItem("token", token);
           localStorage.setItem("role", role);
           setIsAuthenticated(true);
           setIsAdmin(role === "superadmin" || role === "admin");
-          if (role === "superadmin" || role === "admin") {
-            navigate("/adminPage");
-          } else {
-            navigate("/pharmapage");
-          }
+          setIsSuperAdmin(role === "superadmin");
+          navigate(
+            role === "superadmin" || role === "admin"
+              ? "/adminPage"
+              : "/pharmapage"
+          );
           return;
         }
       } catch (err) {
         if (err.response && err.response.status === 401) {
-          // User not found, try admin login next
+          console.log("User login failed, trying admin login...");
         } else {
           setError("An unexpected error occurred");
+          console.error("User login error:", err);
         }
       }
 
+      // Attempt admin login
       try {
+        console.log("Attempting admin login...");
+        console.log("Sending data:", { email, motDePasse });
         const response = await axios.post(adminLoginUrl, { email, motDePasse });
         if (response.status === 200) {
           const { token, role } = response.data.result;
+          console.log("Admin login successful:", response.data.result);
           localStorage.setItem("token", token);
           localStorage.setItem("role", role);
           setIsAuthenticated(true);
           setIsAdmin(role === "superadmin" || role === "admin");
-          if (role === "superadmin" || role === "admin") {
-            navigate("/adminPage");
-          } else {
-            navigate("/pharmapage");
-          }
+          setIsSuperAdmin(role === "superadmin");
+          navigate(
+            role === "superadmin" || role === "admin"
+              ? "/adminPage"
+              : "/pharmapage"
+          );
           return;
         }
       } catch (err) {
@@ -62,9 +77,11 @@ export default function Login({ setIsAuthenticated, setIsAdmin }) {
           err.response?.data.message ||
             "Invalid email or password. Please try again."
         );
+        console.error("Admin login error:", err);
       }
     } catch (err) {
       setError("An unexpected error occurred");
+      console.error("Unexpected error:", err);
     }
   };
 
@@ -98,7 +115,7 @@ export default function Login({ setIsAuthenticated, setIsAdmin }) {
           />
         </div>
       </form>
-      <button className="button-login" type="submit" onClick={handleSubmit}>
+      <button className="button-login" onClick={handleSubmit} type="submit">
         <ArrowForwardIcon
           style={{ position: "relative", left: "10px", top: "10px" }}
         />

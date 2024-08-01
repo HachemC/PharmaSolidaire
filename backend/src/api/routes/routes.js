@@ -15,7 +15,9 @@ router.get('/users', userController.getAcceptedUsers );  // Voir liste des pharm
 router.get('/nonaccepted', userController.getNonAcceptedUsers);
 router.get('/gettreateddemandes', adminController.getAllTreatedDemandes);
 router.get('/gettreateddonations', adminController.getAllTreatedDonations);
-
+router.get('/getalladmin', adminController.getAllAdmins);
+router.patch('/admin/:id', adminController.updateAdmin);
+router.delete('/admin/:id', adminController.deleteAdmin);
 // User routes
 router.post('/register', userController.registerUser); // Inscription
 router.post('/login', userController.loginUser);  // Connexion

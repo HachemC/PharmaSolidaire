@@ -121,7 +121,6 @@ exports.loginUser = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
-  // Handle logout logic
   res.status(200).json({ status: 'success', message: 'Déconnexion réussie' });
 };
 

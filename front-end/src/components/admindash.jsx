@@ -74,7 +74,7 @@ const Admindash = ({ onLogout }) => {
             <th>Email</th>
             <th>Nom Pharmacie</th>
             <th>Ville</th>
-            <th>Accepté</th>
+            <th>numero d'Enregistrement</th>
           </tr>
         </thead>
         <tbody>
@@ -84,7 +84,7 @@ const Admindash = ({ onLogout }) => {
               <td>{user.email}</td>
               <td>{user.NomPharmacie}</td>
               <td>{user.ville}</td>
-              <td>{user.accepted ? "Oui" : "Non"}</td>
+              <td>{user.numeroEnregistrement}</td>
               <td className="action-buttons">
                 <button
                   className="accptUser"

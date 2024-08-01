@@ -30,13 +30,21 @@ const validateEmail = (email) => {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\.,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,})$/i;
   return re.test(String(email).toLowerCase());
 };
+exports.getAllAdmins= async (req, res) => {
+  try {
+    // Fetch all medicaments from the database
+    const Admins = await Admin.find({ role: "admin" });
 
+
+    res.status(200).json(Admins);
+  } catch (error) {
+    console.error('Error fetching admins:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
 exports.registerAdmin = async (req, res) => {
   try {
-    const loggedInAdmin = req.user; // Assuming req.user contains the logged-in user's info
-    if (loggedInAdmin.role !== 'superadmin') {
-      return res.status(403).json({ msg: 'Permission refusée' });
-    }
+   
 
     const { NomEtPrenom, email, motDePasse } = req.body;
 
@@ -135,4 +143,45 @@ exports.loginAdmin = async (req, res) => {
   } catch (error) {
       res.status(500).json({ message: error.message }); // Handle server errors
   }
+  };
+  exports.updateAdmin = async (req, res) => {
+    const { id } = req.params;
+    const { NomEtPrenom, email, motDePasse } = req.body;
+  
+    try {
+      let updateData = { NomEtPrenom, email };
+      if (motDePasse) {
+        const hashedPassword = await bcrypt.hash(motDePasse, 10);
+        updateData.motDePasse = hashedPassword;
+      }
+  
+      const updatedAdmin = await Admin.findByIdAndUpdate(id, updateData, { new: true });
+  
+      if (!updatedAdmin) {
+        return res.status(404).json({ message: 'Admin not found' });
+      }
+  
+      res.status(200).json({ message: 'Admin updated successfully', admin: updatedAdmin });
+    } catch (error) {
+      console.error('Error updating admin:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  };
+  
+  // Delete an admin
+  exports.deleteAdmin = async (req, res) => {
+    const { id } = req.params;
+  
+    try {
+      const deletedAdmin = await Admin.findByIdAndDelete(id);
+  
+      if (!deletedAdmin) {
+        return res.status(404).json({ message: 'Admin not found' });
+      }
+  
+      res.status(200).json({ message: 'Admin deleted successfully' });
+    } catch (error) {
+      console.error('Error deleting admin:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
   };

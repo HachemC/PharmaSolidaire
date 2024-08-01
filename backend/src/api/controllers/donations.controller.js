@@ -91,7 +91,6 @@ const DonationController = {
           const { ville, delegation, pharmacy } = req.query;
       
           try {
-            // Ensure field names match the database schema
             const query = { ville, delegation, pharmacy };
       
             console.log("Query: ", query); // Log to debug
@@ -145,7 +144,7 @@ const DonationController = {
     
                 res.status(200).json({ message: 'Donation accepted and medicament added to the database' });
             } catch (error) {
-                console.error("Error in acceptDonations:", error); // Debugging line
+                console.error("Error in acceptDonations:", error); 
               res.status(500).json({ error: 'Error accepting donation' });
             }
           },

@@ -100,8 +100,8 @@ const ModifyUsers = () => {
           <tr>
             <th>Nom et Prénom</th>
             <th>Email</th>
+            <th>telephone</th>
             <th>Mot de passe</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -141,6 +141,18 @@ const ModifyUsers = () => {
                       />
                     ) : (
                       user.email
+                    )}
+                  </td>
+                  <td>
+                    {editingUserId === user._id ? (
+                      <input
+                        type="text"
+                        name="phone"
+                        value={editedUser.telephonePharmacie}
+                        onChange={handleChange}
+                      />
+                    ) : (
+                      user.telephonePharmacie
                     )}
                   </td>
                   <td>

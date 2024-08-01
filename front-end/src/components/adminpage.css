@@ -200,3 +200,15 @@ tbody input {
   color: #fa2d00;
   margin-left: 1rem;
 }
+.addAdmin {
+  width: 7.5rem;
+  height: 2.125rem;
+  border: none;
+  cursor: pointer;
+  margin-right: 1rem;
+  font-size: 18px;
+  color: #179a93;
+  background-color: rgb(23, 154, 147, 0.1);
+  border-radius: 5px;
+  font-family: "Calibri";
+}
