@@ -1,9 +1,24 @@
 const User = require('../models/users.models');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const sendMail = require('./mails.controller'); // Import mailer utility
 require('dotenv').config();
 
-// Utility function to validate email format
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const validateEmail = (email) => {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\.,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,})$/i;
   return re.test(String(email).toLowerCase());
@@ -82,15 +97,22 @@ exports.registerUser = async (req, res) => {
 
     // Save user
     await user.save();
-
+    
     res.status(201).json({
       status: 'success',
       data: { user }
     });
+
+    // Send welcome email
+    try {
+      await sendMail(email, 'Bienvenue!', 'Merci de vous être inscrit sur notre plateforme. Votre compte est en attente de validation.');
+    } catch (mailError) {
+      console.error('Error sending email:', mailError);
+      // Optionally log the error to an external service
+    }
   } catch (err) {
     console.error(err.message);
     if (err.code === 11000) {
-      // Identify the specific field causing duplication
       const duplicatedField = Object.keys(err.keyPattern)[0];
       return res.status(400).json({
         status: 'error',
@@ -108,17 +130,9 @@ exports.loginUser = async (req, res) => {
   const { email, motDePasse } = req.body;
 
   try {
-    if (!email || !motDePasse) {
-      return res.status(400).json({ status: 'error', message: 'Email et mot de passe sont requis.' });
-    }
-
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ status: 'error', message: 'Email ou mot de passe invalide.' });
-    }
-
-    if (!user.accepted) {
-      return res.status(400).json({ status: 'error', message: 'Compte non accepté, veuillez attendre la validation.' });
+      return res.status(400).json({ status: 'error', message: 'Email invalide .' });
     }
 
     const isMatch = await bcrypt.compare(motDePasse, user.motDePasse);
@@ -126,12 +140,17 @@ exports.loginUser = async (req, res) => {
       return res.status(400).json({ status: 'error', message: 'Mot de passe incorrect.' });
     }
 
+    if (!user.accepted) {
+      return res.status(400).json({ status: 'error', message: 'Compte non accepté, veuillez attendre la validation.' });
+    }
+
     const tokenPayload = {
       id: user._id,
       NomPharmacie: user.NomPharmacie,
       delegations: user.delegations,
       ville: user.ville,
-      role: user.role
+      role: user.role,
+      email:user.email,
     };
 
     const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '24h' });
@@ -144,15 +163,18 @@ exports.loginUser = async (req, res) => {
         role: user.role,
         NomPharmacie: user.NomPharmacie,
         delegations: user.delegations,
-        ville: user.ville
+        ville: user.ville,
+        email:user.email
       },
-      message: 'Connexion réussie.'
+      message: 'Connexion réussie.',
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({ status: 'error', message: 'Erreur serveur interne.' });
   }
 };
+
+
 
 exports.logout = (req, res) => {
   res.status(200).json({ status: 'success', message: 'Déconnexion réussie' });
@@ -206,6 +228,8 @@ exports.getAcceptedUsers = async (req, res) => {
   try {
     const users = await User.find({ accepted: true });
     res.status(200).json({ status: 'success', data: { users } });
+   
+
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ status: 'error', message: err.message });
@@ -228,6 +252,11 @@ exports.acceptUser = async (req, res) => {
     const user = await User.findByIdAndUpdate(id, { accepted: true }, { new: true });
     if (!user) {
       return res.status(404).json({ status: 'error', message: 'Utilisateur non trouvé' });
+    }
+    try {
+      await sendMail(user.email, 'Votre compte est accepté', 'Votre compte a été accepté et vous pouvez vous connecter.');
+    } catch (mailError) {
+      console.error('Error sending email:', mailError);
     }
 
     res.status(200).json({ status: 'success', data: { user } });

@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 function ProtectedAdmin({
   isAuthenticated,
@@ -8,8 +8,6 @@ function ProtectedAdmin({
   adminRoute,
   superadminRoute,
 }) {
-  const location = useLocation();
-
   console.log("ProtectedAdmin", {
     isAuthenticated,
     isAdmin,

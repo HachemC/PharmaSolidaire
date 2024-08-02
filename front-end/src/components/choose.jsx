@@ -3,15 +3,14 @@ import Head1 from "./head1";
 import "./choose.css";
 import Footer from "./footer";
 import { useNavigate, useLocation } from "react-router-dom";
-import Lines from "./line";
 import Popup from "./popupMark";
 
 export default function Choose() {
   const navigate = useNavigate();
   const location = useLocation();
   const donnerClicked = location.state?.donnerClicked || false;
-  const [proclicked, setProClicked] = useState(false);
-  const [assoClick, setAssoClicked] = useState(false);
+  const [, setProClicked] = useState(false);
+  const [, setAssoClicked] = useState(false);
 
   const [popupOpen, setPopupOpen] = useState(false);
   console.log(donnerClicked);

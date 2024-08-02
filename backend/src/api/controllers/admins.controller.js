@@ -94,7 +94,7 @@ exports.loginAdmin = async (req, res) => {
     try {
       const admin = await Admin.findOne({ email });
       if (!admin) {
-        return res.status(400).json({ status: 'error', message: 'Email invalide' });
+        return res.status(400).json({ status: 'error', message: 'email ou mot de passe invalide ' });
       }
   
       const isMatch = await bcrypt.compare(motDePasse, admin.motDePasse);

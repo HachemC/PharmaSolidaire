@@ -5,12 +5,54 @@ import "./pharmapage.css";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import MailIcon from "@mui/icons-material/Mail";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function Demandesdisplay() {
   const [demandes, setDemandes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
   const token = localStorage.getItem("token");
+  const [messageContent, setMessageContent] = useState("");
+  const [receiverEmail, setReceiverEmail] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState(""); // State for popup message
+  const [, setIsMessageSent] = useState(false); // State to determine if message was sent successfully
+
+  const handleSendMessage = () => {
+    if (messageContent.trim() !== "") {
+      axios
+        .post(
+          "http://localhost:3000/api/mail",
+          {
+            to: receiverEmail,
+            subject: "New Message",
+            text: messageContent,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((response) => {
+          setPopupMessage("Message envoyé");
+          setIsMessageSent(true);
+          setMessageContent(""); // Clear message content after sending
+          setTimeout(() => setShowPopup(false), 2000); // Close the popup after 2 seconds
+        })
+        .catch((error) => {
+          setPopupMessage("Error sending message");
+          setIsMessageSent(false);
+          console.error("Error sending message:", error);
+        });
+    }
+  };
+
+  const togglePopup = (email = "") => {
+    setReceiverEmail(email);
+    setShowPopup(!showPopup);
+    setPopupMessage(""); // Reset popup message when toggling popup
+  };
 
   useEffect(() => {
     if (token) {
@@ -99,19 +141,18 @@ export default function Demandesdisplay() {
   };
 
   return (
-    <div>
+    <div className={`page-container `}>
       <div className="donationcard-container">
         {currentDemandes.length > 0 ? (
           currentDemandes.map((demande) => (
             <div
               key={demande._id}
-              className={`donation-card  ${
+              className={`donation-card ${
                 demande.stockStatus === "En Stock" ? "greencard" : "redcard"
               }`}
             >
               <p>association: {demande.nom}</p>
               <p>type: {demande.type}</p>
-
               <p>Téléphone: {demande.tel}</p>
               <p>Email: {demande.email}</p>
               <div className="medication-details">
@@ -122,7 +163,7 @@ export default function Demandesdisplay() {
                 <p>Ordonnance: {demande.ordonnance}</p>
                 <p>
                   Statut du stock: <strong>{demande.stockStatus}</strong>
-                </p>{" "}
+                </p>
               </div>
               <div className="card-buttons-demande">
                 {demande.stockStatus === "En Stock" ? (
@@ -148,11 +189,13 @@ export default function Demandesdisplay() {
                     Refuser
                   </button>
                 )}
-                <button className="mailiconDemande">
-                  {" "}
+                <button
+                  onClick={() => togglePopup(demande.email)}
+                  className="mailiconDemande "
+                >
                   <MailIcon
                     style={{
-                      color: "#179a93",
+                      color: "#005c4b",
                       cursor: "pointer",
                       width: "28px",
                       height: "24px",
@@ -184,9 +227,9 @@ export default function Demandesdisplay() {
               style={{
                 color: "white",
                 position: "relative",
-                left: "-4px",
-                top: "-4px",
-                width: "26px",
+                width: "38px",
+                height: "20px",
+                paddingRight: "21px",
               }}
             />
           </button>
@@ -208,6 +251,45 @@ export default function Demandesdisplay() {
           </button>
         </div>
       </div>
+      {showPopup && (
+        <div className="popup">
+          <div className="popup-inner">
+            <div className="SendM">
+              {popupMessage || "ecrire votre message"}
+            </div>
+            <button
+              className="close-popup delete-button2"
+              onClick={() => togglePopup()}
+            >
+              <CloseIcon
+                style={{
+                  position: "relative",
+                  width: "15px",
+                  height: "15px",
+                  left: "-11px",
+                  paddingRight: "1px",
+                  justifySelf: "center",
+                  alignSelf: "center",
+                }}
+              ></CloseIcon>
+            </button>
+            {!popupMessage && (
+              <>
+                <textarea
+                  className="popup-textarea"
+                  rows="4"
+                  placeholder=" ecrire votre message"
+                  value={messageContent}
+                  onChange={(e) => setMessageContent(e.target.value)}
+                ></textarea>
+                <button className="send-message" onClick={handleSendMessage}>
+                  ecrire votre message
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

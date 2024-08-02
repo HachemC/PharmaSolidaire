@@ -13,70 +13,76 @@ export default function Login({
 }) {
   const [email, setEmail] = useState("");
   const [motDePasse, setMotDePasse] = useState("");
-  const [err, setError] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const handleUserLogin = async () => {
+    const userLoginUrl = "http://localhost:3000/api/login";
+
+    try {
+      const response = await axios.post(userLoginUrl, { email, motDePasse });
+      if (response.status === 200) {
+        const { token, role } = response.data.result;
+        localStorage.setItem("token", token);
+        localStorage.setItem("role", role);
+        setIsAuthenticated(true);
+        setIsAdmin(role === "superadmin" || role === "admin");
+        setIsSuperAdmin(role === "superadmin");
+        navigate(
+          role === "superadmin" || role === "admin"
+            ? "/adminPage"
+            : "/pharmapage"
+        );
+        return true; // Successfully logged in as user
+      }
+    } catch (err) {
+      if (err.response && err.response.status === 400) {
+        const { message } = err.response.data;
+        setError(message || "Une erreur inattendue est survenue.");
+      } else {
+        setError("Une erreur inattendue est survenue.");
+      }
+      return false; // Failed to log in as user
+    }
+  };
+
+  const handleAdminLogin = async () => {
+    const adminLoginUrl = "http://localhost:3000/api/loginAdmin";
+
+    try {
+      const response = await axios.post(adminLoginUrl, { email, motDePasse });
+      if (response.status === 200) {
+        const { token, role } = response.data.result;
+        localStorage.setItem("token", token);
+        localStorage.setItem("role", role);
+        setIsAuthenticated(true);
+        setIsAdmin(role === "superadmin" || role === "admin");
+        setIsSuperAdmin(role === "superadmin");
+        navigate(
+          role === "superadmin" || role === "admin"
+            ? "/adminPage"
+            : "/pharmapage"
+        );
+        return true; // Successfully logged in as admin
+      }
+    } catch (err) {
+      console.log("Admin login failed:", err.response);
+      const { message } = err.response?.data || {};
+      setError(message || "Une erreur inattendue est survenue.");
+      return false; // Failed to log in as admin
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); // Clear any existing error
 
-    try {
-      const userLoginUrl = "http://localhost:3000/api/login";
-      const adminLoginUrl = "http://localhost:3000/api/loginAdmin";
+    // Attempt user login first
+    const userLoginSuccessful = await handleUserLogin();
+    if (userLoginSuccessful) return;
 
-      try {
-        const response = await axios.post(userLoginUrl, { email, motDePasse });
-        if (response.status === 200) {
-          const { token, role } = response.data.result;
-          localStorage.setItem("token", token);
-          localStorage.setItem("role", role);
-          setIsAuthenticated(true);
-          setIsAdmin(role === "superadmin" || role === "admin");
-          setIsSuperAdmin(role === "superadmin");
-          navigate(
-            role === "superadmin" || role === "admin"
-              ? "/adminPage"
-              : "/pharmapage"
-          );
-          return;
-        }
-      } catch (err) {
-        if (err.response && err.response.status === 400) {
-          // Display specific error messages based on backend response
-          const { message } = err.response.data;
-          setError(message || "Une erreur inattendue est survenue.");
-        }
-
-        // Attempt admin login if user login fails
-        try {
-          const response = await axios.post(adminLoginUrl, {
-            email,
-            motDePasse,
-          });
-          if (response.status === 200) {
-            const { token, role } = response.data.result;
-            localStorage.setItem("token", token);
-            localStorage.setItem("role", role);
-            setIsAuthenticated(true);
-            setIsAdmin(role === "superadmin" || role === "admin");
-            setIsSuperAdmin(role === "superadmin");
-            navigate(
-              role === "superadmin" || role === "admin"
-                ? "/adminPage"
-                : "/pharmapage"
-            );
-            return;
-          }
-        } catch (err) {
-          console.log("Admin login failed:", err.response);
-          const { message } = err.response?.data || {};
-          setError(message || "Une erreur inattendue est survenue.");
-        }
-      }
-    } catch (err) {
-      console.error("Unexpected error:", err);
-      setError("Une erreur inattendue est survenue.");
-    }
+    // Attempt admin login if user login fails
+    await handleAdminLogin();
   };
 
   return (
@@ -86,7 +92,7 @@ export default function Login({
       </div>
       <div className="t-3">
         Connectez-vous et commencez à faire la différence.{" "}
-        {err && <div className="error-message">{err}</div>}
+        {error && <div className="error-message">{error}</div>}
       </div>
       <form className="forma">
         <div className="login-inputs">

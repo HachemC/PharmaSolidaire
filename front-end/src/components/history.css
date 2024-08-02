@@ -41,6 +41,9 @@
   grid-column: 3 / 10;
   grid-row: 2 / 5;
   justify-self: center;
+  font-size: 18px;
+  font-family: "Calibri";
+  color: #333333;
 }
 
 .donation-card-Admin {
@@ -178,14 +181,32 @@
   position: absolute;
   bottom: -3rem;
   right: 9rem;
+  font-family: "Calibri";
+  font-size: 18px;
+  font-weight: bold;
+  color: #333333;
 }
 .blue-label {
   position: absolute;
   bottom: -3rem;
   right: 10rem;
+  font-family: "Calibri";
+  font-size: 18px;
+  font-weight: bold;
+  color: #333333;
 }
 .red-label {
   position: absolute;
   bottom: -3rem;
   right: 10rem;
+  font-family: "Calibri";
+  font-size: 18px;
+  font-weight: bold;
+  color: #333333;
+}
+.donationcard-container-Admin span {
+  font-family: "Calibri";
+  font-size: 18px;
+  font-weight: bold;
+  color: #333333;
 }

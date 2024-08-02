@@ -6,6 +6,7 @@ const locationController = require('../controllers/locations.controller');
 const { getAllMedicaments } = require('../controllers/medicaments.controller');
 const adminController = require('../controllers/admins.controller');
 
+const sendMail = require('../controllers/mails.controller'); // import the mailer function
 // Admin Route
 router.post('/registerAdmin', adminController.registerAdmin); // Inscription
 router.post('/loginAdmin', adminController.loginAdmin);  // Connexion
@@ -56,7 +57,16 @@ router.get('/pharmacies/:delegation', getPharmacies);
 
 // Medicaments routes
 router.get('/medicaments', getAllMedicaments);
-
+//email route
+router.post('/mail', async (req, res) => {
+  const { to, subject, text } = req.body;
+  try {
+    const info = await sendMail(to, subject, text);
+    res.status(200).json({ message: 'Email sent successfully', info });
+  } catch (error) {
+    res.status(500).json({ message: 'Error sending email', error });
+  }
+});
 module.exports = app => {
   app.use('/api', router);
 };

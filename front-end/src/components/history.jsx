@@ -85,21 +85,45 @@ const History = ({ onLogout }) => {
               }`}
             >
               <p>
-                {item.represent}: {item.nom}
+                <span> nom {item.represent}</span>: {item.nom}
               </p>
-              <p>Type: {item.type}</p>
-              <p>Téléphone: {item.tel}</p>
-              <p>Email: {item.email}</p>
+              <p>
+                <span>Type:</span> {item.type}
+              </p>
+              <p>
+                <span>Téléphone:</span> {item.tel}
+              </p>
+              <p>
+                <span>Email:</span> {item.email}
+              </p>
               <div className="medication-details-Admin">
-                <p>Nom de produit: {item.nomMedicament}</p>
-                <p>Forme pharmaceutique: {item.Formepharmaceutique}</p>
-                <p>Quantité: {item.qte}</p>
-                <p>Dosage: {item.Dosage}</p>
-                {item.condition && <p>Condition: {item.condition}</p>}
-                {item.expirationDate && (
-                  <p>Date d'expiration: {item.expirationDate}</p>
+                <p>
+                  <span>Nom de produit:</span> {item.nomMedicament}
+                </p>
+                <p>
+                  <span>Forme pharmaceutique:</span> {item.Formepharmaceutique}
+                </p>
+                <p>
+                  <span>Quantité:</span> {item.qte}
+                </p>
+                <p>
+                  <span>Dosage: </span> {item.Dosage}
+                </p>
+                {item.condition && (
+                  <p>
+                    <span>Condition:</span> {item.condition}
+                  </p>
                 )}
-                {item.Raison && <p>Raison: {item.Raison}</p>}
+                {item.expirationDate && (
+                  <p>
+                    <span>Date d'expiration:</span> {item.expirationDate}
+                  </p>
+                )}
+                {item.Raison && (
+                  <p>
+                    <span>Raison de don:</span> {item.Raison}
+                  </p>
+                )}
               </div>
               <div className="status-label">
                 {item.traited === false && (

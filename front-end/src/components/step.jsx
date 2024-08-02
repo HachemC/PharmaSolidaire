@@ -72,6 +72,8 @@ const StepperComponent = () => {
   const location = useLocation();
   const clicked = location.state?.donnerClicked;
   const proclick = location.state?.proClicked;
+  const [errorMessage, setErrorMessage] = useState("");
+
   const steps = [
     {
       label: "Informations Personnelles",
@@ -144,6 +146,7 @@ const StepperComponent = () => {
     return true; // No validation needed for the last step
   };
   const handleNext = () => {
+    setErrorMessage(""); // Clear error message
     if (clicked && isFormValid()) {
       setCompletedSteps((prevCompletedSteps) => {
         if (!prevCompletedSteps.includes(currentStep)) {
@@ -170,10 +173,20 @@ const StepperComponent = () => {
       if (currentStep + 1 === steps.length - 1 && !clicked) {
         handleDemande();
       }
+    } else {
+      // Update the error message only when moving to the next step
+      if (currentStep === 0) {
+        setErrorMessage("Veuillez remplir tous les champs requis.");
+      } else if (currentStep === 1) {
+        setErrorMessage("Veuillez remplir les informations d'adresse.");
+      } else if (currentStep === 2) {
+        setErrorMessage("Veuillez vérifier les informations sur les produits.");
+      }
     }
   };
 
   const handleBack = () => {
+    setErrorMessage(""); // Clear error message
     setCompletedSteps((prevCompletedSteps) =>
       prevCompletedSteps.filter((step) => step !== currentStep - 1)
     );
@@ -308,7 +321,6 @@ const StepperComponent = () => {
       },
     ]);
   };
-
   return (
     <div className="stepper-container">
       <Stepper
@@ -339,6 +351,7 @@ const StepperComponent = () => {
         ))}
       </Stepper>
       <div className="step-content">
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
         {currentStep === 0 && (
           <InfoPersonel
             handleFieldChange={handleFieldChange}

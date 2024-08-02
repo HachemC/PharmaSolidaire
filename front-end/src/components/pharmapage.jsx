@@ -8,9 +8,14 @@ import Footer from "./footer.jsx";
 
 export default function Pharmapage({ onLogout }) {
   const [activeComponent, setActiveComponent] = useState("donations");
+  const [showPopup, setShowPopup] = useState(false); // Add state for popup visibility
+
+  const handlePopupToggle = (isVisible) => {
+    setShowPopup(isVisible);
+  };
 
   return (
-    <div className="pharmacien-body">
+    <div className={`pharmacien-body ${showPopup ? "overlay-active" : ""}`}>
       <div className="head3">
         <PharmaHeader onLogout={onLogout} />
       </div>
@@ -41,7 +46,7 @@ export default function Pharmapage({ onLogout }) {
           )}
           {activeComponent === "demandes" && (
             <CSSTransition key="demandes" timeout={200} classNames="fade">
-              <Demandesdisplay />
+              <Demandesdisplay onPopupToggle={handlePopupToggle} />
             </CSSTransition>
           )}
         </TransitionGroup>
