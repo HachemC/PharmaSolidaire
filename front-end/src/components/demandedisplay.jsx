@@ -104,7 +104,7 @@ export default function Demandesdisplay() {
   const handleRefuse = (demandeId) => {
     axios
       .post(
-        `http://localhost:3000/api/demandes/${demandeId}/refuse`,
+        `http://localhost:3000/demandes/${demandeId}/refuse`,
         {},
         {
           headers: {

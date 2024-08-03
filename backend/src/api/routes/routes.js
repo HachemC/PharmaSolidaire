@@ -25,6 +25,7 @@ router.post('/login', userController.loginUser);  // Connexion
 router.post('/logout', userController.logout);  // Déconnexion
 router.patch('/update/:id', userController.updateUser); // Modifier compte pharmacien
 router.delete('/users/delete/:id', userController.deleteUser); // Supprimer une pharmacie
+router.post('/findUserByMedicament', userController.findUserByMedicament);
 
 // Donation routes
 router.post('/donations/create', donationController.createDonation); // Create a new Donation

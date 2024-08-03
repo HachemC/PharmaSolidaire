@@ -12,6 +12,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import CloseIcon from "@mui/icons-material/Close";
 
 const villesList = [
   "Tunis",
@@ -48,18 +49,38 @@ const Listmeds = ({ onLogout }) => {
   const [selectedVille, setSelectedVille] = useState("");
   const [selectedType, setSelectedType] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [users, setUsers] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+  const [messageContent, setMessageContent] = useState("");
+  const [receiverEmail, setReceiverEmail] = useState("");
+  const [popupMessage, setPopupMessage] = useState("");
+
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/medicaments")
       .then((response) => {
         setMedicaments(response.data);
-        setFilteredMedicaments(response.data); // Initialize filtered list
+        setFilteredMedicaments(response.data);
       })
       .catch((error) => {
         console.error("Error fetching medicaments:", error);
       });
-  }, []);
+
+    axios
+      .get("http://localhost:3000/api/users", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setUsers(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
+  }, [token]);
 
   useEffect(() => {
     const applyFilters = () => {
@@ -110,6 +131,73 @@ const Listmeds = ({ onLogout }) => {
     }
   };
 
+  const findUserByMedicament = async (ville, delegation, NomPharmacie) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/findUserByMedicament",
+        {
+          ville,
+          delegation,
+          NomPharmacie,
+        }
+      );
+
+      if (response.data.status === "success") {
+        return response.data.data.email;
+      } else {
+        console.error("Error finding user:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error finding user:", error);
+    }
+  };
+
+  const togglePopup = async (selectedMedicament) => {
+    const email = await findUserByMedicament(
+      selectedMedicament.ville,
+      selectedMedicament.delegation,
+      selectedMedicament.NomPharmacie
+    );
+    if (email) {
+      setReceiverEmail(email);
+      setShowPopup(true);
+      setPopupMessage(""); // Reset popup message
+    } else {
+      setPopupMessage("No user found for the selected medicament");
+      setShowPopup(true);
+    }
+  };
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+  const handleSendMessage = () => {
+    if (messageContent.trim() !== "") {
+      axios
+        .post(
+          "http://localhost:3000/api/mail",
+          {
+            to: receiverEmail,
+            subject: "New Message",
+            text: messageContent,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((response) => {
+          setPopupMessage("Message envoyé");
+          setMessageContent("");
+          setTimeout(() => setShowPopup(false), 2000);
+        })
+        .catch((error) => {
+          setPopupMessage("Error sending message");
+          console.error("Error sending message:", error);
+        });
+    }
+  };
+
   const displayMedicaments = currentMedicaments.map((medicament, index) => (
     <tr key={index}>
       <td>{medicament.type}</td>
@@ -121,10 +209,8 @@ const Listmeds = ({ onLogout }) => {
       <td className="locationmed">
         {medicament.ville}-{medicament.delegation}-{medicament.NomPharmacie}
       </td>
-
       <td style={{ border: "none" }}>
         <div className="mailicon">
-          {" "}
           <MailIcon
             style={{
               marginTop: "14px",
@@ -134,6 +220,7 @@ const Listmeds = ({ onLogout }) => {
               border: "none",
               backgroundColor: "transparent",
             }}
+            onClick={() => togglePopup(medicament)}
           />
         </div>
       </td>
@@ -145,7 +232,6 @@ const Listmeds = ({ onLogout }) => {
       <div className="head3">
         <PharmaHeader onLogout={onLogout} />
       </div>
-
       <div className="listmedsbody">
         <div
           className={`listtext ${
@@ -154,7 +240,6 @@ const Listmeds = ({ onLogout }) => {
         >
           Liste des médicaments
         </div>
-
         <div className="filtersMeds">
           <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
             <InputLabel id="ville-label">Ville</InputLabel>
@@ -206,7 +291,7 @@ const Listmeds = ({ onLogout }) => {
             <button className="search-button">
               <SearchIcon
                 style={{ width: "30px", height: "30px", marginLeft: "-8px" }}
-              ></SearchIcon>
+              />
             </button>
           </div>
         </div>
@@ -231,7 +316,7 @@ const Listmeds = ({ onLogout }) => {
                   <th></th>
                 </tr>
               </thead>
-              <tbody>{displayMedicaments} </tbody>
+              <tbody>{displayMedicaments}</tbody>
             </table>
 
             <div className="navbuttonscontainer2">
@@ -271,7 +356,6 @@ const Listmeds = ({ onLogout }) => {
                     style={{
                       color: "white",
                       position: "relative",
-
                       top: "-4px",
                       width: "26px",
                     }}
@@ -280,6 +364,47 @@ const Listmeds = ({ onLogout }) => {
               </div>
             </div>
           </>
+        )}
+
+        {showPopup && (
+          <div className="popup">
+            <div className="popup-inner">
+              <div className="SendM">
+                {popupMessage || "ecrire votre message"}
+              </div>
+              <button
+                className="close-popup delete-button2"
+                onClick={() => closePopup()}
+              >
+                <CloseIcon
+                  style={{
+                    position: "relative",
+                    width: "30px",
+                    height: "15px",
+                    left: "-8px",
+                    top: "-1px",
+                    paddingRight: "1px",
+                    justifySelf: "center",
+                    alignSelf: "center",
+                  }}
+                ></CloseIcon>
+              </button>
+              {!popupMessage && (
+                <>
+                  <textarea
+                    className="popup-textarea"
+                    rows="4"
+                    placeholder=" ecrire votre message"
+                    value={messageContent}
+                    onChange={(e) => setMessageContent(e.target.value)}
+                  ></textarea>
+                  <button className="send-message" onClick={handleSendMessage}>
+                    envoye
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
         )}
 
         <div className="foot2">

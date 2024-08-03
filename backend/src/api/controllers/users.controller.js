@@ -1,20 +1,10 @@
 const User = require('../models/users.models');
+const Medicament = require('../models/medicament.model');
+
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const sendMail = require('./mails.controller'); // Import mailer utility
 require('dotenv').config();
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -281,3 +271,21 @@ exports.refuseUser = async (req, res) => {
     res.status(500).json({ status: 'error', message: err.message });
   }
 };
+exports.findUserByMedicament = async (req, res) => {
+  try {
+    const { ville, delegation, NomPharmacie } = req.body;
+
+    const user = await User.findOne({ ville, delegations: delegation, NomPharmacie });
+
+    if (!user) {
+      return res.status(404).json({ status: 'error', message: 'Utilisateur non trouvé' });
+    }
+
+    res.status(200).json({ status: 'success', data: { email: user.email } });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ status: 'error', message: err.message });
+  }
+};
+
+

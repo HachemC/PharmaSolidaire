@@ -11,7 +11,8 @@ exports.createLocation = async (req, res) => {
     const location = new Location({
       city,
       delegation,
-      pharmacyName
+      pharmacyName,
+    
     });
 
     await location.save();
