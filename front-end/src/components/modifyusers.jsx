@@ -167,7 +167,7 @@ const ModifyUsers = () => {
                       "*********"
                     )}
                   </td>
-                  <td style={{ border: "none" }}>
+                  <td style={{ border: "none", width: "260px" }}>
                     {editingUserId === user._id ? (
                       <>
                         <button

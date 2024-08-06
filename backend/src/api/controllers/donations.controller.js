@@ -1,7 +1,46 @@
 const Donation = require('../models/donations.models'); // Import the Donation model
 const TreatedDonation = require('../models/treateddonations.model');
 const Medicament = require('../models/medicament.model');
-const nomOptions = [ "2", "3", "dose 4", "dose 5 ", "dose 6"];
+const nomOptions = [   "Paracétamol",
+    "Ibuprofène",
+    "Aspirine",
+    "Amoxicilline",
+    "Oméprazole",
+    "Loratadine",
+    "Cétirizine",
+    "Atorvastatine",
+    "Métronidazole",
+    "Métrformine",
+    "Simvastatine",
+    "Levothyrox",
+    "Losartan",
+    "Ramipril",
+    "Amlodipine",
+    "Bisoprolol",
+    "Clopidogrel",
+    "Furosémide",
+    "Salbutamol",
+    "Fluticasone",
+    "Prednisolone",
+    "Hydrocortisone",
+    "Diclofénac",
+    "Ciprofloxacine",
+    "Doxycycline",
+    "Esoméprazole",
+    "Pantoprazole",
+    "Ranitidine",
+    "Cetirizine",
+    "Montélukast",
+    "Lansoprazole",
+    "Sertraline",
+    "Escitalopram",
+    "Venlafaxine",
+    "Diazépam",
+    "Alprazolam",
+    "Tramadol",
+    "Morphine",
+    "Fentanyl",
+    "Gabapentine"];
 const DonationController = {
     
     createDonation: async (req, res) => {

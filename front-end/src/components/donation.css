@@ -63,7 +63,7 @@
 }
 
 .delete-button {
-  grid-column: 7;
+  grid-column: 8;
   background: #ff7f50;
   color: white;
   border: none;
@@ -123,23 +123,23 @@
   background-color: rgb(23, 154, 147, 0.1);
   width: 357px;
   justify-content: center;
-  height: 322px;
+  height: 245px;
   padding: 1rem 3rem 0 3rem;
   border-radius: 5px;
   box-shadow: 0 0 5px #333333;
 }
 .dosage {
   background-color: rgb(23, 154, 147, 0.1);
-  width: 238px;
+  width: 290px;
   justify-content: center;
-  height: 322px;
+  height: 245px;
   padding: 1rem 3rem 0 3rem;
   border-radius: 5px;
   box-shadow: 0 0 5px #333333;
 }
 .qte {
   background-color: rgb(23, 154, 147, 0.1);
-  width: 192px;
+  width: 218px;
   justify-content: center;
   height: 65px;
   padding: 1rem 3rem 0 3rem;
@@ -184,6 +184,7 @@
 
 .scrollable-list {
   height: 200px;
+  width: 212px;
   overflow-y: auto;
   padding: 5px 10px;
   direction: rtl;
@@ -193,7 +194,7 @@
 
 .list-item {
   font-size: 18px;
-
+  direction: ltr;
   color: #333333;
   padding: 5px 0;
   cursor: pointer;
@@ -227,7 +228,7 @@
   grid-template-columns: auto auto auto;
 }
 .qt input {
-  width: 30px;
+  width: 46px;
   border: none;
   text-align: center;
   font-size: 19px;
