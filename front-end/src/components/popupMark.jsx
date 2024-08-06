@@ -4,7 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const Popup = ({ onClose, className }) => {
   return (
-    <div className={`popup ${className}`}>
+    <div className={`popup1 ${className}`}>
       <div className="popup-content">
         <button type="button" className="close-btn" onClick={onClose}>
           <CloseIcon
